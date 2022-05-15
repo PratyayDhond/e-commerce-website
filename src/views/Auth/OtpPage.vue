@@ -1,6 +1,31 @@
-<script setup>
+<script >
 // import Header from './components/Search/Header.vue';
 import Header from '../../components/Header/Header.vue';
+export default{
+  data() {
+    return {
+      name: this.$route.query.name,
+      email: this.$route.query.email,
+      phone: this.$route.query.phone,
+      addr1: this.$route.query.addr1,
+      addr2: this.$route.query.addr2,
+      city: this.$route.query.city,
+      landmark: this.$route.query.landmark,
+      state: this.$route.query.state,
+      zipcode: this.$route.query.zipcode,
+      otp: '',
+    }
+  },
+  methods: {
+    toFirebase(){
+
+    },
+    verifyOtp(){
+
+    }
+
+  },
+}
 </script>
 
 <template>
@@ -26,7 +51,7 @@ import Header from '../../components/Header/Header.vue';
                 <div clanpssName="relative ">
                 <div className="text-pink-500 hidden sm:block relative border-b-2 border-secondary-1"   >
                   <span className="left-0 top-1 absolute"><img src="otp.png" alt="logo2"  height="30" width="30"></span> 
-                  <input 
+                  <input v-model="otp" required
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
                     placeholder=" OTP" />
                 </div>

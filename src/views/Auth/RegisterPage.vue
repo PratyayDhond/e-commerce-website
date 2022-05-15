@@ -3,11 +3,108 @@ import Header from '../../components/Header/Header.vue';
 export default{
   data() {
     return {
+      phoneNumber: this.$route.query.phoneNo,
       name: '',
-      email: ''
+      email: '',
+      nameCheck: false,
+      mailCheck: false,
+      page: ''
     }
   },
+  methods: {    
+    isNameValid(){
+      console.log(this.phoneNumber);
+      this.name = this.name.trim()
+        console.log('isNameValid called')
+        try{
+        if(this.name === ''){
+          alert('name cannot be empty')
+          this.nameCheck = false
+        }else{
+          //Checking if the string has literals between a-z, A-Z or a blank space
+          var val = /^[a-zA-Z ]+$/.test(this.name)
+          if(val){
+             
+             //checking if there is any space in the user name,
+              //indicating that the user has written name as First Name and Last Name
+              var hasSpace = this.checkFor(' ',this.name.trim());
+              
+              // for(let i = 0; i < this.name.trim().length; i++){
+              //   if(this.name[i] == ' '){
+              //     hasSpace = true;
+              //     break;
+              //   }
+              // }
 
+            if(hasSpace){
+              console.log('Name is valid')
+              this.nameCheck = true;
+              this.isEmailValid()
+            }else{
+              console.log('Name is invalid')
+              alert(' Enter your full name')
+            }
+          }else{
+            console.log('Name is invalid')
+            alert('Enter a valid name')
+          }
+        }
+      }catch(e){
+        console.log(e)
+      }
+    },
+    isEmailValid(){
+      this.email = this.email.trim()
+      //Checking if the string has literals between a-z, A-Z or a blank space
+          console.log('isemailValid called')
+          var val = /^[a-zA-Z0-9@.+]+$/.test(this.email.trim())
+          if(val){
+            console.log('email contains valid characters so far')
+
+            var hasAtTheRate = this.checkFor('@',this.email);
+            var hasDot = this.checkFor('.', this.email);
+            var toAlert = false;
+            if(hasAtTheRate){
+               if(hasDot){
+                 console.log('email is valid')
+                 this.mailCheck = true;
+               }else{
+                 toAlert = true;
+               }
+            }else{
+              toAlert = true;
+            }
+            // for(let i = 0; i < this.email.length; i++){
+              if(toAlert){
+                alert('Enter A Valid Email')
+              }
+
+
+          }else{
+            console.log('Invalid email')
+            this.email = ''
+            alert('Enter a valid email')
+            
+          }
+          this.setPage();
+    },
+    checkFor(s,str){
+      for(let i = 0; i < str.length; i++ ){
+        if(str[i] === s)
+          return true;
+      }
+      return false;
+    },
+    setPage(){
+      if(this.nameCheck && this.mailCheck){
+        this.page = 'address'
+        console.log('page = address')
+      }else{
+        this.page = 'register'
+        console.log('page = register')
+      }
+    }
+    }
 }
 </script>
 <template>
@@ -47,7 +144,15 @@ export default{
 
                     
                 </div>
-                </div><router-link to="/address"><button className="bg-white text-black px-24 rounded-md p-2 mt-2">Continue</button></router-link>
+                <!--{name : '/address', params: {name: name, email: email}}-->
+                </div>
+                  <!-- <router-link :to="nameCheck && mailCheck ? 
+                      `{name : 'address',
+                       query: {userName: ${this.name}, email: ${email}}}` : '/register'">  -->
+                       <router-link :to="{name : page,
+                       query: {userName: name, userEmail: email, userPhone: this.phoneNumber}}"> 
+                       <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="isNameValid">Continue</button>
+                  </router-link>
                 
             </div> 
       </div>

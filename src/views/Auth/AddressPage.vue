@@ -1,5 +1,28 @@
-<script setup>
+<script>
 import Header from '../../components/Header/Header.vue';
+export default{
+  data() {
+    return {
+      name: this.$route.query.userName,
+      email: this.$route.query.userEmail,
+      phone: this.$route.query.userPhone,
+      addr1: '',
+      addr2: '',
+      city: '',
+      landmark: '',
+      state: '',
+      zipcode: '',
+      isAddr1: false,
+      isCity: false,
+      islandmark: false,
+      isState: false,
+      isZipCode: false,
+    }
+  },
+  methods: {
+    
+  },
+}
 </script>
 <template>
     <Header />
@@ -22,36 +45,49 @@ import Header from '../../components/Header/Header.vue';
                 <h1 className="text-4xl text-black font-bold mb-5"> A D D R E S S</h1>
                 <div clanpssName="relative ">
                 <div className="text-pink-500 hidden sm:block relative  border-b-2 border-secondary-1"   >
-                  <input 
+                  <input v-model="addr1" required maxlength="100"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500  "
                     placeholder="Address Line 1" />  
                 </div>
                 <div className="text-pink-500 hidden sm:block relative  border-b-2 border-secondary-1"   >
-                  <input 
+                  <input v-model="addr2" required maxlength="100"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500  "
                     placeholder="Address Line 2" /> 
                 </div>
                 <div className="text-pink-500 hidden sm:block relative  border-b-2 border-secondary-1"   >
-                  <input 
+                  <input v-model="city" required maxlength="30"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500  "
                     placeholder="City/District/Town" />
                 </div>
                 <div className="flex flex-row gap-5"> 
-                  <input 
+                  <input v-model="landmark" maxlength="100"
                     className="h-[40px] w-[100%]  focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500 border-b-2 border-secondary-1 "
                     placeholder="LandMark" />
-                    <input 
+                    <input required maxlength="30" v-model="state"
                     className="h-[40px] w-[100%] focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500 border-b-2 border-secondary-1 "
                     placeholder="State" />
                 </div>
                 <div className="text-pink-500 hidden sm:block relative  "   >
-                  <input 
+                  <input required maxlength="6" minlength="6" v-model="zipcode"
                     className="h-[40px] w-[60px]  focus:outline-none static  bg-transparent  text-pink-500 placeholder:text-gray-500 border-b-2 border-secondary-1  "
                     placeholder="Zipcode" />
                 </div>
                 </div>
                
-                 <router-link to="/otp">
+                 <router-link :to="{
+                   name: 'otp',
+                   query: {
+                     name: this.name,
+                     email: this.email,
+                     phone: this.phone,
+                     addr1: this.addr1,
+                     addr2: this.addr2,
+                     city: this.city,
+                     landmark: this.landmark,
+                     state: this.state,
+                     zipcode: this.zipcode
+                   } 
+                 }">
                   <button className="bg-white text-black px-24 rounded-md p-2 mt-2">Sign in</button>
                  </router-link>
                 

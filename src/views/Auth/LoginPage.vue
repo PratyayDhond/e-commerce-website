@@ -8,12 +8,49 @@ export default{
       isUser: false,
       phoneNumber: '',
       error: false,
+      isNumberValid: false,
+      page: '',
     }
   },
   methods: {
      oldUser(){
         isUser = true
       },
+      isValidNumber(){
+        if(this.phoneNumber.length < 10){
+          alert('Enter a valid number')
+        return;
+        }
+        console.log('inside isValidNumber')
+        try{
+          let isnum = /^\d+$/.test(this.phoneNumber);
+        if (isnum) {
+          console.log('Is a number')
+          this.isNumberValid = true
+        }else{
+          console.log('Not A Number')
+          this.isNumberValid = false
+          this.phoneNumber = ''
+          alert('Enter a valid number')
+        }
+
+        }catch(e){
+          console.log(e);
+        }
+        console.log('Is Number Valid: ' + this.isNumberValid)
+        this.setPage(); 
+      },
+
+      setPage(){
+        if(this.isNumberValid && this.isUser){
+          this.page = 'otp'
+        }else if(this.isNumberValid && !this.isUser){
+          this.page = 'register'
+        }else{
+          this.page = 'login'
+        }
+      }
+
       
   }
 }
@@ -46,12 +83,15 @@ export default{
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input v-model="phoneNumber"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
-                    placeholder="Phone Number" maxlength="10" minlength="10" type="number" required/>
+                    placeholder="Phone Number" maxlength=10 type="text" required/>
                 </div>
                 </div>
-                <router-link :to="isUser? '/otp' : '/register'">
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2">Continue</button>    
+                <!-- <router-link :to=" isNumberValid ? isUser ? '/otp' : `{name: 'register' query: {phoneNo: ${phoneNumber}}}` : '/login'"> -->
+                 <!-- <router-link :to="{name: 'register', query: {phoneNo: phoneNumber}}" >  -->
+                 <router-link :to="{name: page, query: {phoneNo: phoneNumber}}" > 
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="isValidNumber()">Continue</button>    
                 </router-link>
+                
                                 
             </div> 
       </div>
