@@ -20,7 +20,15 @@ export default{
     }
   },
   methods: {
-    
+    verifyAddress(){
+      // var val = /^[0-9a-zA-Z., -]+$/.test(this.addr1.trim())
+      if(this.addr1 === '')
+        alert('Address line one cannot be empty.')
+      else{
+        console.log("")
+      }
+
+    }
   },
 }
 </script>
