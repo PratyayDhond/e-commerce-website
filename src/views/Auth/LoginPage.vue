@@ -5,7 +5,7 @@ export default{
   data() {
     return {
       // Is user is a function used to 
-      isUser: true
+      isUser: false
     }
   },
   methods: {
