@@ -5,13 +5,16 @@ export default{
   data() {
     return {
       // Is user is a function used to 
-      isUser: false
+      isUser: false,
+      phoneNumber: '',
+      error: false,
     }
   },
   methods: {
      oldUser(){
         isUser = true
-      }
+      },
+      
   }
 }
 </script>
@@ -43,7 +46,7 @@ export default{
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input v-model="phoneNumber"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
-                    placeholder="Phone Number" />
+                    placeholder="Phone Number" maxlength="10" minlength="10" />
                 </div>
                 </div>
                 <router-link :to="isUser? '/otp' : '/register'">
