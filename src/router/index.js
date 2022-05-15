@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/orderHistory',
     name: 'orderHistory',
-    component: ()=> import('../views/OrderHistory/')
+    component: ()=> import('../views/OrderHistory/OrderHistory.vue')
   }
 
 ]

@@ -19,9 +19,10 @@
         <div class="text-center py-3 font-medium text-gray-50">User Details</div>
         </router-link>
 
-        
+        <router-link to="/orderDetails">
         <div class="text-center py-3 font-medium text-gray-50">Order Details</div>
-        <router-link to="OrderHistory">
+       </router-link>
+       <router-link to="/orderHistory">
         <div class="text-center py-3 font-medium text-gray-50">Order History</div>
         </router-link>
         

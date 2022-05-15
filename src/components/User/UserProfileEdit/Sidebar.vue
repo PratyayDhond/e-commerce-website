@@ -24,7 +24,9 @@
     <router-link to="/OrderDetails">   
     <div class="text-center py-3 cursor-pointer font-medium text-LGO">Order Details</div>
     </router-link>
+    <router-link to="/orderHistory">
     <div class="text-center py-3 cursor-pointer font-medium text-LGO">Order History</div>
+    </router-link>
         </div>
     </div>
     
