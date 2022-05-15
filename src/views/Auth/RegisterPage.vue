@@ -1,5 +1,13 @@
-<script setup>
+<script>
 import Header from '../../components/Header/Header.vue';
+export default{
+  data() {
+    return {
+      name: '',
+      email: ''
+    }
+  },
+}
 </script>
 <template>
     <Header />
@@ -15,7 +23,7 @@ import Header from '../../components/Header/Header.vue';
 <div>  </div>
           
               <div className=" absolute  bottom-0 right-0">
-              <img className="p-0 w-96" src="logo.png" alt="call" />
+              <img className="p-0 w-96" src="../../assets/images/authDoodle.png" alt="call" />
             </div>
             <div classname="bg-[#942780] absolute bottom-0 left-0 "></div>
            <div className=" absolute bottom-[25%] left-[36%] w-[400px] h-[370px] bg-pink-200 rounded-2xl " > 
@@ -23,18 +31,18 @@ import Header from '../../components/Header/Header.vue';
                 <h1 className="text-4xl text-black font-bold mb-5"> REGISTER</h1>
                 <div clanpssName="relative ">
                 <div className="text-pink-500 hidden sm:block relative border-b-2 border-secondary-1"   >
-                  <span className="left-0 top-1 absolute"><img src="conn.png" alt="logo2"  height="30" width="30"></span> 
+                  <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input 
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500  "
-                    placeholder=" Name" />
+                    placeholder=" Name" v-model="name"/>
 
                     
                 </div>
                 <div className="text-pink-500 hidden sm:block relative  border-b-2 border-secondary-1"   >
-                  <span className="left-0 top-1 absolute "><img src="mail.png" alt="logo2"  height="30" width="30"></span> 
+                  <span className="left-0 top-1 absolute "><img src="../../assets/images/mail.png" alt="logo2"  height="30" width="30"></span> 
                   <input 
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500  "
-                    placeholder=" Name" />
+                    placeholder=" email" v-model="email"/>
 
                     
                 </div>

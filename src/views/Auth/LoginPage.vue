@@ -46,7 +46,7 @@ export default{
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input v-model="phoneNumber"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
-                    placeholder="Phone Number" maxlength="10" minlength="10" />
+                    placeholder="Phone Number" maxlength="10" minlength="10" type="number" required/>
                 </div>
                 </div>
                 <router-link :to="isUser? '/otp' : '/register'">
@@ -65,4 +65,15 @@ export default{
 </template>
 
 <style>
+/*The below code is so that in the number input there are no up and down arrows, reference : https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp*/ 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>
