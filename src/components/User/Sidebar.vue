@@ -15,9 +15,16 @@
         </div>
     </div> -->
     <div class="bg-secondary-1 h-96 w-full ">
+        <router-link to="/user">
         <div class="text-center py-3 font-medium text-gray-50">User Details</div>
+        </router-link>
+
+        
         <div class="text-center py-3 font-medium text-gray-50">Order Details</div>
+        <router-link to="OrderHistory">
         <div class="text-center py-3 font-medium text-gray-50">Order History</div>
+        </router-link>
+        
     </div>
 </div>
     

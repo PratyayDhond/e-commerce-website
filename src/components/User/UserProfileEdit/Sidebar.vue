@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="bg-secondary-1 rounded-tr-lg h-80">
-    <router-link to="/book">   
+    <router-link to="/OrderDetails">   
     <div class="text-center py-3 cursor-pointer font-medium text-LGO">Order Details</div>
     </router-link>
     <div class="text-center py-3 cursor-pointer font-medium text-LGO">Order History</div>
