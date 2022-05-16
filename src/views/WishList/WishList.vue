@@ -65,9 +65,9 @@ export default{
             <div v-for="item in wishlistBooks" :key="item.id">
                      
                 <div>
-                <router-link to="/book">
+                <!-- <router-link to="/book" > -->
                     <WishBooks :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor"/>
-                </router-link>
+                <!-- </router-link> -->
                </div>
                                     
             </div>

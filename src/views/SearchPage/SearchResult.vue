@@ -4,6 +4,7 @@ import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
 export default{
+    
     data(){
         return{
             searchedBooks:[

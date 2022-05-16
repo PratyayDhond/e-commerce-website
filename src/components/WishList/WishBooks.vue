@@ -2,6 +2,7 @@
  
   <div class="mb-5">
           <div class="flex justify-between">
+                <router-link to="/book">
                 <div class="pl-4 pt-3 flex">
                     <img class="h-52" :src="bookImageURL" alt="">
                     <div class="ml-5 mt-1">
@@ -11,6 +12,7 @@
                         <div class="font-normal text-sm text-gray-600">Publication Date: {{bookYear}}</div>
                     </div>
                 </div>
+                </router-link>
                 <div class="mr-20 flex flex-col justify-between items-end">
                     <div class="text-4xl font-bold text-gray-700 mr-5 mt-5">
                         ₹ {{bookPrice}}
@@ -23,6 +25,7 @@
       </div>
   </div>
   <div class="bg-gray-300 w-full h-px ml-4"></div>
+
 </template>
 
 <script>

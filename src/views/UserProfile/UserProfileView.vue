@@ -16,13 +16,13 @@ export default{
 </script>
 
 <template>
-    <div class="bg-LGB">
+    <div class="bg-white">
         <Header class="fixed w-full top-0" />
     <div class="flex">
-                <div class="bg-LGB">
+                <div class="bg-white">
                     <Sidebar />
     </div>
-                    <Profile class="flex bg-LGB"/>
+                    <Profile class="flex bg-white"/>
                 </div>
         <div>
             

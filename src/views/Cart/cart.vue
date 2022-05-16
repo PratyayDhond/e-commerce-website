@@ -117,9 +117,9 @@ export default{
 <div class="w-6/6 pt-4">
   <div v-for="item in searchedBooks" :key="item.id">
   <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
-    <router-link to="/book">  
+    <!-- <router-link to="/book">   -->
     <OrderCart :bookName="item.bookName" :bookAuthor="item.bookAuthor" :bookSubject="item.bookSubject" :bookGenre="item.bookGenre" :bookDate="item.bookDate" :bookImageURL="item.bookImageURL" :bookQuantity="item.bookQuantity" :bookPrice="item.bookPrice"/>
-  </router-link>
+  <!-- </router-link> -->
   </div>
 </div>
 </div>

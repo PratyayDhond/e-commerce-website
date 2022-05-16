@@ -3,15 +3,15 @@
 </script>
 
 <template>-
-<div class="flex-column mt-20 w-80 h-130">
+<div class="flex-column mt-20 w-80 h-[609px] bg-secondary-1">
     <div class="rounded-br-lg rounded-tr-lg bg-secondary-1 h-60 pt-5">
     <div class="mx-24 mb-5">
         <img class="rounded-full h-28 w-28" src="https://i.pinimg.com/564x/50/9f/58/509f58dfb7e4b4e5191811df105401d5.jpg" alt="">
     </div>
-    <div class="text-center font-bold text-LGO">
+    <div class="text-center font-bold text-white text-2xl">
         Harsh Naidu
     </div>
-    <div class="text-center mb-10 font-medium text-LGO">
+    <div class="text-center mb-10  text-gray-100dsi">
         naiduharsh45@gmail.com
     </div>
     </div>

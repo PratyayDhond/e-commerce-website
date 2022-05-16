@@ -3,12 +3,12 @@ export default{
     props:["bookName","bookDate","bookLanguage","bookCover","bookPrice","bookImageURL"],
     methods:{
         addToCart(){
-            console.log('Add to cart called')
+            alert('Add to cart called')
         },
         addToWishlist(){
             console.log('Add to wishlist')
         }
-    }
+    },
 }
 </script>
 
@@ -29,7 +29,7 @@ export default{
                     <div class="flex items-center">
                         <div class="py-2 w-32 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="addToWishlist">
                             Add to Wishlist
-                        </div>
+                        </div> 
                         <div class="ml-5 py-2 w-32 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="addToCart">
                             Add to Cart
                         </div>
