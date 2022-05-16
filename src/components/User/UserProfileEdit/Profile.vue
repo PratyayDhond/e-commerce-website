@@ -22,13 +22,13 @@
             <div class="flex">
                 <div class="ml-20 mt-2 mr-2">
                     <div>Phone Number</div>
-                    <div class="rounded-lg mt-1 border-2 h-8 w-96">
+                    <div class="rounded-lg mt-1 border-2 h-8 w-100">
                         <div class="ml-2 font-extralight">9146151140</div>
                     </div>
                 </div>
                 <div class="ml-28 mt-2 pl-2">
                     <div>Zipcode or Pincode</div>
-                    <div class="rounded-lg mt-1 border-2 h-8 w-96">
+                    <div class="rounded-lg mt-1 border-2 h-8 w-100">
                         <div class="ml-2 font-extralight">440012</div>
                     </div>
                 </div>
@@ -36,13 +36,13 @@
             <div class="flex">
                 <div class="ml-20 mt-2 mr-2">
                     <div>City/District/Town</div>
-                    <div class="rounded-lg mt-1 border-2 h-8 w-96">
+                    <div class="rounded-lg mt-1 border-2 h-8 w-100">
                         <div class="ml-2 font-extralight">Nagpur</div>
                     </div>
                 </div>
                 <div class="ml-28 mt-2 pl-2">
                     <div>State</div>
-                    <div class="rounded-lg mt-1 border-2 h-8 w-96">
+                    <div class="rounded-lg mt-1 border-2 h-8 w-100">
                         <div class="ml-2 font-extralight">Maharashtra</div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex mt-5 w-28 h-8 ml-150 text-md text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
+        <div class="flex ml-230 mt-5 w-28 h-8 ml-150 text-md text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
              <router-link to="/userEdit">
              <div class = "ml-4 mt-1">Edit Details</div>
              </router-link>

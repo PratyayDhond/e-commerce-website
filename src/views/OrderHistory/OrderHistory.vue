@@ -4,8 +4,8 @@ import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
 import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
-import Sidebar from '../../components/User/Sidebar.vue';
-import OrderHistory from '../../components/User/OrderHistory.vue';
+import Sidebar from '../../components/User/OrderHistoryView/Sidebar.vue';
+import OrderHistory from '../../components/User/OrderHistoryView/OrderHistory.vue';
 export default{
     data(){
         return{
@@ -57,7 +57,7 @@ export default{
         </div>
         
         <!-- Filter -->
-        <div class="mt-20 absoulute">
+        <div class="absoulute">
             <div class="">              
                 <div class="fixed w-full">
                     <Sidebar />
@@ -66,7 +66,7 @@ export default{
         </div>
 
         <!-- Order History -->
-        <div class="absolute top-6 left-96">
+        <div class="mt-20 absolute top-6 left-96">
             <div class="w-240">
                 <div class="text-3xl font-bold text-gray-700">ORDER HISTORY</div>
                 <div v-for="item in orderedHistory" :key="item.id">

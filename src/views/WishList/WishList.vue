@@ -4,9 +4,8 @@ import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
 import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
-import Sidebar from '../../components/User/Sidebar.vue';
-import OrderHistory from '../../components/User/OrderHistory.vue';
-import OrderDetails from '../../components/User/OrderDetails.vue';
+import OrderHistory from '../../components/User/OrderHistoryView/OrderHistory.vue';
+import OrderDetails from '../../components/User/OrderDetailsView/OrderDetails.vue';
 import WishBooks from '../../components/WishList/WishBooks.vue';
 export default{
     data(){
