@@ -28,7 +28,8 @@ export default{
         console.log("")
       }
 
-    } 
+    },
+    
   },
 }
 </script>
@@ -100,7 +101,7 @@ export default{
                      zipcode: this.zipcode
                    } 
                  }">
-                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2">Sign in</button>
+                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="true"> Sign in</button>
                  </router-link>
                 
             </div> 

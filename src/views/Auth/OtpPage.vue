@@ -1,6 +1,10 @@
 <script >
 // import Header from './components/Search/Header.vue';
-import Header from '../../components/Header/Header.vue';
+// import Header from '../../components/Header/Header.vue';
+import  "firebase/compat/auth";
+import firebase from 'firebase/compat/app'
+
+
 export default{
   data() {
     return {
@@ -14,17 +18,74 @@ export default{
       state: this.$route.query.state,
       zipcode: this.$route.query.zipcode,
       otp: '',
+      path: '/home',
+      recaptchaVerifier:null,
+      recaptchaWidgetId:null,
+      confirmResult:null,
+      smsSent:false,
+      otpnum:null,
     }
   },
-  methods: {
-    toFirebase(){
-
+   mounted()
+    {
+        firebase.auth().useDeviceLanguage()
+        this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in',{
+            'size':'invisible',
+            'callback':(response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+            console.log(response)
+            }
+        })            
     },
-    verifyOtp(){
-
-    }
-
-  },
+    methods:{
+        submit()
+        {
+          
+          try{
+            this.recaptchaVerifier = new RecaptchaVerifier("sign-in-button", {
+            'recaptcha-container': (response) => {
+            console.log("prepared phone auth process");
+             }
+          }, auth);
+            // new firebase.auth.RecaptchaVerifier('recaptcha-container')
+            this.recaptchaVerifier.render().then((widgetId)=>{
+            this.recaptchaWidgetId = widgetId    
+            })
+            
+            var number = parseInt(this.phone)           
+            firebase.auth().signInWithPhoneNumber(number,this.recaptchaVerifier)
+            .then((confirmationResult)=>{                
+                this.confirmResult = confirmationResult
+                console.log(this.confirmResult)
+                alert("Sms Sent!")
+                this.smsSent=true
+            })
+            .catch((error)=>{
+                console.log("Sms not sent",error.message)
+            })
+          }catch(e){
+            console.log(e)
+          }
+        },
+        verifyCode()
+        {            
+            this.confirmResult.confirm(this.otpnum)
+            .then((result)=>{
+                alert("Registeration Successfull!",result)
+                this.gotonext()
+                var user = result.user
+                console.log(user)                
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+        },
+        gotonext()
+        {
+            this.$router.replace({name:"dashboard"})
+        }
+    },    
+   
 }
 </script>
 
@@ -58,10 +119,12 @@ export default{
                   <input v-model="otp" required
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
                     placeholder=" OTP" />
+                  <button @click="submit">get otp</button>
                 </div>
+                  
                 </div>
-                 <router-link to="/home">
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2">Continue</button>
+                 <router-link :to="path">
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="register">Continue</button>
                 </router-link>
             </div> 
       </div>

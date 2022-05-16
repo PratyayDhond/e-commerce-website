@@ -52,11 +52,12 @@ export default{
         <div class=" w-2/6">
             <router-link :to="query">
                 <div class="mt-2 ml-2 font-bold text-gray-800 text-md cursor-pointer hover:text-secondary-1">{{ bookName }}</div> 
-                 <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">author: {{ bookAuthor }}</p> 
+            </router-link> 
+            <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">author: {{ bookAuthor }}</p> 
                   <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">subject: {{ bookSubject }}</p> 
                    <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">genre:{{ bookGenre }}</p> 
                     <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">publication date:{{ bookDate }}</p> 
-            </router-link> 
+            
         </div>
         <div class="mt-3 flex items-center">
        

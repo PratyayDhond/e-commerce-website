@@ -69,6 +69,11 @@ const routes = [
     path: '/orderHistory',
     name: 'orderHistory',
     component: ()=> import('../views/OrderHistory/OrderHistory.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: ()=> import('../views/Error.vue')
   }
 
 ]
