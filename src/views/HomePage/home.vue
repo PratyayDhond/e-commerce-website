@@ -4,6 +4,7 @@ import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
 import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
+import firebase from 'firebase/compat/app';
 export default{
     data(){
         return{
@@ -43,7 +44,31 @@ export default{
                     bookWish :"true",
                     bookTheme : "Thriller"
                 },
-            ]
+            ],
+            bookUrl: '',
+            bookName: '',
+            bookDescription: '',
+            publicationYear: '',
+            price: '',
+            stockAvailability: '',
+            noOfOrders: '',
+            authorName: '',
+        }
+    },
+    created() {
+        const db = firebase.firestore(); 
+        console.log("Inside created() method")
+        try{
+        db.collection ('books').get().then(r => {
+           r.docs.map(doc => {
+           console. log (doc.data());
+           this.searchedBooks
+           });
+        });
+        
+        }
+        catch(e){
+            console.log(e)
         }
     },
     components:{
@@ -52,11 +77,55 @@ export default{
     LatestBooks,
     ResultBook,
     BookCoverCat
-}
+},
+methods: {
+    toFirebase(){
+
+        const db = firebase.firestore(); 
+        try{
+        //     db.collection('books').add({
+        //         url: this.bookUrl,
+        //         name: this.bookName,
+        //         description: this.bookDescription,
+        //         publicationYear: this.publicationYear,
+        //         price: this.price,
+        //         stock: this.stockAvailability,
+        //         orderCount: this.noOfOrders,
+        //         author: this.authorName,
+        //     }).then((ref) => {
+        //         console.log("Added book with ID: " + ref.id)
+        //     }
+        //     );
+        db.collection ('books').get().then(r => {
+           r.docs.map(doc => {
+           console. log (doc.data());
+           });
+        });
+        
+        }
+        catch(e){
+            console.log(e)
+        }
+    },
+  }
 }
 </script>
 
 <template>
+
+
+        <!-- Author name: <input type="text" v-model="authorName" > <br>
+        book name: <input type="text" v-model="bookName"> <br>
+        book url: <input type="text" v-model="bookUrl"> <br>
+        Book description: <input type="text" v-model="bookDescription"> <br>
+        price: <input type="number" v-model="price"> <br>
+        publication year: <input type="number" v-model="publicationYear"> <br>
+        stock availability: <input type="number" v-model="stockAvailability"> <br>
+        number of orders: <input type="number" v-model="noOfOrders"> <br>
+        <button @click="toFirebase">submit</button> -->
+
+        
+
     <div class="relative" >
         <!-- Header -->
         <div class="">
@@ -111,6 +180,9 @@ export default{
 </template>
 
 <style>
+.input{
+    border:orange; border-width:5px; border-style:solid;
+}
 </style>
 
                     <!-- <ResultBook :bookName="item.bookName" :bookDate="item.bookDate" :bookLanguage="item.bookLanguage" :bookCover="item.bookCover" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL"/> -->

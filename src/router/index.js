@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'start',
     component:()=> import('../views/Auth/LoginPage.vue')
   },
   {
@@ -69,6 +69,11 @@ const routes = [
     path: '/orderHistory',
     name: 'orderHistory',
     component: ()=> import('../views/OrderHistory/OrderHistory.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: ()=>import('../views/HomePage/home.vue')
   },
   {
     path: '/:pathMatch(.*)*',

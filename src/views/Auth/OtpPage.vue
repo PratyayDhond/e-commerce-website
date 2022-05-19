@@ -42,12 +42,13 @@ export default{
         {
           
           try{
-            this.recaptchaVerifier = new RecaptchaVerifier("sign-in-button", {
-            'recaptcha-container': (response) => {
-            console.log("prepared phone auth process");
-             }
-          }, auth);
-            // new firebase.auth.RecaptchaVerifier('recaptcha-container')
+            this.recaptchaVerifier =  new firebase.auth.RecaptchaVerifier('recaptcha-container')
+          //   // new RecaptchaVerifier("sign-in-button", {
+          //   // 'recaptcha-container': (response) => {
+          //   // console.log("prepared phone auth process");
+          //   //  }
+          // }, auth);
+          //   // new firebase.auth.RecaptchaVerifier('recaptcha-container')
             this.recaptchaVerifier.render().then((widgetId)=>{
             this.recaptchaWidgetId = widgetId    
             })
@@ -119,12 +120,12 @@ export default{
                   <input v-model="otp" required
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
                     placeholder=" OTP" />
-                  <button @click="submit">get otp</button>
+                  <!-- <button @click="submit">get otp</button> -->
                 </div>
                   
                 </div>
-                 <router-link :to="path">
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="register">Continue</button>
+                 <router-link to='/home'>
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" >Continue</button>
                 </router-link>
             </div> 
       </div>

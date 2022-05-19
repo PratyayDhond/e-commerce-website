@@ -12,11 +12,7 @@ export default{
       landmark: '',
       state: '',
       zipcode: '',
-      isAddr1: false,
-      isCity: false,
-      islandmark: false,
-      isState: false,
-      isZipCode: false,
+      path: 'address'//'otp'
     }
   },
   methods: {
@@ -25,12 +21,45 @@ export default{
       if(this.addr1 === '')
         alert('Address line one cannot be empty.')
       else{
-        console.log("")
+        console.log("Address Line one meets requirements")
+        this.verifyCity()
       }
 
     },
-    
-  },
+    verifyCity(){
+       if(this.city === '')
+          alert('\'City/district/town\' cannot be empty!')
+       else{
+         console.log("City/District/Town meets the requirements")
+         this.verifyState();
+       }
+    },
+    verifyState(){
+      if(this.state === ''){
+        alert('State cannot be empty!')
+      }else{
+        console.log("State meets the requirement")
+        this.verifyZipCode();
+      }
+    },
+      verifyZipCode(){
+
+        if(this.zipcode.length !== 6){
+          alert('Zip code is incorrect')
+        }else{
+          try{
+              let isnum = /^\d+$/.test(this.zipcode);
+              if(!isnum){
+                alert('Enter a valid zip code')
+              }else{
+                this.path='otp'
+              }
+          }catch(e){
+            console.log(e)
+          }          
+        } 
+      }
+  }
 }
 </script>
 <template>
@@ -88,7 +117,7 @@ export default{
                 </div>
                
                  <router-link :to="{
-                   name: 'otp',
+                   name: path,
                    query: {
                      name: this.name,
                      email: this.email,
@@ -101,7 +130,7 @@ export default{
                      zipcode: this.zipcode
                    } 
                  }">
-                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="true"> Sign in</button>
+                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="verifyAddress"> Sign in</button>
                  </router-link>
                 
             </div> 
