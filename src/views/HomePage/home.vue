@@ -10,43 +10,43 @@ export default{
         return{
             searchedBooks:[
                 {
-                    bookName:"A Thousand Splendid",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    bookWish :"true",
+                    name:"A Thousand Splendid",
+                    price:"1300",
+                    url:"https://picsum.photos/200/300",
+                    wish :"true",
                     theme : "Thriller"
                 },
                 {
-                    bookName:"Ikigai",
-                    bookPrice:"418",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    bookWish :"true",
+                    name:"Ikigai",
+                    price:"418",
+                    url:"https://picsum.photos/200/300",
+                    wish :"true",
                     theme : "Thriller"
                 },
                 {
-                    bookName:"Atomic Habits",
-                    bookPrice:"600",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    bookWish :"true",
+                    name:"Atomic Habits",
+                    price:"600",
+                    url:"https://picsum.photos/200/300",
+                    wish :"true",
                     theme : "Thriller"
                 },
                 {
-                    bookName:"Atomic Habits",
-                    bookPrice:"600",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    bookWish :"true",
+                    name:"Atomic Habits",
+                    price:"600",
+                    url:"https://picsum.photos/200/300",
+                    wish :"true",
                     heme : "Thriller"
                 },
                 {
-                    bookName:"Atomic Habits",
-                    bookPrice:"600",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    bookWish :"true",
+                    name:"Atomic Habits",
+                    price:"600",
+                    url:"https://picsum.photos/200/300",
+                    wish :"true",
                     bookTheme : "Thriller"
                 },
             ],
             bookUrl: '',
-            bookName: '',
+            name: '',
             bookDescription: '',
             publicationYear: '',
             price: '',
@@ -57,12 +57,14 @@ export default{
     },
     created() {
         const db = firebase.firestore(); 
+        console.log(this.searchedBooks)
         console.log("Inside created() method")
         try{
         db.collection ('books').get().then(r => {
            r.docs.map(doc => {
+                // console.log(doc.id)
            console. log (doc.data());
-           this.searchedBooks
+        // this.searchedBooks = doc.data()
            });
         });
         
@@ -85,7 +87,7 @@ methods: {
         try{
         //     db.collection('books').add({
         //         url: this.bookUrl,
-        //         name: this.bookName,
+        //         name: this.name,
         //         description: this.bookDescription,
         //         publicationYear: this.publicationYear,
         //         price: this.price,
@@ -115,7 +117,7 @@ methods: {
 
 
         <!-- Author name: <input type="text" v-model="authorName" > <br>
-        book name: <input type="text" v-model="bookName"> <br>
+        book name: <input type="text" v-model="name"> <br>
         book url: <input type="text" v-model="bookUrl"> <br>
         Book description: <input type="text" v-model="bookDescription"> <br>
         price: <input type="number" v-model="price"> <br>
@@ -155,7 +157,7 @@ methods: {
                 <div class="flex gap-16">
                     
                     <div v-for="item in searchedBooks" :key="item.id">
-                        <BookCoverCat :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :bookTheme="item.bookTheme" :bookWish="item.bookWish" />
+                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" />
                     </div>
                 </div>
                 </router-link>
@@ -164,7 +166,7 @@ methods: {
                 <div class="flex gap-16" @click="cursorpointer">
                      
                         <div v-for="item in searchedBooks" :key="item.id">
-                        <BookCoverCat :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :bookTheme="item.bookTheme" :bookWish="item.bookWish" />
+                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" />
                     </div>
                     
                 </div>
@@ -185,4 +187,4 @@ methods: {
 }
 </style>
 
-                    <!-- <ResultBook :bookName="item.bookName" :bookDate="item.bookDate" :bookLanguage="item.bookLanguage" :bookCover="item.bookCover" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL"/> -->
+                    <!-- <ResultBook :name="item.name" :bookDate="item.bookDate" :bookLanguage="item.bookLanguage" :bookCover="item.bookCover" :price="item.price" :url="item.url"/> -->
