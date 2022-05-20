@@ -53,22 +53,36 @@ export default{
             stockAvailability: '',
             noOfOrders: '',
             authorName: '',
+            books: [],
         }
     },
-    created() {
+    async created() {
         const db = firebase.firestore(); 
-        console.log(this.searchedBooks)
+        // console.log(this.searchedBooks)
         console.log("Inside created() method")
+        // try{
+        // await db.collection ('books').get().then(r => {
+        //    r.docs.map(doc => {
+        //        console.log(doc.data())
+        // //    this.books += doc.data();
+        // // this.searchedBooks = doc.data()
+        //    });
+        // });
+
         try{
-        db.collection ('books').get().then(r => {
-           r.docs.map(doc => {
-                // console.log(doc.id)
-           console. log (doc.data());
-        // this.searchedBooks = doc.data()
-           });
-        });
-        
+            db.collection('books').get().then((querySnapshot) => {
+                querySnapshot.forEach(doc =>{
+                    console.log(doc.id)
+                    var obj = doc.data();
+                    obj.id = doc.id;
+                    this.books.push(obj);
+                });
+                console.log(this.books);
+            })
         }
+
+        // for(let i = 0; i < this.books.length; i++)
+            // console.log(this.books[i].name);
         catch(e){
             console.log(e)
         }
@@ -156,21 +170,22 @@ methods: {
                 <router-link to="/book">
                 <div class="flex gap-16">
                     
-                    <div v-for="item in searchedBooks" :key="item.id">
-                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" />
+                    <div v-for="item in books" :key="item.id">
+                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
                     </div>
                 </div>
                 </router-link>
                 <div class="text-gray-500 text-sm mt-10">Romance</div>
-                <router-link to="/book">
+                
                 <div class="flex gap-16" @click="cursorpointer">
                      
-                        <div v-for="item in searchedBooks" :key="item.id">
-                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" />
+                    <div v-for="item in books" :key="item.id">
+                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :description="item.description" :id="item.id"/>
+                       
                     </div>
                     
                 </div>
-                </router-link>
+                
 
 
             </div>

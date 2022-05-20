@@ -18,7 +18,6 @@ export default{
       state: this.$route.query.state,
       zipcode: this.$route.query.zipcode,
       otp: '',
-      path: '/home',
       recaptchaVerifier:null,
       recaptchaWidgetId:null,
       confirmResult:null,
@@ -26,17 +25,17 @@ export default{
       otpnum:null,
     }
   },
-   mounted()
-    {
-        firebase.auth().useDeviceLanguage()
-        this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in',{
-            'size':'invisible',
-            'callback':(response) => {
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-            console.log(response)
-            }
-        })            
-    },
+  //  mounted()
+    // {
+    //     firebase.auth().useDeviceLanguage()
+    //     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in',{
+    //         'size':'invisible',
+    //         'callback':(response) => {
+    //         // reCAPTCHA solved, allow signInWithPhoneNumber.
+    //         console.log(response)
+    //         }
+    //     })            
+    // },
     methods:{
         submit()
         {
@@ -125,7 +124,7 @@ export default{
                   
                 </div>
                  <router-link to='/home'>
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" >Continue</button>
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="true" >Continue</button>
                 </router-link>
             </div> 
       </div>

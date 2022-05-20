@@ -1,20 +1,29 @@
 <script>
-
+    export default{
+        props:["name","price","description","author","publicationYear"],
+    
+    created(){
+        console.log(this.name)
+        console.log(this.price)
+        console.log(this.description)
+        console.log(this.author)
+        console.log(this.publicationYear)
+    },
+    }
 </script>
 
 <template>
 <div class="flex flex-col items-start mt-10">
-<div class="text-2xl font-bold">Ikigai</div>
-<div class="text-base font-light">(Hardback) | Released : 07 Sep 2017</div>
+<div class="text-2xl font-bold">{{name}}</div>
+<div class="text-base font-light">(Hardback) | Released : {{publicationYear}}</div>
 <div>
 </div>
-<div class="text-base font-light">By : Francesc Miralles (Author) , Hector Garcia (Author) , Héctor Fracesc García Miralles (Author)</div>
+<div class="text-base font-light">By : {{author}}</div>
 <!-- <div class="grid grid-cols-1 divide-y divide-grey-700 w-230"> -->
-<div class="text-base font-light">Publisher : 
-Cornerstone</div>
+<div class="text-base font-light">Publisher : -     </div>
     <div class= "w-230 bg-gray-300 h-px mt-5"></div>
 <div class="flex flex-row items-start mt-5">
-<div class = "text-2xl font-semibold">₹391</div>
+<div class = "text-2xl font-semibold">₹{{price}}</div>
 <div class = "text-lg font-medium ml-130 mr-3 ">Quantity</div>
                         <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="inc">
                             
@@ -96,6 +105,8 @@ Cornerstone</div>
                         </div>
                     </div>
 </div> 
+
+
 </template>
 
 <style>

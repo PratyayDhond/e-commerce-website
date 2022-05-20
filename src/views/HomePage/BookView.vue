@@ -6,6 +6,8 @@ import BookTB from '../../components/BookView/BookTB.vue'
 import History from '../../components/BookView/History.vue';
 import BookDetails from '../../components/BookView/BookDetails.vue';
 import Description from '../../components/BookView/Description.vue';
+import firebase from 'firebase/compat/app';
+
 export default{
     components:{
     Header,
@@ -18,8 +20,46 @@ export default{
 data() {
     return {
         quantity: 1,
+        id: this.$route.query.id,
+        name:'',
+        author:'',
+        url:'',
+        description:'',
+        publicationYear:0,
+        price:0
     }
 },
+async created() {
+        const db = firebase.firestore(); 
+        // console.log(this.searchedBooks)
+        console.log("BookView: Inside created() method")
+        // try{
+        // await db.collection ('books').get().then(r => {
+        //    r.docs.map(doc => {
+        //        console.log(doc.data())
+        // //    this.books += doc.data();
+        // // this.searchedBooks = doc.data()
+        //    });
+        // });
+
+        try{
+            db.collection('books').doc(this.id).get().then((querySnapshot) => {
+                console.log(querySnapshot.data());  
+                this.name = querySnapshot.data().name;
+                this.author = querySnapshot.data().author;
+                this.url = querySnapshot.data().url;
+                this.description = querySnapshot.data().description;
+                this.publicationYear = querySnapshot.data().publicationYear; 
+                this.price = querySnapshot.data().price;
+            })
+        }
+
+        // for(let i = 0; i < this.books.length; i++)
+            // console.log(this.books[i].name);
+        catch(e){
+            console.log(e)
+        }
+    },
 methods: {
     inc(){
         this.quantity++;
@@ -55,10 +95,10 @@ methods: {
         <div class="ml-10">
             <History />
             <div class="flex ">
-                <BookTB/> 
-                <BookDetails/>
+                <BookTB :url="url"/> 
+                <BookDetails :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price"/>
             </div>
-            <Description/>
+            <Description :description="description"/>
         </div>
         
 
