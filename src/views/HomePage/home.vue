@@ -99,6 +99,7 @@ methods: {
 
         const db = firebase.firestore(); 
         try{
+            // Writing to firebase firestore
         //     db.collection('books').add({
         //         url: this.bookUrl,
         //         name: this.name,

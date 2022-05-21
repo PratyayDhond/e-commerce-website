@@ -43,7 +43,7 @@ export default{
     LatestBooks,
     ResultBook,
     BookCoverCat,
-    Sidebar,
+    // Sidebar,
     OrderHistory,
     OrderDetails,
     WishBooks

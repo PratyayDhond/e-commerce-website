@@ -56,11 +56,6 @@ const routes = [
     component: ()=> import('../views/UserProfile/UserProfileEdit.vue')
   },
   {
-    path: '/wishList',
-    name: 'wishList',
-    component: ()=> import('../views/WishList/WishList.vue')
-  },
-  {
     path: '/orderDetails',
     name: 'orderDetails',
     component: ()=> import('../views/OrderDetails/OrderDetails.vue')
@@ -74,6 +69,11 @@ const routes = [
     path: '/home',
     name: 'home',
     component: ()=>import('../views/HomePage/home.vue')
+  },
+  {
+    path:'/WishList',
+    name: 'wishList',
+    component: () => import('../views/WishList/WishList.vue')
   },
   {
     path: '/:pathMatch(.*)*',

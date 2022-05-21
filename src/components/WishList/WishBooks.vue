@@ -1,3 +1,9 @@
+<script>
+export default {
+    props:["bookName","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor"]
+}
+</script>
+
 <template>
  
   <div class="mb-5">
@@ -28,11 +34,7 @@
 
 </template>
 
-<script>
-export default {
-    props:["bookName","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor"]
-}
-</script>
+
 
 <style>
 

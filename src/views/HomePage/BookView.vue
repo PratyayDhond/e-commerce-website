@@ -96,7 +96,7 @@ methods: {
             <History />
             <div class="flex ">
                 <BookTB :url="url"/> 
-                <BookDetails :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price"/>
+                <BookDetails :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price" :id="id"/>
             </div>
             <Description :description="description"/>
         </div>
