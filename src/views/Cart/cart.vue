@@ -7,6 +7,7 @@ import OrderSummary from '../../components/Search/OrderCart.vue';
 import OrderCart from '../../components/Search/OrderCart.vue';
 
 export default{
+  prop: ["userID"],
    data(){
      return{
        cost: this.globalVar = 99,
@@ -57,6 +58,37 @@ export default{
           
      }
    },
+   async created() {
+        const db = firebase.firestore(); 
+        // console.log(this.searchedBooks)
+        console.log("Inside created() method")
+        // try{
+        // await db.collection ('books').get().then(r => {
+        //    r.docs.map(doc => {
+        //        console.log(doc.data())
+        // //    this.books += doc.data();
+        // // this.searchedBooks = doc.data()
+        //    });
+        // });
+
+        try{
+            db.collection('Users').doc(this.userID).get().then((querySnapshot) => {
+                querySnapshot.forEach(doc =>{
+                    console.log(doc.id)
+                    var obj = doc.data();
+                    obj.id = doc.id;
+                    this.books.push(obj);
+                });
+                console.log(this.books);
+            })
+        }
+
+        // for(let i = 0; i < this.books.length; i++)
+            // console.log(this.books[i].name);
+        catch(e){
+            console.log(e)
+        }
+    },
 
     components:{
     Header,

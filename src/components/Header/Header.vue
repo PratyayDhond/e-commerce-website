@@ -3,9 +3,14 @@ import SearchBar from './SearchBar.vue';
 import NavBarComponents from './NavBarComponents.vue';
 
 export default{
+    props: ['userID'],
     components:{
         SearchBar,
         NavBarComponents
+    },
+    created(){
+        console.log("Inside Header")
+        // console.log(this.userID)
     },
     methods: {
         routeToResult(){
@@ -29,7 +34,7 @@ export default{
             <SearchBar />
         </div>
         <div class="">
-            <NavBarComponents />
+            <NavBarComponents :userID="userID" />
         </div>
         
     </div>

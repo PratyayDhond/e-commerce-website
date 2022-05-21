@@ -54,9 +54,13 @@ export default{
             noOfOrders: '',
             authorName: '',
             books: [],
+            //BOOKMARK
+            //change the below value and set it to dynamic user value
+            userID: 'Tm1WrBkhejjCuNsejweU'
         }
     },
     async created() {
+        console.log("Inside created of Home.vue")
         const db = firebase.firestore(); 
         // console.log(this.searchedBooks)
         console.log("Inside created() method")
@@ -72,19 +76,19 @@ export default{
         try{
             db.collection('books').get().then((querySnapshot) => {
                 querySnapshot.forEach(doc =>{
-                    console.log(doc.id)
+                    // console.log(doc.id)
                     var obj = doc.data();
                     obj.id = doc.id;
                     this.books.push(obj);
                 });
-                console.log(this.books);
+                // console.log(this.books);
             })
         }
 
         // for(let i = 0; i < this.books.length; i++)
             // console.log(this.books[i].name);
         catch(e){
-            console.log(e)
+            // console.log(e)
         }
     },
     components:{
@@ -146,7 +150,7 @@ methods: {
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="userID" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->

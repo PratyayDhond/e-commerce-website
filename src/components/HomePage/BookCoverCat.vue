@@ -20,7 +20,7 @@
 export default {
      props:["name","price","url","wish","theme","description","id"],
      created(){
-         console.log(this.id + " "+ this.name + " " + this.price + " " + " " + this.wish + " " + this.theme + " " + this.url );
+        //  console.log(this.id + " "+ this.name + " " + this.price + " " + " " + this.wish + " " + this.theme + " " + this.url );
      }
 }
 </script>
