@@ -7,6 +7,7 @@ import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
 import OrderHistory from '../../components/User/OrderHistoryView/OrderHistory.vue';
 import OrderDetails from '../../components/User/OrderDetailsView/OrderDetails.vue';
 import WishBooks from '../../components/WishList/WishBooks.vue';
+import firebase from 'firebase/compat/app';
 export default{
     data(){
         return{
@@ -34,7 +35,29 @@ export default{
                     bookGenre: "Thrill",
                     bookAuthor:"Khaled Houssein",
                 },
-            ]
+            ],
+            id: this.$route.query.id,
+            books: []
+        }
+    },
+    created(){
+          const db = firebase.firestore(); 
+        console.log("Inside created() method of Wishlist")
+        try{
+          db.collection('Users').doc(this.id).get().then((r) => {
+            console.log(r.data());
+            var arr = r.data().wishList;
+            console.log(arr);
+            for(let i = 0; i < arr.length; i++){
+              db.collection('books').doc(arr[i]).get().then((book) => {
+                this.books.push(book.data())
+              })
+            }
+            console.log('Wishlist books array')
+              console.log(this.books)
+          }); 
+        }catch(e){
+            console.log(e)
         }
     },
     components:{
@@ -47,7 +70,8 @@ export default{
     OrderHistory,
     OrderDetails,
     WishBooks
-}
+},
+
 }
 </script>
 
@@ -55,17 +79,17 @@ export default{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="id" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- WishList -->
         <div class="mt-24 mx-40">
             <div class="text-3xl font-semibold text-gray-700 mb-5">Your WishList</div>
-            <div v-for="item in wishlistBooks" :key="item.id">
+            <div v-for="item in books" :key="item.id">
                      
                 <div>
                 <!-- <router-link to="/book" > -->
-                    <WishBooks :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor"/>
+                    <WishBooks :bookName="item.name" :bookPrice="item.price" :bookImageURL="item.url" :bookYear="item.publicationYear" :bookGenre="item.bookGenre" :bookAuthor="item.author"/>
                 <!-- </router-link> -->
                </div>
                                     

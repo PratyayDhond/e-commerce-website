@@ -23,7 +23,7 @@ export default{
         </div>
         </router-link>
 
-        <router-link to="/user">
+        <router-link :to="{name: 'userView', query: {id: userID}}">
         <div class="w-8">
             <img class="w-full" src="../../assets/images/userBlack.png" alt="">
         </div>

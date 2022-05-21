@@ -21,6 +21,7 @@ data() {
     return {
         quantity: 1,
         id: this.$route.query.id,
+        userID: this.$route.query.userID,
         name:'',
         author:'',
         url:'',
@@ -74,7 +75,7 @@ methods: {
 <template>
     <div class="">
         <!-- Header -->
-        <Header class="fixed w-full top-0" />
+       <Header :userID="userID" class="fixed z-10 w-full top-0" />
     </div>
     <div class="mt-24 absoulute ml-7">
         <!-- Header -->
@@ -96,7 +97,7 @@ methods: {
             <History />
             <div class="flex ">
                 <BookTB :url="url"/> 
-                <BookDetails :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price" :id="id"/>
+                <BookDetails  :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price" :id="id" :userID="this.$route.query.userID" />
             </div>
             <Description :description="description"/>
         </div>

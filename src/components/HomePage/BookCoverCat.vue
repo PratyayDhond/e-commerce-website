@@ -2,7 +2,8 @@
  <router-link :to="{
      path: '/book',
      query: {
-         id:this.id
+         id:this.id,
+         userID: this.userID
          }
         }">
  <!-- to="{name: page, query: {phoneNo: phoneNumber}}" -->
@@ -18,7 +19,7 @@
 
 <script>
 export default {
-     props:["name","price","url","wish","theme","description","id"],
+     props:["name","price","url","wish","theme","description","id","userID"],
      created(){
         //  console.log(this.id + " "+ this.name + " " + this.price + " " + " " + this.wish + " " + this.theme + " " + this.url );
      }
