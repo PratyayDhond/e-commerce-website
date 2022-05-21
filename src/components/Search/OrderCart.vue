@@ -20,14 +20,18 @@ export default{
         },
         increment(){
             this.quantity++;
-            console.log(this.quantity)
+            // console.log(this.quantity)
             this.totalPrice()
+            this.$emit("calculate",this.price,1);
         },
         decrement(){
             if(this.quantity > 0){
             this.quantity--;
-            console.log(this.quantity)
+            // console.log(this.quantity)
             this.totalPrice()
+            // console.log('before this.$emit')
+            this.$emit("calculate",-this.price,-1)
+            // console.log('after this.$emit')
             }
         }
     },
@@ -44,15 +48,15 @@ export default{
        <div class="flex">
            
          <div class=" flex w-1/6">
-             <router-link :to="query">
+             <!-- <router-link :to="query"> -->
             <img class="h-36 object-fill border-none w-28" :src="bookImageURL" alt="">
-            </router-link>
+            <!-- </router-link> -->
          </div>
       
         <div class=" w-2/6">
-            <router-link :to="query">
+            <!-- <router-link :to="query"> -->
                 <div class="mt-2 ml-2 font-bold text-gray-800 text-md cursor-pointer hover:text-secondary-1">{{ bookName }}</div> 
-            </router-link> 
+            <!-- </router-link>  -->
             <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">author: {{ bookAuthor }}</p> 
                   <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">subject: {{ bookSubject }}</p> 
                    <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">genre:{{ bookGenre }}</p> 
@@ -61,14 +65,14 @@ export default{
         </div>
         <div class="mt-3 flex items-center">
        
-       <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="increment">
-                            +
+       <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="decrement()">
+                            -
                         </div>
                         <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
                          {{quantity}}
                         </div>
-                        <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="decrement">
-                            -
+                        <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="increment()">
+                            +
                         </div>
                         <div class=" w-1/6 flex">
                             </div>

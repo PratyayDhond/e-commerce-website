@@ -5,14 +5,19 @@ import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
 import OrderSummary from '../../components/Search/OrderCart.vue';
 import OrderCart from '../../components/Search/OrderCart.vue';
+import firebase from 'firebase/compat/app';
 
 export default{
-  prop: ["userID"],
+  // props: ["userID"],
    data(){
      return{
-       cost: this.globalVar = 99,
-        dis: this.globalVar = 99,
-         deliv: this.globalVar = 99, 
+       cost: 0,
+       items: 0,
+       prices: [],
+        dis: 0,
+        //BOOKMARK
+        //Change this value according to the need
+         deliv: 40, 
          searchedBooks:[
 
                 {
@@ -54,7 +59,9 @@ export default{
                     bookImageURL:"https://images-eu.ssl-images-amazon.com/images/I/519KfsM6bRL._SY264_BO1,204,203,200_QL40_FMwebp_.jpg",
                     bookPrice: "200",
                     bookQuantity: "2"
-                },]
+                },],
+        userID: this.$route.query.id,
+        books: [],
           
      }
    },
@@ -72,15 +79,30 @@ export default{
         // });
 
         try{
-            db.collection('Users').doc(this.userID).get().then((querySnapshot) => {
-                querySnapshot.forEach(doc =>{
-                    console.log(doc.id)
-                    var obj = doc.data();
-                    obj.id = doc.id;
-                    this.books.push(obj);
-                });
-                console.log(this.books);
-            })
+
+          db.collection('Users').doc(this.userID).get().then((r) => {
+            console.log(r.data());
+            var arr = r.data().cart;
+            console.log(arr);
+
+            for(let i = 0; i < arr.length; i++){
+              db.collection('books').doc(arr[i]).get().then((book) => {
+                this.books.push(book.data())
+              })
+            }
+            console.log('Searched Books array')
+              console.log(this.books)
+
+          });
+            // db.collection('Users').doc(this.userID).get().then((querySnapshot) => {
+            //     querySnapshot.forEach(doc =>{
+            //         // console.log(doc.data())
+            //         // var obj = doc.data();
+            //         // obj.id = doc.id;
+            //         // this.books.push(obj);
+            //     });
+            //     // console.log(this.books);
+            // })
         }
 
         // for(let i = 0; i < this.books.length; i++)
@@ -97,6 +119,41 @@ export default{
     ResultBook,
     OrderSummary,
     OrderCart
+},
+methods: {
+  calculateTotal(quantity){
+    this.items += quantity 
+    // this.cost = 0;
+    // for(let i = 0; i < this.prices.length; i++){
+       this.cost += this.prices[this.prices.length-1];
+       console.log("current cost : " + this.cost) 
+    // }
+    
+  },
+
+  calculate(price,quantity){
+    this.prices.push(price);
+    // console.log(this.prices)
+    // this.cost = this.cost + price;
+    // this.items = this.items + quantity
+    this.calculateTotal(quantity);
+    // console.log(price)
+    // console.log(quantity)
+  },
+
+  //  decrement(price){
+  //   var p = parseInt(price);
+  //   this.cost -= p;
+  //   this.items -= quantity
+  //   console.log(this.cost)
+  // },
+  // increment(price){
+    
+  //   var p = parseInt(price);
+  //   this.cost += p;
+  //   this.items += quantity
+  //   console.log(this.cost)
+  // }
 }
 }
 </script>
@@ -105,7 +162,7 @@ export default{
     <div class="relative " >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="userID" class="fixed z-10 w-full top-0" />
        
         </div>
      </div> 
@@ -147,10 +204,10 @@ export default{
 
 
 <div class="w-6/6 pt-4">
-  <div v-for="item in searchedBooks" :key="item.id">
+  <div v-for="item in books" :key="item.id">
   <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
     <!-- <router-link to="/book">   -->
-    <OrderCart :bookName="item.bookName" :bookAuthor="item.bookAuthor" :bookSubject="item.bookSubject" :bookGenre="item.bookGenre" :bookDate="item.bookDate" :bookImageURL="item.bookImageURL" :bookQuantity="item.bookQuantity" :bookPrice="item.bookPrice"/>
+    <OrderCart @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price"/>
   <!-- </router-link> -->
   </div>
 </div>
@@ -162,20 +219,21 @@ export default{
     <div class="  text-4xl font-bold font-calibri" >Order Summary</div>
       <div class="w-full bg-gray-300 h-px mt-5"></div>
         <div class ="flex justify-between">
-          <p class="pt-8">ITEMS 2</p>
+          <p class="pt-8">ITEMS {{items}}</p>
           <p class= "pt-8">{{cost}}</p>
         </div>
         <div class ="flex justify-between">
           <p class="pt-8">DISCOUNT </p>
           <p class= "pt-8 ">{{dis}}</p>
         </div>
+        
         <div class ="flex justify-between">
           <p class="pt-8">DELIVERY CHARGES</p>
-          <p class= "pt-8"> {{deliv}}</p>
+          <p class= "pt-8"> {{deliv * this.items}}</p>
         </div>
         <div class ="flex justify-between">
           <p class="pt-40 text-xl font-bold">TOTAL COST</p>
-          <p class= "pt-40 text-xl font-bold">500</p> 
+          <p class= "pt-40 text-xl font-bold">{{cost + deliv * this.items }}</p> 
         </div>
         <div class="flex justify-center pt-6">
           <button class="bg-secondary-1 hover:bg-primary-1 hover:text-black text-white font-semibold text-xl h-10 pl-40 pr-40 tracking-widest ">CHECKOUT</button>
