@@ -31,7 +31,7 @@ export default{
         
       
         <div class="w-4/5">
-            <SearchBar />
+            <SearchBar :userID="userID" />
         </div>
         <div class="">
             <NavBarComponents :userID="userID" />

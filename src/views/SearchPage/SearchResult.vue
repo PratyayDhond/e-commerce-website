@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header.vue';
 import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import ResultBook from '../../components/Search/ResultBook.vue';
+import firebase from 'firebase/compat/app';
 export default{
     
     data(){
@@ -80,7 +81,48 @@ export default{
                     bookPrice:"600",
                     bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
                 }
-            ]
+            ],
+            books: [],
+            filteredBooks:[],
+            search: this.$route.query.search,
+            id: this.$route.query.userID
+        }
+    },
+    created(){
+        console.log('search = ' + this.search)
+        console.log(typeof(this.search))
+        let str = ''
+        str = this.search
+        console.log("Inside created of searchResult.vue")
+        const db = firebase.firestore(); 
+        try{
+            db.collection('books').get().then((querySnapshot) => {
+                querySnapshot.forEach(doc =>{
+                    // console.log(doc.id)
+                    var obj = doc.data();
+                    obj.id = doc.id;
+                    this.books.push(obj);
+                });
+                
+                this.books.forEach(
+                    function(item){
+                        if(item.name.includes(str))
+                            console.log(item)
+                    }
+                )
+
+                // for(let item in this.books){
+                //     if(item.name.includes(search.trim()))
+                //         console.log(item)
+                // }
+                console.log(this.books);
+            })
+        }
+
+        // for(let i = 0; i < this.books.length; i++)
+            // console.log(this.books[i].name);
+        catch(e){
+            // console.log(e)
         }
     },
     components:{
@@ -88,6 +130,11 @@ export default{
     Filter,
     LatestBooks,
     ResultBook
+},
+methods:{
+    submit(){
+        this.$route.go();
+    }
 }
 }
 </script>
@@ -96,7 +143,7 @@ export default{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="id" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->
@@ -113,12 +160,12 @@ export default{
         <div class="absolute top-10 left-96">
             <div class="flex items-baseline">
                 <div class="mr-5 font-medium text-lg text-gray-800">Results for</div>
-                <div class="text-gray-">"Self Development"</div>
+                <div class="text-gray-">"{{search}}"</div>
             </div>
             
             <div class="w-240" >
-                <div v-for="item in searchedBooks" :key="item.id">
-                    <ResultBook :bookName="item.bookName" :bookDate="item.bookDate" :bookLanguage="item.bookLanguage" :bookCover="item.bookCover" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" />
+                <div v-for="item in books" :key="item.id">
+                    <ResultBook :bookName="item.name" :bookDate="item.publicationYear" bookLanguage="English" bookCover="hardcover" :bookPrice="item.price" :bookImageURL="item.url" :id="item.id" />
             </div>
             </div>
             

@@ -110,7 +110,7 @@ export default {
         });
             
         console.log('Data updated successfully')
-        alert('Item removed from wishlist successfully')
+        // alert('Item removed from wishlist successfully')
             // alert("Item added to cart successfully.") 
         });
 
