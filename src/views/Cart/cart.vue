@@ -87,7 +87,9 @@ export default{
 
             for(let i = 0; i < arr.length; i++){
               db.collection('books').doc(arr[i]).get().then((book) => {
-                this.books.push(book.data())
+                var temp = book.data()
+                temp.id = arr[i]
+                this.books.push(temp)
               })
             }
             console.log('Searched Books array')
@@ -171,7 +173,7 @@ methods: {
         <div class="w-4/6 ">
           <div class="flex justify-between items-baseline   ">
                 <div class="  text-4xl font-bold font-calibri" >Book Cart</div>
-                <div class="  text-2xl font font-calibri">2 items</div>
+                <div class="  text-2xl font font-calibri">{{items}} items</div>
           </div>
                 <div class="w-full bg-gray-300 h-px mt-5"></div>
 <div>
@@ -205,7 +207,7 @@ methods: {
   <div v-for="item in books" :key="item.id">
   <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
     <!-- <router-link to="/book">   -->
-    <OrderCart @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price"/>
+    <OrderCart @calculate="calculate"  :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price" :id="this.userID" :bookID="item.id"/>
   <!-- </router-link> -->
   </div>
 </div>

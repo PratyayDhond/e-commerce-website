@@ -1,4 +1,5 @@
 <script>
+import firebase from 'firebase/compat/app';
 export default{
     data(){
         return{
@@ -11,7 +12,7 @@ export default{
             total: parseInt(this.bookPrice)*parseInt(this.bookQuantity),
         }
     },
-    props:["bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookQuantity"],
+    props:["bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookID", "bookQuantity","id"],
     methods:
     {
         totalPrice()
@@ -33,6 +34,66 @@ export default{
             this.$emit("calculate",-this.price,-1)
             // console.log('after this.$emit')
             }
+        },
+        removeFromCart(){
+            console.log(this.id)
+             const db = firebase.firestore(); 
+        console.log("Inside removeFromWishList() method")
+        try{
+        db.collection('Users').doc(this.id).get().then((r) => {
+            console.log(r.data())
+            var addr1 = r.data().addrLine1
+            var addr2 = r.data().addrLine2
+            var mobile = r.data().mobile
+            var city = r.data().city
+            var landmark = r.data().landmark
+            var name = r.data().name
+            var state = r.data().state
+            var zipcode = r.data().zipcode
+            var cart = r.data().cart
+            var wishlist = r.data().wishList
+            var orders = r.data().orders
+            var email = r.data().email
+            var pfp = r.data().pfp
+
+        // console.log(r.data());
+            // console.log(r.data())
+            // console.log(wishlist)
+            // wishlist.pop(this.id)
+            let remove = []
+            remove = cart.filter((id) => id !== this.bookID)
+            console.log(this.BookID)
+            console.log(cart)
+            console.log("removed array " +remove)
+
+            db.collection('Users').doc(this.id).set({
+            addrLine1: addr1,
+            addrLine2: addr2,
+            cart: remove,
+            city: city,
+            landmark:landmark,
+            mobile: mobile,
+            name: name,
+            orders: orders,
+            state: state,
+            wishList: wishlist,
+            zipcode: zipcode,
+            email: email,
+            pfp: pfp
+        }).then((ref) => {
+            this.$router.go()
+        });
+            
+        console.log('Data updated successfully')
+        // alert('Item removed from wishlist successfully')
+            // alert("Item added to cart successfully.") 
+        });
+
+            
+        }catch(e){
+            console.log(e)
+        }
+        
         }
     },
     mounted(){
@@ -72,7 +133,7 @@ export default{
                 <div class="ml-24 font-bold text-gray-800 text-md  ">₹{{total}}</div>
             </div>
             <div>
-                <div class="py-2 w-36 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
+                <div class="py-2 w-36 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="removeFromCart">
                             Remove from Cart
                         </div> 
             </div>
