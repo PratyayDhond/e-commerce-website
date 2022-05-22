@@ -1,7 +1,7 @@
 <script>
 import firebase from 'firebase/compat/app';
 export default {
-    props:["bookName","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor","id", "userID"],
+    props:["bookName","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor","id", "bookID"],
     methods: { 
         addToCart(){
             const db = firebase.firestore(); 
@@ -65,11 +65,11 @@ export default {
             
         },
         removeFromWishList(){
-            console.log(this.userID)
+            console.log(this.id)
              const db = firebase.firestore(); 
         console.log("Inside removeFromWishList() method")
         try{
-        db.collection('Users').doc(this.userID).get().then((r) => {
+        db.collection('Users').doc(this.id).get().then((r) => {
             console.log(r.data())
             var addr1 = r.data().addrLine1
             var addr2 = r.data().addrLine2
@@ -85,30 +85,36 @@ export default {
 
         // console.log(r.data());
             // console.log(r.data())
+            // console.log(wishlist)
+            // wishlist.pop(this.id)
+            let remove = []
+            remove = wishlist.filter((id) => id !== this.bookID)
+            console.log(this.BookID)
             console.log(wishlist)
-            wishlist.pop(this.id)
-            console.log(wishlist)
+            console.log("removed array " +remove)
 
-            db.collection('Users').doc(this.userID).set({
+            db.collection('Users').doc(this.id).set({
             addrLine1: addr1,
             addrLine2: addr2,
-            cart: uniqueCart,
+            cart: cart,
             city: city,
             landmark:landmark,
             mobile: mobile,
             name: name,
             orders: orders,
             state: state,
-            wishList: wishlist,
+            wishList: remove,
             zipcode: zipcode
         }).then((ref) => {
+            this.$router.go()
         });
-
+            
         console.log('Data updated successfully')
+        alert('Item removed from wishlist successfully')
             // alert("Item added to cart successfully.") 
         });
 
-            alert('Item removed from wishlist successfully')
+            
         }catch(e){
             console.log(e)
         }

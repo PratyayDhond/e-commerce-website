@@ -41,24 +41,7 @@ export default{
         }
     },
     created(){
-          const db = firebase.firestore(); 
-        console.log("Inside created() method of Wishlist")
-        try{
-          db.collection('Users').doc(this.id).get().then((r) => {
-            console.log(r.data());
-            var arr = r.data().wishList;
-            console.log(arr);
-            for(let i = 0; i < arr.length; i++){
-              db.collection('books').doc(arr[i]).get().then((book) => {
-                this.books.push(book.data())
-              })
-            }
-            console.log('Wishlist books array')
-              console.log(this.books)
-          }); 
-        }catch(e){
-            console.log(e)
-        }
+          this.fetch()
     },
     components:{
     Header,
@@ -71,6 +54,38 @@ export default{
     OrderDetails,
     WishBooks
 },
+methods: {
+    fetch(){
+        const db = firebase.firestore(); 
+        console.log("Inside created() method of Wishlist")
+        try{
+            this.books = []
+          db.collection('Users').doc(this.id).get().then((r) => {
+            console.log(r.data());
+            var arr = r.data().wishList;
+            console.log(arr);
+            for(let i = 0; i < arr.length; i++){
+              db.collection('books').doc(arr[i]).get().then((book) => {
+                // book.data().id = arr[i];
+                // console.log(book.data())
+
+                this.books.push(book.data())
+                //adding the book id to books array of objects
+                this.books[i].id = arr[i];
+                
+                // console.log(this.books[i].id)
+                // this.books[i].set("id",arr[i])
+                // console.log(this.books[i])
+              })
+            }
+            console.log('Wishlist books array')
+              console.log(this.books)
+          }); 
+        }catch(e){
+            console.log(e)
+        }
+    }
+}
 
 }
 </script>
@@ -89,7 +104,7 @@ export default{
                      
                 <div>
                 <!-- <router-link to="/book" > -->
-                    <WishBooks :bookName="item.name" :bookPrice="item.price" :bookImageURL="item.url" :bookYear="item.publicationYear" :bookGenre="item.bookGenre" :bookAuthor="item.author"/>
+                    <WishBooks :bookName="item.name" :bookPrice="item.price" :bookImageURL="item.url" :bookYear="item.publicationYear" :bookGenre="item.bookGenre" :bookAuthor="item.author" :bookID="item.id" :id="id"/>
                 <!-- </router-link> -->
                </div>
                                     
