@@ -7,12 +7,13 @@ export default{
             // Use book ID here
             // query: `{name: 'book', query:{id:this.bookID}}`
             query: '/book',
+            id: this.$route.query.id,
             quantity: parseInt(this.bookQuantity),
             price: parseInt(this.bookPrice),
             total: parseInt(this.bookPrice)*parseInt(this.bookQuantity),
         }
     },
-    props:["bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookID", "bookQuantity","id"],
+    props:["bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookID", "bookQuantity"],
     methods:
     {
         totalPrice()
@@ -62,7 +63,7 @@ export default{
             // wishlist.pop(this.id)
             let remove = []
             remove = cart.filter((id) => id !== this.bookID)
-            console.log(this.BookID)
+            console.log(this.bookID)
             console.log(cart)
             console.log("removed array " +remove)
 
@@ -76,7 +77,7 @@ export default{
             name: name,
             orders: orders,
             state: state,
-            wishList: wishlist,
+            wishlist: wishlist,
             zipcode: zipcode,
             email: email,
             pfp: pfp
