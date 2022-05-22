@@ -85,7 +85,7 @@ export default{
             books: [],
             filteredBooks:[],
             search: this.$route.query.search,
-            id: this.$route.query.userID
+            userID: this.$route.query.userID
         }
     },
     created(){
@@ -165,7 +165,7 @@ methods:{
             
             <div class="w-240" >
                 <div v-for="item in books" :key="item.id">
-                    <ResultBook :bookName="item.name" :bookDate="item.publicationYear" bookLanguage="English" bookCover="hardcover" :bookPrice="item.price" :bookImageURL="item.url" :id="item.id" />
+                    <ResultBook  :bookName="item.name" :bookDate="item.publicationYear" bookLanguage="English" bookCover="hardcover" :bookPrice="item.price" :bookImageURL="item.url" :id="item.id"  :userID="userID"/>
             </div>
             </div>
             
