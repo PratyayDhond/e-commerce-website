@@ -7,7 +7,7 @@ export default {
             const db = firebase.firestore(); 
         console.log("Inside addToCart() method")
         try{
-        db.collection('Users').doc(this.userID).get().then((r) => {
+        db.collection('Users').doc(this.id).get().then((r) => {
             var addr1 = r.data().addrLine1
             var addr2 = r.data().addrLine2
             var mobile = r.data().mobile
@@ -24,7 +24,7 @@ export default {
 
             // console.log(r.data())
 
-            cart.push(this.id)
+            cart.push(this.bookID)
             
             //Removing null element if any from the array
             var filtered = cart.filter(function (el) {
@@ -37,12 +37,12 @@ export default {
                 return filtered.indexOf(element) === index;
             });
 
-           cart = null;
+        //    cart = null;
            cart = uniqueCart;
         //    console.log(this.cart)
-        //    console.log(uniqueCart)
+           console.log(uniqueCart)
 
-            db.collection('Users').doc(this.userID).set({
+            db.collection('Users').doc(this.id).set({
             addrLine1: addr1,
             addrLine2: addr2,
             cart: uniqueCart,
@@ -58,12 +58,14 @@ export default {
             pfp: pfp
             
         }).then((ref) => {
+             console.log('Data written successfully')
+        alert('Item added to cart successfully')
         });
-        console.log('Data written successfully')
+       
             // alert("Item added to cart successfully.") 
         });
 
-            alert('Item added to cart successfully')
+            
         }catch(e){
             console.log(e)
         }

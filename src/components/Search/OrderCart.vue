@@ -77,7 +77,7 @@ export default{
             name: name,
             orders: orders,
             state: state,
-            wishlist: wishlist,
+            wishList: wishlist,
             zipcode: zipcode,
             email: email,
             pfp: pfp

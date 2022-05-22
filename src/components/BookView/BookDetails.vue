@@ -102,7 +102,7 @@ import firebase from 'firebase/compat/app';
             var pfp = r.data().pfp
 
             console.log(r.data())
-
+            console.log(wishlist)
             wishlist.push(this.id)
             
             //Removing null element if any from the array
