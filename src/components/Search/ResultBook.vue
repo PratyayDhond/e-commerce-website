@@ -9,6 +9,7 @@ export default{
             console.log('Add to wishlist')
         }
     },
+    
 }
 </script>
 

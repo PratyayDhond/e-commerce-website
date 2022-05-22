@@ -17,6 +17,10 @@ export default{
     BookDetails,
     Description,
 },
+created(){
+        console.log('Books view')
+        console.log(this.userID)
+    },
 data() {
     return {
         quantity: 1,

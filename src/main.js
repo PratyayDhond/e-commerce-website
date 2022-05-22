@@ -53,16 +53,16 @@ import { firebaseConfig } from './firebase-config.js'
 // }
 
 
-try{
- db.collection ('Contacts').get().then(r => {
-    r.docs.map(doc => {
-    console. log (doc.data());
-    });
-});}
-catch(e)
-{
+// try{
+//  db.collection ('Contacts').get().then(r => {
+//     r.docs.map(doc => {
+//     console. log (doc.data());
+//     });
+// });}
+// catch(e)
+// {
 
-}
+// }
 
 
 
