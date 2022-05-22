@@ -75,17 +75,19 @@ export default{
                             +
                         </div>
                         <div class=" w-1/6 flex">
+                            
                             </div>
                
                  
         </div>
+    
          <div class="mt-16 ml-8 font-bold text-gray-800 text-md  ">₹{{this.price}}</div> 
            <div class=" w-1/6 flex">
                 <div class="mt-16 ml-32 font-bold text-gray-800 text-md  ">₹{{total}}</div> 
-                 
         </div>
         
         </div>
+        
 
  </div>
  

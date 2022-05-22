@@ -54,6 +54,8 @@ export default{
             noOfOrders: '',
             authorName: '',
             books: [],
+            romance: [],
+            thriller: [],
             //BOOKMARK
             //change the below value and set it to dynamic user value
             userID: 'Tm1WrBkhejjCuNsejweU'
@@ -81,7 +83,31 @@ export default{
                     obj.id = doc.id;
                     this.books.push(obj);
                 });
-                // console.log(this.books);
+                console.log(this.books);
+
+                var count = 0;
+                var i = 0
+                while(count < 5 && i < this.books.length){
+                    if(this.books[i].genre === "romance"){
+                        this.romance.push(this.books[i])
+                        count++
+                    }
+                    i++
+                }
+
+                count = 0;
+                i = 0;
+                while(count < 5 && i < this.books.length){
+                    if(this.books[i].genre === "thriller"){
+                        this.thriller.push(this.books[i])
+                        count++
+                    }
+                    i++
+                }
+
+
+                console.log(this.romance)
+                console.log(this.thriller)
             })
         }
 
@@ -175,7 +201,7 @@ methods: {
                 <router-link to="/book">
                 <div class="flex gap-16">
                     
-                    <div v-for="item in books" :key="item.id">
+                    <div v-for="item in thriller" :key="item.id">
                         <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
                     </div>
                 </div>
@@ -184,7 +210,7 @@ methods: {
                 
                 <div class="flex gap-16" @click="cursorpointer">
                      
-                    <div v-for="item in books" :key="item.id">
+                    <div v-for="item in romance" :key="item.id">
                         <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :description="item.description" :id="item.id"/>
                        
                     </div>
