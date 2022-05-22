@@ -44,11 +44,11 @@ export default{
         </div>
 
         <div class="pl-3 mt-6 text-secondary-1 font-bold text-lg">
-            <div class="">Genres</div>
+            <div class="">Body Parts</div>
         </div>
         <div class="flex flex-col ml-10">
             <div v-for="item in filters" :key="item.id">
-                <Checkbox :genre=item.genre />
+                <Checkbox :genre=item.part />
             </div>
         </div>
         <div class="pl-3 mt-6 text-secondary-1 font-bold text-lg">
