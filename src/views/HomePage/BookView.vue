@@ -27,6 +27,7 @@ data() {
         url:'',
         description:'',
         publicationYear:0,
+        stock: 0,
         price:0
     }
 },
@@ -52,6 +53,7 @@ async created() {
                 this.description = querySnapshot.data().description;
                 this.publicationYear = querySnapshot.data().publicationYear; 
                 this.price = querySnapshot.data().price;
+                this.stock = querySnapshot.data().stock;
             })
         }
 
@@ -97,7 +99,7 @@ methods: {
             <History />
             <div class="flex ">
                 <BookTB :url="url"/> 
-                <BookDetails  :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price" :id="id" :userID="this.$route.query.userID" />
+                <BookDetails  :name="name" :author="author" :description="description" :publicationYear="publicationYear" :price="price" :id="id" :userID="this.$route.query.userID" :stock="stock" />
             </div>
             <Description :description="description"/>
         </div>

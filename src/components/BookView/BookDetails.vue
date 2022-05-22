@@ -2,11 +2,10 @@
 import firebase from 'firebase/compat/app';
 
     export default{
-        props:["name","price","description","author","publicationYear","id"],
+        props:["name","price","description","author","publicationYear","id","stock"],
         data() {
             return {
                 userID: 'Tm1WrBkhejjCuNsejweU',
-
             }
         },
     created(){
@@ -159,16 +158,16 @@ import firebase from 'firebase/compat/app';
     <div class= "w-230 bg-gray-300 h-px mt-5"></div>
 <div class="flex flex-row items-start mt-5">
 <div class = "text-2xl font-semibold">₹{{price}}</div>
-<div class = "text-lg font-medium ml-130 mr-3 ">Quantity</div>
-                        <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="inc">
-                            
-                        </div>
+<div class = "text-lg font-medium ml-130 mr-3 ">In-Stock</div>
+                        <!-- <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="inc"> -->
+                            <!-- - -->
+                        <!-- </div> -->
                         <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
-                            {{quantity}}
+                            {{stock}}
                         </div>
-                        <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
-                            -
-                        </div>
+                        <!-- <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium"> -->
+                            <!-- + -->
+                        <!-- </div> -->
 </div>
 <div class= "w-230 bg-gray-300 h-px mt-5"></div>
                     <div class="flex flex-row items-start mt-5 ml-1 mr-1">
