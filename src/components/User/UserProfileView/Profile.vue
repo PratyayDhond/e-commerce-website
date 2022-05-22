@@ -47,7 +47,7 @@ export default{
                     city:this.user[0].city,
                     orders:this.user[0].orders,
                     state:this.user[0].state,
-                    wishList:this.user[0].wishlist,
+                    wishList:this.user[0].wishList,
                     zipcode:this.user[0].zipcode,
 
 
