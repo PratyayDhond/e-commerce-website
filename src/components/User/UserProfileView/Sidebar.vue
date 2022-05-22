@@ -1,5 +1,32 @@
 <script>
+ import firebase from 'firebase/compat/app';
 
+export default{
+    props: ['id'],
+    data() {
+        return {
+            user: [],
+            load: false
+        }
+    },
+    async created(){
+      const db = firebase.firestore(); 
+        console.log("Inside created() method of userprofile-> sidebar")
+        try{
+        //   await db.collection('Users').doc(this.id).onSnapshot(doc => {
+            //   this.user.push(doc.data())
+        //   }).then
+          await db.collection('Users').doc(this.id).get().then((r) => {
+            console.log(r.data());
+            this.user.push(r.data())
+            this.load = true; 
+          }); 
+        }catch(e){
+            console.log(e)
+        }
+            console.log(this.user)
+    }
+}
 </script>
 
 <template>-

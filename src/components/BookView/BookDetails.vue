@@ -33,6 +33,8 @@ import firebase from 'firebase/compat/app';
             var cart = r.data().cart
             var wishlist = r.data().wishList
             var orders = r.data().orders
+            var email = r.data().email
+            var pfp = r.data().pfp
 
             // console.log(r.data())
 
@@ -65,7 +67,9 @@ import firebase from 'firebase/compat/app';
             orders: orders,
             state: state,
             wishList: wishlist,
-            zipcode: zipcode
+            zipcode: zipcode,
+            email: email,
+            pfp: pfp
         }).then((ref) => {
         });
         console.log('Data written successfully')
@@ -94,6 +98,8 @@ import firebase from 'firebase/compat/app';
             var cart = r.data().cart
             var wishlist = r.data().wishList
             var orders = r.data().orders
+            var email = r.data().email
+            var pfp = r.data().pfp
 
             console.log(r.data())
 
@@ -128,7 +134,9 @@ import firebase from 'firebase/compat/app';
             orders: orders,
             state: state,
             wishList: uniqueWish,
-            zipcode: zipcode
+            zipcode: zipcode,
+            email: email,
+            pfp: pfp
         }).then((ref) => {
         });
         console.log('Data written successfully')

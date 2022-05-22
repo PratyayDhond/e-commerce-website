@@ -43,8 +43,34 @@
 </template>
 
 <script>
-export default {
-    props:["orderID","bookName","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivered"]
+ import firebase from 'firebase/compat/app';
+
+export default{
+    props:["orderID","bookName","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivery","orderTrackingID","addressline1","addressline2","city","landmark","state","pincode"],
+    data() {
+        return {
+            user: [],
+            load: false,
+            id: this.$route.query.id
+        }
+    },
+    async created(){
+      const db = firebase.firestore(); 
+        console.log("Inside created() method of userprofile-> sidebar")
+        try{
+        //   await db.collection('Users').doc(this.id).onSnapshot(doc => {
+            //   this.user.push(doc.data())
+        //   }).then
+          await db.collection('Users').doc(this.id).get().then((r) => {
+            // console.log(r.data());
+            this.user.push(r.data())
+            this.load = true; 
+          }); 
+        }catch(e){
+            console.log(e)
+        }
+            // console.log(this.user)
+    }
 }
 </script>
 

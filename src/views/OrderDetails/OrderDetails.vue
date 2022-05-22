@@ -106,7 +106,8 @@ export default{
                     state:"Maharashtra",
                     pincode:"424075"
                 },
-            ]
+            ],
+            id: this.$route.query.id
         }
     },
     components:{
@@ -126,14 +127,14 @@ export default{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="userID" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->
         <div class="absoulute">
             <div class="">              
                 <div class="fixed w-full">
-                    <Sidebar />
+                    <Sidebar id="id"/>
                 </div>
             </div>
         </div>

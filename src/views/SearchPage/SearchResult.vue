@@ -143,7 +143,7 @@ methods:{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header :userID="id" class="fixed z-10 w-full top-0" />
+            <Header :userID="userID" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->

@@ -211,7 +211,7 @@ methods: {
                 <div class="flex gap-16" @click="cursorpointer">
                      
                     <div v-for="item in romance" :key="item.id">
-                        <BookCoverCat :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :description="item.description" :id="item.id"/>
+                        <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :description="item.description" :id="item.id"/>
                        
                     </div>
                     

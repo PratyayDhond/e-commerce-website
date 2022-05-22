@@ -4,6 +4,7 @@ import Filter from '../../components/Filter/Filter.vue';
 import LatestBooks from '../../components/HomePage/LatestBooks.vue';
 import Sidebar from '../../components/User/UserProfileEdit/Sidebar.vue';
 import Profile from '../../components/User/UserProfileEdit/Profile.vue';
+
 export default{
     components:{
     Header,
@@ -11,18 +12,25 @@ export default{
     LatestBooks,
     Sidebar,
     Profile
+},
+data() {
+    return {
+        id: this.$route.query.id,
+        user: []
+    }   
+  },
 }
-}
+
 </script>
 
 <template>
     <div class="bg-white">
-        <Header class="fixed w-full top-0" />
+        <Header :userID="id" class="fixed z-10 w-full top-0" />
     <div class="flex">
                 <div class="bg-white">
-                    <Sidebar />
+                    <Sidebar :id="id"/>
     </div>
-                    <Profile class="flex bg-white"/>
+                    <Profile :id="id" class="flex bg-white"/>
                 </div>
         <div>
             

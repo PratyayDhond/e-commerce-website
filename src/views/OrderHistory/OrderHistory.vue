@@ -34,7 +34,8 @@ export default{
                     bookAuthor:"Rabindranath Tagore",
                     bookDelivered:"8 April 2022"
                 },
-            ]
+            ],
+            id: this.$route.query.id
         }
     },
     components:{
@@ -53,7 +54,7 @@ export default{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header class="fixed z-10 w-full top-0" />
+            <Header :userID="id" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->

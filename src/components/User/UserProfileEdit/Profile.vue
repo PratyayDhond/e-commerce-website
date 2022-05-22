@@ -1,19 +1,46 @@
 <script>
+    import firebase from 'firebase/compat/app';
 
+export default{
+    props: ['id'],
+    data() {
+        return {
+            user: [],
+            load: false
+        }
+    },
+    async created(){
+      const db = firebase.firestore(); 
+        console.log("Inside created() method of Wishlist")
+        try{
+        //   await db.collection('Users').doc(this.id).onSnapshot(doc => {
+            //   this.user.push(doc.data())
+        //   }).then
+          await db.collection('Users').doc(this.id).get().then((r) => {
+            console.log(r.data());
+            this.user.push(r.data())
+            this.load = true; 
+          }); 
+        }catch(e){
+            console.log(e)
+        }
+            console.log(this.user)
+    }
+}
 </script>
 
 <template>
-<div class='flex-col'>
+<div class='flex-col' v-if="load">
     <div class="mt-28">
         <div class="ml-20 font-bold text-3xl">USER PROFILE</div>
         <div>
             <div class="ml-20 mt-2 mb-1">Name</div>
             <div class="rounded-lg ml-20 border-2 h-8 w-150">
-                <div class="ml-2 font-extralight">Harsh Naidu</div>
+                <div class="ml-2 font-extralight">{{this.user[0].name}}</div>
             </div>
             <div class="ml-20 mt-2 mb-1">Email</div>
             <div class="rounded-lg ml-20 border-2 h-8 w-150">
-                <div class="ml-2 font-extralight">naiduharsh45@gmail.com</div>
+                <div class="ml-2 font-extralight">{{this.user[0].email}}</div>
             </div>
         </div>
     </div>
@@ -23,13 +50,13 @@
                 <div class="ml-20 mt-2 mr-2">
                     <div>Phone Number</div>
                     <div class="rounded-lg mt-1 border-2 h-8 w-100">
-                        <div class="ml-2 font-extralight">9146151140</div>
+                        <div class="ml-2 font-extralight">{{this.user[0].mobile}}</div>
                     </div>
                 </div>
                 <div class="ml-28 mt-2 pl-2">
                     <div>Zipcode or Pincode</div>
                     <div class="rounded-lg mt-1 border-2 h-8 w-100">
-                        <div class="ml-2 font-extralight">440012</div>
+                        <div class="ml-2 font-extralight">{{this.user[0].zipcode}}</div>
                     </div>
                 </div>
             </div>
@@ -37,26 +64,26 @@
                 <div class="ml-20 mt-2 mr-2">
                     <div>City/District/Town</div>
                     <div class="rounded-lg mt-1 border-2 h-8 w-100">
-                        <div class="ml-2 font-extralight">Nagpur</div>
+                        <div class="ml-2 font-extralight">{{this.user[0].city}}</div>
                     </div>
                 </div>
                 <div class="ml-28 mt-2 pl-2">
                     <div>State</div>
                     <div class="rounded-lg mt-1 border-2 h-8 w-100">
-                        <div class="ml-2 font-extralight">Maharashtra</div>
+                        <div class="ml-2 font-extralight">{{this.user[0].state}}</div>
                     </div>
                 </div>
             </div>
             <div class="ml-20 mt-2">
                 <div>Address Line 1</div>
                 <div class="rounded-lg mt-1 border-2 h-8 w-150">
-                    <div class="ml-2 font-extralight">635,Ramkrishna Bhawan,</div>
+                    <div class="ml-2 font-extralight">{{this.user[0].addrLine1}}</div>
                     </div>
             </div>
             <div class="ml-20 mt-2">
                 <div>Address Line 2</div>
                 <div class="rounded-lg mt-1 border-2 h-8 w-150">
-                    <div class="ml-2 font-extralight">Behind Hotel Hardeo,Sitabuldi</div>
+                    <div class="ml-2 font-extralight">{{this.user[0].addrLine2}}</div>
                 </div>
             </div>
         </div>

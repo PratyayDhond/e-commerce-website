@@ -1,19 +1,49 @@
 <script>
+    import firebase from 'firebase/compat/app';
 
+export default{
+    // props: ['id'],
+    data() {
+        return {
+            user: [],
+            load: false,
+            id: this.$route.query.id
+        }
+    },
+    async created(){
+      const db = firebase.firestore(); 
+        console.log("Inside created() method of userprofile-> sidebar")
+        try{
+        //   await db.collection('Users').doc(this.id).onSnapshot(doc => {
+            //   this.user.push(doc.data())
+        //   }).then
+          await db.collection('Users').doc(this.id).get().then((r) => {
+            // console.log(r.data());
+            this.user.push(r.data())
+            this.load = true; 
+          }); 
+        }catch(e){
+            console.log(e)
+        }
+            console.log(this.user)
+    }
+}
 </script>
 
 <template>-
-<div class="flex-column mt-20 w-80 h-130">
+<div class="flex-column mt-20 w-80 h-130" v-if="load">
     <div class="rounded-br-lg rounded-tr-lg bg-secondary-1 h-80 pt-5">
         <div class="mx-24 mb-5">
-            <img draggable="false" class="rounded-full h-28 w-28" src="https://i.pinimg.com/564x/50/9f/58/509f58dfb7e4b4e5191811df105401d5.jpg" alt="">
+            <img draggable="false" class="rounded-full h-28 w-28" :src="user[0].pfp" alt="">
         </div>
-        <div class="text-center font-bold text-white">Harsh Naidu</div>
-        <div class="text-center mb-10 font-medium text-white">naiduharsh45@gmail.com</div>
-        <router-link to="/User"> 
+        <div class="text-center font-bold text-white">{{user[0].name}}</div>
+        <div class="text-center mb-10 font-medium text-white">{{user[0].email}}</div>
+        <!-- <router-link to="/User">  -->
+            <router-link :to="{path:'/User', query: {id: this.id}}">
             <div class="text-center pt-1 font-medium text-white mb-1">User Details</div>
         </router-link>
-        <router-link to="/OrderDetails">   
+        <!-- <router-link to="/OrderDetails">    -->
+            <router-link :to="{path:'/OrderDetails', query: {id: this.id}}">
                 <div class="text-center py-3 cursor-pointer font-medium text-white">Order Details</div>
         </router-link>
     </div>
