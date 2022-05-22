@@ -2,10 +2,10 @@
 import firebase from 'firebase/compat/app';
 
     export default{
-        props:["name","price","description","author","publicationYear","id","stock"],
+        props:["name","price","description","author","publicationYear","id","stock", "userID"],
         data() {
             return {
-                userID: 'Tm1WrBkhejjCuNsejweU',
+                // userID: 'Tm1WrBkhejjCuNsejweU',
             }
         },
     created(){
