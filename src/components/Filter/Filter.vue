@@ -16,6 +16,9 @@ export default{
                 {lang:"Hindi"},
                 {lang:"Marathi"},
                 {lang:"Sanskrit"},
+                {genre:"Thriller"},
+                {genre:"Romance"},
+                {genre:"Fantasy"}
             ],
         }
     },
@@ -41,11 +44,11 @@ export default{
         </div>
 
         <div class="pl-3 mt-6 text-secondary-1 font-bold text-lg">
-            <div class="">Body Parts</div>
+            <div class="">Genres</div>
         </div>
         <div class="flex flex-col ml-10">
             <div v-for="item in filters" :key="item.id">
-                <Checkbox :bodypart=item.part />
+                <Checkbox :genre=item.genre />
             </div>
         </div>
         <div class="pl-3 mt-6 text-secondary-1 font-bold text-lg">

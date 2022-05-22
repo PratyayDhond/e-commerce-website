@@ -201,8 +201,6 @@ methods: {
       </div>
        </div>
     </div>
-
-
 <div class="w-6/6 pt-4">
   <div v-for="item in books" :key="item.id">
   <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
