@@ -46,52 +46,40 @@ export default{
 <div class="mt-4">
     <div class="w-6/6 border-2 h-40">
        <div class="flex">
-           
-         <div class=" flex w-1/6">
+           <div class=" flex w-1/6">
              <!-- <router-link :to="query"> -->
-            <img class="h-36 object-fill border-none w-28" :src="bookImageURL" alt="">
+                <img class="h-36 object-fill border-none w-28" :src="bookImageURL" alt="">
             <!-- </router-link> -->
-         </div>
-      
+            </div>
         <div class=" w-2/6">
             <!-- <router-link :to="query"> -->
-                <div class="mt-2 ml-2 font-bold text-gray-800 text-md cursor-pointer hover:text-secondary-1">{{ bookName }}</div> 
+            <div class="mt-2 ml-2 font-bold text-gray-800 text-md cursor-pointer hover:text-secondary-1">{{ bookName }}</div> 
             <!-- </router-link>  -->
             <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">author: {{ bookAuthor }}</p> 
-                  <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">subject: {{ bookSubject }}</p> 
-                   <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">genre:{{ bookGenre }}</p> 
-                    <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">publication date:{{ bookDate }}</p> 
-            
+            <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">subject: {{ bookSubject }}</p> 
+            <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">genre:{{ bookGenre }}</p> 
+            <p class="mt-2 ml-2  text-black-400 text-sm cursor-pointer ">publication date:{{ bookDate }}</p>     
         </div>
-        <div class="mt-3 flex items-center">
-       
-       <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="decrement()">
-                            -
-                        </div>
-                        <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
-                         {{quantity}}
-                        </div>
-                        <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="increment()">
-                            +
-                        </div>
-                        <div class=" w-1/6 flex">
-                            
-                            </div>
-               
-                 
-        </div>
-    
-         <div class="mt-16 ml-8 font-bold text-gray-800 text-md  ">₹{{this.price}}</div> 
-           <div class=" w-1/6 flex">
-                <div class="mt-16 ml-32 font-bold text-gray-800 text-md  ">₹{{total}}</div> 
-        </div>
-        
-        </div>
-        
-
- </div>
- 
- </div>
+        <div class="flex flex-col items-end justify-evenly mt-5">
+            <div class="flex items-center">
+                <div class="flex w-28">
+                    <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="decrement()">-</div>
+                    <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
+                        {{quantity}}</div>
+                    <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="increment()">+</div>                    
+                </div>
+                <div class="ml-[70px] font-bold text-gray-800 text-md  ">₹{{this.price}}</div> 
+                <div class="ml-24 font-bold text-gray-800 text-md  ">₹{{total}}</div>
+            </div>
+            <div>
+                <div class="py-2 w-36 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
+                            Remove from Cart
+                        </div> 
+            </div>
+        </div>         
+    </div>
+</div>
+</div>
  
 </template>
 

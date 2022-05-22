@@ -201,9 +201,8 @@ methods: {
       </div>
        </div>
     </div>
-
-
 <div class="w-6/6 pt-4">
+  <OrderCart bookName="item.name" bookAuthor="item.author" bookSubject="English" bookGenre="-" bookDate="item.publicationYear" bookImageURL="item.url" bookQuantity="2" bookPrice="900"/>
   <div v-for="item in books" :key="item.id">
   <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
     <!-- <router-link to="/book">   -->
