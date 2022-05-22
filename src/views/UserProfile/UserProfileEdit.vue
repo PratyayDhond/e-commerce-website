@@ -11,7 +11,13 @@ export default{
     LatestBooks,
     Sidebar,
     Profile
+},
+data(){
+    return{
+        id: this.$route.query.id
+    }
 }
+
 }
 </script>
 
@@ -20,9 +26,9 @@ export default{
         <Header class="fixed w-full top-0" />
     <div class="flex">
                 <div class="bg-LGB">
-                    <Sidebar />
+                    <Sidebar :id="id" />
     </div>
-                    <Profile class="flex bg-LGB"/>
+                    <Profile :id="id" class="flex bg-LGB"/>
                 </div>
         <div>
             

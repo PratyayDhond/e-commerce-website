@@ -30,13 +30,13 @@ export default{
 </script>
 
 <template>-
-    <div class="flex-column mt-20 w-80 h-130">
+    <div class="flex-column mt-20 w-80 h-130" v-if="load">
         <div class="rounded-br-lg rounded-tr-lg bg-secondary-1 h-60 pt-5">
             <div class="mx-24 mb-5">
-                <img draggable="false" class="rounded-full h-28 w-28" src="https://i.pinimg.com/564x/50/9f/58/509f58dfb7e4b4e5191811df105401d5.jpg" alt="">
+                <img draggable="false" class="rounded-full h-28 w-28" :src="user[0].pfp" alt="">
             </div>
-            <div class="text-center font-bold text-white">Harsh Naidu</div>
-            <div class="text-center mb-10 font-medium text-white">naiduharsh45@gmail.com</div>
+            <div class="text-center font-bold text-white">{{user[0].name}}</div>
+            <div class="text-center mb-10 font-medium text-white">{{user[0].email}}</div>
         </div>
         <div class="bg-secondary-1">
             <div class="ml-16 w-80 h-10 bg-LGB rounded-lg bg-white">

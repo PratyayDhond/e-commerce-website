@@ -88,7 +88,7 @@ export default{
             </div>
         </div>
         <div class="flex ml-230 mt-5 w-28 h-8 ml-150 text-md text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
-             <router-link to="/userEdit">
+             <router-link :to="{path:'/userEdit', query: {id:id}}">
              <div class = "ml-4 mt-1">Edit Details</div>
              </router-link>
         </div>
