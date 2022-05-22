@@ -1,12 +1,139 @@
 <script>
+import firebase from 'firebase/compat/app';
 export default{
     props:["bookName","bookDate","bookLanguage","bookCover","bookPrice","bookImageURL","id","userID"],
     methods:{
         addToCart(){
-            alert('Add to cart called')
+            const db = firebase.firestore(); 
+        console.log("Inside addToCart() method")
+        try{
+        db.collection('Users').doc(this.userID).get().then((r) => {
+            var addr1 = r.data().addrLine1
+            var addr2 = r.data().addrLine2
+            var mobile = r.data().mobile
+            var city = r.data().city
+            var landmark = r.data().landmark
+            var name = r.data().name
+            var state = r.data().state
+            var zipcode = r.data().zipcode
+            var cart = r.data().cart
+            var wishlist = r.data().wishList
+            var orders = r.data().orders
+            var email = r.data().email
+            var pfp = r.data().pfp
+
+            // console.log(r.data())
+
+            cart.push(this.id)
+            
+            //Removing null element if any from the array
+            var filtered = cart.filter(function (el) {
+            return el != '';
+            });
+
+            // source https://dev.to/soyleninjs/3-ways-to-remove-duplicates-in-an-array-in-javascript-259o : 2nd way
+            //Removing duplicate elements if any from the array 
+            let uniqueCart = filtered.filter((element, index) => {
+                return filtered.indexOf(element) === index;
+            });
+
+           cart = null;
+           cart = uniqueCart;
+        //    console.log(this.cart)
+        //    console.log(uniqueCart)
+
+            db.collection('Users').doc(this.userID).set({
+            addrLine1: addr1,
+            addrLine2: addr2,
+            cart: uniqueCart,
+            city: city,
+            landmark:landmark,
+            mobile: mobile,
+            name: name,
+            orders: orders,
+            state: state,
+            wishList: wishlist,
+            zipcode: zipcode,
+            email: email,
+            pfp: pfp
+        }).then((ref) => {
+        });
+        console.log('Data written successfully')
+            // alert("Item added to cart successfully.") 
+        });
+
+            alert('Item added to cart successfully')
+        }catch(e){
+            console.log(e)
+        }
+            
         },
         addToWishlist(){
-            console.log('Add to wishlist')
+             const db = firebase.firestore(); 
+        console.log("Inside addToCart() method")
+        try{
+        db.collection('Users').doc(this.userID).get().then((r) => {
+            var addr1 = r.data().addrLine1
+            var addr2 = r.data().addrLine2
+            var mobile = r.data().mobile
+            var city = r.data().city
+            var landmark = r.data().landmark
+            var name = r.data().name
+            var state = r.data().state
+            var zipcode = r.data().zipcode
+            var cart = r.data().cart
+            var wishlist = r.data().wishList
+            var orders = r.data().orders
+            var email = r.data().email
+            var pfp = r.data().pfp
+
+            console.log(r.data())
+            console.log(wishlist)
+            wishlist.push(this.id)
+            
+            //Removing null element if any from the array
+            var filtered = wishlist.filter(function (el) {
+            return el != '';
+            });
+
+            // source https://dev.to/soyleninjs/3-ways-to-remove-duplicates-in-an-array-in-javascript-259o : 2nd way
+            //Removing duplicate elements if any from the array 
+            let uniqueWish = filtered.filter((element, index) => {
+                return filtered.indexOf(element) === index;
+            });
+
+           wishlist = null;
+           wishlist= uniqueWish;
+        //    console.log(this.data())
+           console.log(uniqueWish);
+        //    console.log(this.cart)
+        //    console.log(uniqueCart)
+
+            db.collection('Users').doc(this.userID).set({
+            addrLine1: addr1,
+            addrLine2: addr2,
+            cart: cart,
+            city: city,
+            landmark:landmark,
+            mobile: mobile,
+            name: name,
+            orders: orders,
+            state: state,
+            wishList: uniqueWish,
+            zipcode: zipcode,
+            email: email,
+            pfp: pfp
+        }).then((ref) => {
+        alert('Item added to wishlist successfully')
+        console.log('Data written successfully')
+        });
+            // alert("Item added to cart successfully.") 
+        });
+
+        }catch(e){
+            console.log(e)
+        }
+            
         }
     },
     
