@@ -72,7 +72,7 @@ export default{
         //        console.log(doc.data())
         // //    this.books += doc.data();
         // // this.searchedBooks = doc.data()
-        //    });
+        //    }); 
         // });
 
         try{
