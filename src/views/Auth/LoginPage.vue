@@ -49,6 +49,13 @@ export default{
         }else{
           this.page = 'login'
         }
+
+        this.$router.push({
+          name: this.page,
+          query: {
+            phoneNo: this.phoneNumber
+          }
+        })
       }
 
       
@@ -88,7 +95,7 @@ export default{
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input v-model="phoneNumber"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
-                    placeholder="Phone Number" maxlength=10 type="text" required/>
+                    placeholder="Phone Number" maxlength=10 type="text" @keypress.enter="isValidNumber()" required/>
                 </div>
                 </div>
                 <!-- <router-link :to=" isNumberValid ? isUser ? '/otp' : `{name: 'register' query: {phoneNo: ${phoneNumber}}}` : '/login'"> -->

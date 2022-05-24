@@ -103,6 +103,15 @@ export default{
         this.page = 'register'
         console.log('page = register')
       }
+      this.$router.push({
+        name: this.page,
+        query: {
+          userName: this.name,
+          userEmail: this.email,
+          userPhone: this.phoneNumber
+        }
+      })
+
     }
     }
 }
@@ -131,7 +140,7 @@ export default{
            <div className=" absolute bottom-[25%] left-[36%] w-[400px] h-[370px] bg-pink-200 rounded-2xl " > 
             <div className="flex flex-col items-center justify-between px-20 pb-12 pt-14  gap-8 ">
                 <h1 className="text-4xl text-black font-bold mb-5"> REGISTER</h1>
-                <div clanpssName="relative ">
+                <div clanpssName="relative " @keypress.enter="isNameValid">
                 <div className="text-pink-500 hidden sm:block relative border-b-2 border-secondary-1"   >
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/person.png" alt="logo2"  height="30" width="30"></span> 
                   <input 

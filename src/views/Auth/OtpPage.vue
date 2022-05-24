@@ -80,9 +80,29 @@ export default{
                 console.log(error)
             })
         },
-        gotonext()
-        {
-            this.$router.replace({name:"dashboard"})
+        verifyOtp(){
+          if(this.otp === ''){
+            alert('OTP cannot be empty')
+            return;
+          }
+          else if(this.otp.length !== 6){
+            alert('Enter a valid OTP')
+            return;
+          }
+          else{
+             try{
+                let isnum = /^\d+$/.test(this.otp);
+                if(isnum){
+                  //#BOOKMARK
+                  // After here send to otp verification
+                  this.$router.push('/home')
+                }else{
+                  alert('Enter a valid OTP')
+                }
+             }catch(e){
+               console.log(e)
+             }
+          }
         }
     },    
    
@@ -116,7 +136,7 @@ export default{
                 <div clanpssName="relative ">
                 <div className="text-pink-500 hidden sm:block relative border-b-2 border-secondary-1"   >
                   <span className="left-0 top-1 absolute"><img src="../../assets/images/mail.png" alt="logo2"  height="30" width="30"></span> 
-                  <input v-model="otp" required
+                  <input v-model="otp" required @keypress.enter="verifyOtp()"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
                     placeholder=" OTP" />
                   <!-- <button @click="submit">get otp</button> -->
@@ -124,7 +144,7 @@ export default{
                   
                 </div>
                  <router-link to='/home'>
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="true" >Continue</button>
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="verifyOtp" >Continue</button>
                 </router-link>
             </div> 
       </div>

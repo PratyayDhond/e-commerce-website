@@ -53,6 +53,20 @@ export default{
                 alert('Enter a valid zip code')
               }else{
                 this.path='otp'
+                this.$router.push({
+                  name: this.path,
+                   query: {
+                     name: this.name,
+                     email: this.email,
+                     phone: this.phone,
+                     addr1: this.addr1,
+                     addr2: this.addr2,
+                     city: this.city,
+                     landmark: this.landmark,
+                     state: this.state,
+                     zipcode: this.zipcode
+                   } 
+                })
               }
           }catch(e){
             console.log(e)
@@ -83,7 +97,7 @@ export default{
               <img className="p-0 w-96" src="../../assets/images/authDoodle.png" alt="call" />
             </div>
            <div className=" absolute bottom-[25%] left-[36%] w-[500px] h-[400px] bg-pink-200 rounded-2xl " > 
-            <div className="flex flex-col items-center justify-between px-16 pb-12 pt-10  gap-2 ">
+            <div className="flex flex-col items-center justify-between px-16 pb-12 pt-10  gap-2 " @keypress.enter="verifyAddress">
                 <h1 className="text-4xl text-black font-bold mb-5"> A D D R E S S</h1>
                 <div clanpssName="relative ">
                 <div className="text-pink-500 hidden sm:block relative  border-b-2 border-secondary-1"   >
@@ -130,7 +144,7 @@ export default{
                      zipcode: this.zipcode
                    } 
                  }">
-                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="verifyAddress"> Sign in</button>
+                  <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="verifyAddress" @keypress.enter="verifyAddress"> Sign in</button>
                  </router-link>
                 
             </div> 
