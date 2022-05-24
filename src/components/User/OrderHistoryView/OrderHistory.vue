@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="mb-5">
-                    <div class="cursor-pointer hover:bg-secondary-1 hover:text-white  bg-white px-5 py-1 rounded-md text-secondary-1 font-medium">Buy Again</div>
+                    <div class="cursor-pointer hover:bg-secondary-1 hover:text-white  bg-white px-5 py-1 rounded-md text-secondary-1 font-medium" @click="addToCart()">Buy Again</div>
                 </div>
             </div>
         </div>
@@ -70,6 +70,11 @@ export default{
             console.log(e)
         }
             // console.log(this.user)
+    },
+    methods: {
+        addToCart(){
+            alert('Item added to cart successfully')
+        }
     }
 }
 </script>
