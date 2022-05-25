@@ -21,7 +21,7 @@ export default {
 
 <template>
     <div class="w-full">
-        <img class="object-cover h-52 w-full" src='https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg' alt="">
+        <img class="object-cover h-60  w-full" src='../../assets/images/ADbanner.png' alt="">
     </div>
 </template>
 
