@@ -93,7 +93,7 @@ export default{
               })
             }
             console.log('Searched Books array')
-              console.log(this.books)
+              console.log(this.books);  
 
           });
             // db.collection('Users').doc(this.userID).get().then((querySnapshot) => {
