@@ -79,8 +79,12 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: '404',
     component: ()=> import('../views/Error.vue')
+  },
+  {
+    path: '/adminDashboard',
+    name : 'adminDashboard',
+    component: () => import('../views/Admin/Dashboard.vue')
   }
-
 ]
 
 const router = createRouter({
