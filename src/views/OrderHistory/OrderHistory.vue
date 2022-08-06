@@ -6,6 +6,8 @@ import ResultBook from '../../components/Search/ResultBook.vue';
 import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
 import Sidebar from '../../components/User/OrderHistoryView/Sidebar.vue';
 import OrderHistory from '../../components/User/OrderHistoryView/OrderHistory.vue';
+import firebase from 'firebase/compat/app';
+
 export default{
     data(){
         return{
@@ -35,9 +37,13 @@ export default{
                     bookDelivered:"8 April 2022"
                 },
             ],
-            id: this.$route.query.id
+            id: this.$route.query.id,
+            orders: []
         }
     },
+    // created(){
+    //       this.fetch()
+    // },
     components:{
     Header,
     Filter,
@@ -46,7 +52,18 @@ export default{
     BookCoverCat,
     Sidebar,
     OrderHistory
-}
+    },
+    fetch(){
+        const db = firebase.firestore();
+        try{
+            this.orders = [];
+            db.collection('Users').doc(this.id).get().then((r) =>{
+                // var orders = 
+            }) 
+        }catch(e){
+            console.log(e);
+        }
+    }
 }
 </script>
 

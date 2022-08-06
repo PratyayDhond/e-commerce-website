@@ -1,10 +1,10 @@
 <script>
-import AdHearder from "../../components/Admin/AdHearder.vue";
+import AdHeader from "../../components/Admin/AdHearder.vue";
 export default{
     components:{
-        AdHearder
+        AdHeader
     }
-}
+} 
 
 
 </script>
