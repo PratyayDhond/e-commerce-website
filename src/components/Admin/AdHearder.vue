@@ -1,6 +1,6 @@
 <script>
-import SearchBar from './SearchBar.vue';
-import NavBarComponents from './NavBarComponents.vue';
+import SearchBar from '../Header/SearchBar.vue';
+import NavBarComponents from '../Header/NavBarComponents.vue';
 
 export default{
     props: ['userID'],
@@ -10,7 +10,6 @@ export default{
     },
     created(){
         console.log("Inside Header")
-        // console.log(this.userID)
     },
     methods: {
         routeToResult(){
