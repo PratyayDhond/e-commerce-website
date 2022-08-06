@@ -123,7 +123,7 @@ export default{
     LatestBooks,
     ResultBook,
     BookCoverCat
-},
+    },
 methods: {
     toFirebase(){
 
