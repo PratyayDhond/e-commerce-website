@@ -50,7 +50,7 @@ export default{
     LatestBooks,
     ResultBook,
     BookCoverCat,
-    Sidebar,
+    Sidebar, 
     OrderHistory
     },
     fetch(){
@@ -58,7 +58,7 @@ export default{
         try{
             this.orders = [];
             db.collection('Users').doc(this.id).get().then((r) =>{
-                // var orders = 
+                // var orders =  
             }) 
         }catch(e){
             console.log(e);

@@ -1,5 +1,10 @@
 <script>
 import Header from '../../components/Header/Header.vue';
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import firebase from 'firebase/compat/app';
+
+
+const auth = getAuth();
 
 export default{
   data() {
@@ -13,8 +18,24 @@ export default{
     }
   },
   methods: {
-     oldUser(){
-        isUser = true
+     async oldUser() {   
+      console.log("inside oldUser")
+      try{
+        const db = firebase.firestore(); 
+        var arr = []
+      await db.collection('registeredUsers').doc("ee7boWOIG7bwHK7VzF0n").get().then((r) => {
+          
+          r.data().phoneNumber.forEach((item) => {
+            if(item === this.phoneNumber)
+              this.isUser = true;
+          });
+        })
+      }catch(e){
+        console.log(e);
+      }
+
+      console.log("Outside ")
+        this.setPage();
       },
       isValidNumber(){
         if(this.phoneNumber.length < 10){
@@ -26,7 +47,7 @@ export default{
           let isnum = /^\d+$/.test(this.phoneNumber);
         if (isnum) {
           console.log('Is a number')
-          this.isNumberValid = true
+      this.isNumberValid = true
         }else{
           console.log('Not A Number')
           this.isNumberValid = false
@@ -38,26 +59,28 @@ export default{
           console.log(e);
         }
         console.log('Is Number Valid: ' + this.isNumberValid)
-        this.setPage(); 
+        this.oldUser();
       },
 
       setPage(){
-        if(this.isNumberValid && this.isUser){
+      if(this.isNumberValid){
+        if(this.isUser){
           this.page = 'otp'
-        }else if(this.isNumberValid && !this.isUser){
-          this.page = 'register'
         }else{
+          this.page = 'register'
+        }
+      }else{
           this.page = 'login'
         }
-
+        console.log(this.isUser)
+        console.log(this.page)
         this.$router.push({
           name: this.page,
           query: {
             phoneNo: this.phoneNumber
           }
         })
-      }
-
+      },
       
   }
 }
@@ -101,7 +124,7 @@ export default{
                 <!-- <router-link :to=" isNumberValid ? isUser ? '/otp' : `{name: 'register' query: {phoneNo: ${phoneNumber}}}` : '/login'"> -->
                  <!-- <router-link :to="{name: 'register', query: {phoneNo: phoneNumber}}" >  -->
                  <router-link :to="{name: page, query: {phoneNo: phoneNumber}}" > 
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="isValidNumber()">Continue</button>    
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2 sign-in-button" @click="isValidNumber()">Continue</button>    
                 </router-link>
                 
                                 
