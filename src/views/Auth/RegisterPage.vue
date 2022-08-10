@@ -3,7 +3,7 @@ import Header from '../../components/Header/Header.vue';
 export default{
   data() {
     return {
-      phoneNumber: this.$route.query.phoneNo,
+      phoneNumber: this.$route.query.phone,
       name: '',
       email: '',
       nameCheck: false,

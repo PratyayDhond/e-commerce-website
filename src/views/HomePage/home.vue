@@ -58,7 +58,7 @@ export default{
             thriller: [],
             //BOOKMARK
             //change the below value and set it to dynamic user value
-            userID: 'Tm1WrBkhejjCuNsejweU'
+            userID: this.$route.query.id
         }
     },
     async created() {

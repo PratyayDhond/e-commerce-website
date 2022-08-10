@@ -3,84 +3,139 @@
 // import Header from '../../components/Header/Header.vue';
 import  "firebase/compat/auth";
 import firebase from 'firebase/compat/app'
-
+import { getAuth , signInWithPhoneNumber, RecaptchaVerifier, ConfirmationResult  } from "firebase/auth";
 
 export default{
   data() {
     return {
-      name: this.$route.query.name,
-      email: this.$route.query.email,
-      phone: this.$route.query.phone,
-      addr1: this.$route.query.addr1,
-      addr2: this.$route.query.addr2,
-      city: this.$route.query.city,
-      landmark: this.$route.query.landmark,
-      state: this.$route.query.state,
-      zipcode: this.$route.query.zipcode,
+      name: this.$route.query.name || null,
+      email: this.$route.query.email || null,
+      phone: this.$route.query.phone || null,
+      addr1: this.$route.query.addr1 || null,
+      addr2: this.$route.query.addr2 || null,
+      city: this.$route.query.city || null,
+      landmark: this.$route.query.landmark || null,
+      state: this.$route.query.state || null,
+      zipcode: this.$route.query.zipcode || null,
       otp: '',
-      recaptchaVerifier:null,
-      recaptchaWidgetId:null,
-      confirmResult:null,
-      smsSent:false,
-      otpnum:null,
+      auth: getAuth(),
+      confirmResult: null,
+      // recaptchaVerifier:null,
+      // recaptchaWidgetId:null,
+      // confirmResult:null,
+      // smsSent:false,
+      // otpnum:null,
+      isUser: this.$route.query.isUser || null,
+      id: null
     }
   },
-  //  mounted()
-    // {
-    //     firebase.auth().useDeviceLanguage()
-    //     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in',{
-    //         'size':'invisible',
-    //         'callback':(response) => {
-    //         // reCAPTCHA solved, allow signInWithPhoneNumber.
-    //         console.log(response)
-    //         }
-    //     })            
-    // },
+    async mounted(){
+      try{
+      const auth = getAuth();
+      auth.languageCode = 'en';
+     
+      // if(this.isUser){
+        // console.log('IsUser')
+      const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+    
+      await recaptchaVerifier.render();
+       const phoneNumber = "+91" + this.phone;
+        await signInWithPhoneNumber(auth,phoneNumber,recaptchaVerifier).then(ConfirmationResult => {
+          this.confirmResult = ConfirmationResult;
+        })
+      } catch(e){
+        console.log(e.message)
+      } 
+      
+      // }
+    },
     methods:{
-        submit()
-        {
+
+      async verifyOTP(){
+        await this.confirmResult.confirm(this.otp).then((result) => {
           
-          try{
-            this.recaptchaVerifier =  new firebase.auth.RecaptchaVerifier('recaptcha-container')
-          //   // new RecaptchaVerifier("sign-in-button", {
-          //   // 'recaptcha-container': (response) => {
-          //   // console.log("prepared phone auth process");
-          //   //  }
-          // }, auth);
-          //   // new firebase.auth.RecaptchaVerifier('recaptcha-container')
-            this.recaptchaVerifier.render().then((widgetId)=>{
-            this.recaptchaWidgetId = widgetId    
-            })
-            
-            var number = parseInt(this.phone)           
-            firebase.auth().signInWithPhoneNumber(number,this.recaptchaVerifier)
-            .then((confirmationResult)=>{                
-                this.confirmResult = confirmationResult
-                console.log(this.confirmResult)
-                alert("Sms Sent!")
-                this.smsSent=true
-            })
-            .catch((error)=>{
-                console.log("Sms not sent",error.message)
-            })
-          }catch(e){
-            console.log(e)
+          // console.log(result._tokenResponse.localId)
+          console.log("New User")
+          console.log(result._tokenResponse.isNewUser)
+          this.id = result._tokenResponse.localId 
+          console.log(result._tokenResponse.localId)
+          if(result._tokenResponse.isNewUser){
+            console.log("In New User")
+            const db = firebase.firestore();
+            db.collection('Users').doc(result._tokenResponse.localId).set({
+            addrLine1: this.addr1,
+            addrLine2: this.addr2,
+            cart: [],
+            city: this.city,
+            landmark:this.landmark,
+            mobile: this.phone,
+            name: this.name,
+            orders: [],
+            state: this.state,
+            wishList: [],
+            zipcode: this.zipcode,
+            email: this.email,
+        }).then((e) => {
+          console.log(e)
+          this.$router.push({
+              name: '/home',
+              query: {
+              id: this.id,
           }
-        },
-        verifyCode()
-        {            
-            this.confirmResult.confirm(this.otpnum)
-            .then((result)=>{
-                alert("Registeration Successfull!",result)
-                this.gotonext()
-                var user = result.user
-                console.log(user)                
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
-        },
+          })
+        })
+          
+
+          }else{
+            console.log("Old User")   
+            this.$router.push({
+              name: '/home',
+              query: {
+              id: this.id,
+          }
+          })         
+          }
+        })
+
+        //BOOKMARK
+        // Without entering OTP still throwing to the home page, error to be solved
+          alert("Incorrect OTP ")
+
+
+      },
+
+        // submit()
+        // {
+          
+        //   try{
+        //     this.recaptchaVerifier =  new firebase.auth.RecaptchaVerifier('recaptcha-container')
+        //   //   // new RecaptchaVerifier("sign-in-button", {
+        //   //   // 'recaptcha-container': (response) => {
+        //   //   // console.log("prepared phone auth process");
+        //   //   //  }
+        //   // }, auth);
+        //   //   // new firebase.auth.RecaptchaVerifier('recaptcha-container')
+        //     this.recaptchaVerifier.render().then((widgetId)=>{
+        //     this.recaptchaWidgetId = widgetId    
+        //     })
+            
+        //     var number = parseInt(this.phone)           
+        //     firebase.auth().signInWithPhoneNumber(number,this.recaptchaVerifier)
+        //     .then((confirmationResult)=>{                
+        //         this.confirmResult = confirmationResult
+        //         console.log(this.confirmResult)
+        //         alert("Sms Sent!")
+        //         this.smsSent=true
+        //     })
+        //     .catch((error)=>{
+        //         console.log("Sms not sent",error.message)
+        //     })
+        //   }catch(e){
+        //     console.log(e)
+        //   }
+        // },
         verifyOtp(){
+          // this.recaptcha();
           if(this.otp === ''){
             alert('OTP cannot be empty')
             return;
@@ -95,7 +150,7 @@ export default{
                 if(isnum){
                   //#BOOKMARK
                   // After here send to otp verification
-                  this.$router.push('/home')
+                  this.verifyOTP()
                 }else{
                   alert('Enter a valid OTP')
                 }
@@ -103,6 +158,7 @@ export default{
                console.log(e)
              }
           }
+          
         }
     },    
    
@@ -139,12 +195,15 @@ export default{
                   <input v-model="otp" required @keypress.enter="verifyOtp()"
                     className="h-[40px] w-[100%] rounded-md focus:outline-none static px-9 bg-transparent  text-pink-500 placeholder:text-gray-500"
                     placeholder=" OTP" />
-                  <!-- <button @click="submit">get otp</button> -->
+                  <!-- <button id="submit" @click="recaptcha">get otp</button> -->
+                  <br>
                 </div>
-                  
+                  <br>
+                  <div id='recaptcha-container'></div>
+
                 </div>
                  <router-link to='/home'>
-                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" @click="verifyOtp" >Continue</button>
+                <button className="bg-white text-black px-24 rounded-md p-2 mt-2" id="submit" @click="verifyOtp" >Continue</button>
                 </router-link>
             </div> 
       </div>

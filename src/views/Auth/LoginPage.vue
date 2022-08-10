@@ -33,8 +33,6 @@ export default{
       }catch(e){
         console.log(e);
       }
-
-      console.log("Outside ")
         this.setPage();
       },
       isValidNumber(){
@@ -77,7 +75,8 @@ export default{
         this.$router.push({
           name: this.page,
           query: {
-            phoneNo: this.phoneNumber
+            phone: this.phoneNumber,
+            isUser: this.isUser
           }
         })
       },
