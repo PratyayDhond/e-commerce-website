@@ -51,11 +51,11 @@ export default{
             var name = r.data().name
             var state = r.data().state
             var zipcode = r.data().zipcode
-            var cart = r.data().cart
-            var wishlist = r.data().wishList
-            var orders = r.data().orders
+            var cart = r.data().cart || []
+            var wishlist = r.data().wishList || []
+            var orders = r.data().orders || []
             var email = r.data().email
-            var pfp = r.data().pfp
+            // var pfp = r.data().pfp
 
         // console.log(r.data());
             // console.log(r.data())

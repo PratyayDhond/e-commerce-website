@@ -60,6 +60,7 @@ methods: {
         console.log("Inside created() method of Wishlist")
         try{
             this.books = []
+            console.log("User ID : " + this.id)
           db.collection('Users').doc(this.id).get().then((r) => {
             console.log(r.data());
             var arr = r.data().wishList;

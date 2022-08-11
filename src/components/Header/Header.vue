@@ -15,6 +15,14 @@ export default{
     methods: {
         routeToResult(){
             console.log('Routing to result')
+        },
+        toHome(){
+            this.$router.push({
+            name:'LatestBooks',
+            query: {
+              id: this.userID
+            }
+          })
         }
     }
 }
@@ -23,11 +31,11 @@ export default{
 <template>
     <div class="pt-3 px-5 pb-8 flex items-center justify-between bg-white">
        
-       <router-link to="/home">
-        <div class="">
+       <!-- <router-link to="/home"> -->
+        <div class="" :onclick="toHome">
             <img class="h-14" src="../../assets/images/logo.png" alt="" >
         </div>
-        </router-link>
+        <!-- </router-link> -->
         
       
         <div class="w-4/5">

@@ -52,8 +52,9 @@ export default{
     methods:{
 
       async verifyOTP(){
-        await this.confirmResult.confirm(this.otp).then((result) => {
-          
+        var otpFlag = false;
+        await this.confirmResult.confirm(this.otp).then(async (result) => {
+          otpFlag = true;
           // console.log(result._tokenResponse.localId)
           console.log("New User")
           console.log(result._tokenResponse.isNewUser)
@@ -77,29 +78,50 @@ export default{
             email: this.email,
         }).then((e) => {
           console.log(e)
-          this.$router.push({
-              name: '/home',
-              query: {
-              id: this.id,
-          }
-          })
+          // this.$router.push({
+          //     name: 'LatestBooks',
+          //     query: {
+          //     id: this.id,
+          // }
+          // })
         })
-          
+        var arr = []
+         await db.collection('registeredUsers').doc('ee7boWOIG7bwHK7VzF0n').get().then((r) => {
+          r.data().phoneNumber.forEach((item) => {
+              arr.push(item)
+          });
+        })
+        arr.push(this.phone)
+        
+         await db.collection('registeredUsers').doc('ee7boWOIG7bwHK7VzF0n').set({
+          phoneNumber: arr
+         })
 
           }else{
             console.log("Old User")   
-            this.$router.push({
-              name: '/home',
-              query: {
-              id: this.id,
-          }
-          })         
+            // this.$router.push({
+            //   name: 'LatestBooks',
+            //   query: {
+            //   id: this.id,
+          // }
+          // })         
           }
         })
 
+        if(!otpFlag){
+           alert("Incorrect OTP ")
+        }else{
+          this.$router.push({
+            name:'LatestBooks',
+            query: {
+              id: this.id
+            }
+          })
+        }
+
         //BOOKMARK
-        // Without entering OTP still throwing to the home page, error to be solved
-          alert("Incorrect OTP ")
+        // Without entering OTP still throwing to the home page, error to be solved 
+         
 
 
       },
@@ -202,9 +224,9 @@ export default{
                   <div id='recaptcha-container'></div>
 
                 </div>
-                 <router-link to='/home'>
+                 <!-- <router-link to='/home'> -->
                 <button className="bg-white text-black px-24 rounded-md p-2 mt-2" id="submit" @click="verifyOtp" >Continue</button>
-                </router-link>
+                <!-- </router-link> -->
             </div> 
       </div>
       </div>

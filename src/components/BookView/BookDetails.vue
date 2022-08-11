@@ -21,7 +21,9 @@ import firebase from 'firebase/compat/app';
             const db = firebase.firestore(); 
         console.log("Inside addToCart() method")
         try{
+            console.log("User ID: " + this.userID);
         db.collection('Users').doc(this.userID).get().then((r) => {
+            console.log(r.data())
             var addr1 = r.data().addrLine1
             var addr2 = r.data().addrLine2
             var mobile = r.data().mobile
@@ -30,16 +32,15 @@ import firebase from 'firebase/compat/app';
             var name = r.data().name
             var state = r.data().state
             var zipcode = r.data().zipcode
-            var cart = r.data().cart
-            var wishlist = r.data().wishList
-            var orders = r.data().orders
+            var cart = r.data().cart || []
+            var wishlist = r.data().wishList || []
+            var orders = r.data().orders || []
             var email = r.data().email
-            var pfp = r.data().pfp
 
             // console.log(r.data())
 
             cart.push(this.id)
-            
+            console.log("Cart : " + cart)
             //Removing null element if any from the array
             var filtered = cart.filter(function (el) {
             return el != '';
@@ -69,14 +70,13 @@ import firebase from 'firebase/compat/app';
             wishList: wishlist,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
         }).then((ref) => {
+            alert('Item added to cart successfully')
         });
         console.log('Data written successfully')
             // alert("Item added to cart successfully.") 
         });
 
-            alert('Item added to cart successfully')
         }catch(e){
             console.log(e)
         }
@@ -84,7 +84,7 @@ import firebase from 'firebase/compat/app';
         },
         addToWishList(){
             const db = firebase.firestore(); 
-        console.log("Inside addToCart() method")
+        console.log("Inside addToWishList() method")
         try{
         db.collection('Users').doc(this.userID).get().then((r) => {
             var addr1 = r.data().addrLine1
@@ -95,11 +95,11 @@ import firebase from 'firebase/compat/app';
             var name = r.data().name
             var state = r.data().state
             var zipcode = r.data().zipcode
-            var cart = r.data().cart
-            var wishlist = r.data().wishList
-            var orders = r.data().orders
+            var cart = r.data().cart || []
+            var wishlist = r.data().wishList || []
+            var orders = r.data().orders || []
             var email = r.data().email
-            var pfp = r.data().pfp
+            // var pfp = r.data().pfp
 
             console.log(r.data())
             console.log(wishlist)
@@ -136,7 +136,7 @@ import firebase from 'firebase/compat/app';
             wishList: uniqueWish,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
+            // pfp: pfp
         }).then((ref) => {
         });
         console.log('Data written successfully')
