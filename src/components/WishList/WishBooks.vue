@@ -55,7 +55,7 @@ export default {
             wishList: wishlist,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
+            // pfp: pfp
             
         }).then((ref) => {
              console.log('Data written successfully')
@@ -115,7 +115,7 @@ export default {
             wishList: remove,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
+            // pfp: pfp
         }).then((ref) => {
             this.$router.go()
         });

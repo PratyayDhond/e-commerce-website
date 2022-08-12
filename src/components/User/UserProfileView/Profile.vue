@@ -43,7 +43,7 @@ export default{
                     landmark:this.user[0].landmark,
                     mobile:this.user[0].mobile,
                     orders:this.user[0].orders,
-                    pfp:this.user[0].pfp,
+                    // pfp:this.user[0].pfp,
                     city:this.user[0].city,
                     orders:this.user[0].orders,
                     state:this.user[0].state,

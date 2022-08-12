@@ -60,9 +60,9 @@ export default{
                      email: this.email,
                      phone: this.phone,
                      addr1: this.addr1,
-                     addr2: this.addr2,
+                     addr2: this.addr2 || " ",
                      city: this.city,
-                     landmark: this.landmark,
+                     landmark: this.landmark || " ",
                      state: this.state,
                      zipcode: this.zipcode
                    } 

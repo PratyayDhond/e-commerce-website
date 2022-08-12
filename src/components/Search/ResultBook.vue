@@ -55,7 +55,7 @@ export default{
             wishList: wishlist,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
+            // pfp: pfp
         }).then((ref) => {
         });
         console.log('Data written successfully')
@@ -122,7 +122,7 @@ export default{
             wishList: uniqueWish,
             zipcode: zipcode,
             email: email,
-            pfp: pfp
+            // pfp: pfp
         }).then((ref) => {
         alert('Item added to wishlist successfully')
         console.log('Data written successfully')
