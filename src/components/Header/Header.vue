@@ -17,6 +17,8 @@ export default{
             console.log('Routing to result')
         },
         toHome(){
+            console.log('Inside to home');
+            console.log(this.userID);
             this.$router.push({
             name:'LatestBooks',
             query: {

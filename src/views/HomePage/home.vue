@@ -59,6 +59,7 @@ export default{
             //BOOKMARK
             //change the below value and set it to dynamic user value
             userID: this.$route.query.id
+            
         }
     },
     async created() {

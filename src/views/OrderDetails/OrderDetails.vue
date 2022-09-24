@@ -127,7 +127,7 @@ export default{
     <div class="relative" >
         <!-- Header -->
         <div class="">
-            <Header :userID="userID" class="fixed z-10 w-full top-0" />
+            <Header :userID="id" class="fixed z-10 w-full top-0" />
         </div>
         
         <!-- Filter -->
