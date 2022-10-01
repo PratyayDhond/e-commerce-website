@@ -46,7 +46,7 @@
  import firebase from 'firebase/compat/app';
 
 export default{
-    props:["orderID","bookName","bookDelivered","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivery","orderTrackingID","addressline1","addressline2","city","landmark","state","pincode"],
+    props:["orderID","bookID","bookName","bookDelivered","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivery","orderTrackingID","addressline1","addressline2","city","landmark","state","pincode"],
     data() {
         return {
             user: [],
@@ -75,8 +75,18 @@ export default{
             // console.log(this.user)
     },
     methods: {
-        addToCart(){
+        async addToCart(){
             alert('Item added to cart successfully')
+            console.log(this.id)
+            var cart = new Set();
+            
+            await firebase.firestore().collection('Users').doc(this.id).get().then(r => {
+                cart = new Set(r.data().cart);    
+            })
+            cart.add(this.bookID);
+
+            firebase.firestore().collection('Users').doc(this.id).update({cart:Array.from(cart)})
+            
         }
     }
 }

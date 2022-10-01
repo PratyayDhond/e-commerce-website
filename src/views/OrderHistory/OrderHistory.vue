@@ -62,6 +62,7 @@ export default{
                             await firebase.firestore().collection('books').doc(book).get().then(r => {
                                 console.log(r.data());
                                 obj.bookName = r.data().name;
+                                obj.bookID = book;
                                 obj.bookPrice = r.data().price;
                                 obj.bookYear = r.data().publicationYear;
                                 obj.bookGenre = r.data().genre;
@@ -139,7 +140,7 @@ export default{
             <div class="w-240">
                 <div class="text-3xl font-bold text-gray-700">ORDER HISTORY</div>
                 <div v-for="item in orderedHistory" :key="item.id">
-                        <OrderHistory :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivered="item.bookDelivered" />
+                        <OrderHistory :bookID="item.bookID" :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivered="item.bookDelivered" />
                     </div>
             </div>
 
