@@ -1,3 +1,23 @@
+<!--  
+    orderID:'46FA4F65A4F6A',
+    orderTrackingID : '6HDF45HD4655F2A',
+    bookName:"Gitanjali",
+    bookPrice:"1300",
+    bookImageURL:"https://picsum.photos/200/300",
+    orderDate:"2 April 2022",
+    shipTo: "Ajay sharma",
+    bookYear: "1910",
+    bookGenre: "Poem",
+    bookAuthor:"Rabindranath Tagore",
+    bookDelivery:"8 April 2022",
+    addressline1:"56, Kshitija Apartments",
+    addressline2:"B4 Wings, Civil Lines",
+    city:"Nagpur",
+    landmark:"Near Centeer Point",
+    state:"Maharashtra",
+    pincode:"424075"
+ -->
+
 <script>
 import Header from '../../components/Header/Header.vue';
 import Filter from '../../components/Filter/Filter.vue';
@@ -26,16 +46,73 @@ export default{
     OrderDetails
     },
     async created(){
+        let obj = new Object;
+        let bookObj = new Object;
         var orders = [];
         await firebase.firestore().collection("Users").doc(this.id).get().then((snapshot) => {
             orders = snapshot.data().orders;
+            obj['shipTo'] = snapshot.data().name;
+            obj['addressline1'] = snapshot.data().addrLine1;
+            obj['addressline2'] = snapshot.data().addrLine2;  
+            obj['city'] = snapshot.data().city;
+            obj['landmark'] = snapshot.data().landmark;
+            obj['state'] = snapshot.data().state;
+            obj['pincode'] = snapshot.data().zipcode;
+
             console.log(orders)
-        })
+        })  
 
         orders.forEach(async order =>  {
-            
-            await firebase.firestore.collection("Orders").doc(order).get() .then(snapshot => {
+            obj['orderID'] = order;
+            await firebase.firestore().collection("Orders").doc(order).get().then(snapshot => {
+                 console.log(snapshot.data())  
+                 obj['orderDate'] = snapshot.data().orderDate;
+                 var timestamp = snapshot.data().expectedDate;
+                 var time = new Date(timestamp.seconds * 1000);
+                 var month = time.getMonth() < 10 ? "0" + time.getMonth() : time.getMonth();
+                 var date = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+                 var year = time.getFullYear();
+                 obj['bookDelivery'] = date + "-" + month + "-" + year;  
                 
+                 snapshot.data().books.forEach(async book => {
+                    console.log(book);
+                    console.log(obj);
+                    await firebase.firestore().collection('books').doc(book).get().then(snapshot => {
+                        bookObj['bookName'] = snapshot.data().name;
+                        bookObj['bookPrice'] = snapshot.data().price;
+                        bookObj['bookImageURL'] = snapshot.data().url;
+                        bookObj['bookYear']= snapshot.data().publicationYear;
+                        bookObj['bookGenre'] = snapshot.data().genre || "";
+                        bookObj['bookAuthor'] = snapshot.data().author || "";
+
+                        //:city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
+                    }).finally(() => {
+                        /**
+                         obj['shipTo'] = snapshot.data().name;
+                        obj['addressline1'] = snapshot.data().addrLine1;
+                        obj['addressline2'] = snapshot.data().addrLine2;  
+                        obj['city'] = snapshot.data().city;
+                        obj['landmark'] = snapshot.data().landmark;
+                        obj['state'] = snapshot.data().state;
+                        obj['orderID'] = order;
+                        obj['pincode'] = snapshot.data().zipcode;
+                        obj['orderDate'] = snapshot.data().orderDate;
+                        obj['bookDelivery'] = snapshot.data().expectedDate;
+                         */
+                        bookObj.shipTo = obj.shipTo;
+                        bookObj.addressline1 = obj.addressline1 
+                        bookObj.addressline2 = obj.addressline2 
+                        bookObj.city = obj.city 
+                        bookObj.state = obj.state 
+                        bookObj.orderID = obj.orderID 
+                        bookObj.pincode = obj.pincode
+                        bookObj.orderDate = obj.orderDate
+                        bookObj.bookDelivery = obj.bookDelivery
+                        this.orderedDetails.push(bookObj);
+                        bookObj = new Object;
+                        // console.log(obj);
+                    })
+                 })             
             })               
         });
 
@@ -83,7 +160,7 @@ export default{
                     
                 </div>
                 <div v-for="item in orderedDetails" :key="item.id">
-                        <OrderDetails :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivery="item.bookDelivery" :addressline1="item.addressline1" :addressline2="item.addressline2" :city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
+                    <OrderDetails :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivery="item.bookDelivery" :addressline1="item.addressline1" :addressline2="item.addressline2" :city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
                     </div>
             </div>
 

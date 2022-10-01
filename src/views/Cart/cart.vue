@@ -114,7 +114,7 @@ methods: {
         userData = snapshot.data();
       })
       console.log(userData);
-      var orders = userData.orders;
+      var orders = userData.orders ?? [];
       orders.push(orderID);
 
       firebase.firestore().collection("Users").doc(this.userID).set({
