@@ -59,13 +59,13 @@ export default{
             obj['state'] = snapshot.data().state;
             obj['pincode'] = snapshot.data().zipcode;
 
-            console.log(orders)
+            // console.log(orders)
         })  
 
         orders.forEach(async order =>  {
             obj['orderID'] = order;
             await firebase.firestore().collection("Orders").doc(order).get().then(snapshot => {
-                 console.log(snapshot.data())  
+                //  console.log(snapshot.data())  
 
                  obj['orderDate'] = snapshot.data().orderDate;
                  var timestamp = snapshot.data().expectedDate;
@@ -76,8 +76,8 @@ export default{
                  obj['bookDelivery'] = date + "-" + month + "-" + year;  
                  obj['orderCompleted'] = snapshot.data().orderCompleted;
                  snapshot.data().books.forEach(async book => {
-                    console.log(book);
-                    console.log(obj);
+                    // console.log(book);
+                    // console.log(obj);
                     await firebase.firestore().collection('books').doc(book).get().then(snapshot => {
                         bookObj['bookName'] = snapshot.data().name;
                         bookObj['bookPrice'] = snapshot.data().price;
@@ -99,10 +99,12 @@ export default{
                         bookObj = new Object;
                     })
                  })             
+            }).finally(() => {
+
             })               
         });
 
-    }
+    },
 }
 </script>
 
