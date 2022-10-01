@@ -21,7 +21,7 @@
            </div>
         </div>
         <div class="bg-primary-1 rounded-b-md px-10 pt-2 pb-4" >
-            <div>Delivered {{bookDelivered}}</div>
+            <div>Delivered {{bookDeliveryTime}}</div>
             <div class="flex justify-between items-end">
                 <div class="flex">
                     <div>
@@ -46,15 +46,18 @@
  import firebase from 'firebase/compat/app';
 
 export default{
-    props:["orderID","bookName","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivery","orderTrackingID","addressline1","addressline2","city","landmark","state","pincode"],
+    props:["orderID","bookName","bookDelivered","bookPrice","bookImageURL","orderDate","shipTo","bookYear","bookGenre","bookAuthor","bookDelivery","orderTrackingID","addressline1","addressline2","city","landmark","state","pincode"],
     data() {
         return {
             user: [],
             load: false,
-            id: this.$route.query.id
+            id: this.$route.query.id,
+            bookDeliveryTime: this.bookDelivered,
         }
     },
     async created(){
+        if(this.bookDelivered === "NaN-NaN-NaN")
+            this.bookDeliveryTime = ""
       const db = firebase.firestore(); 
         console.log("Inside created() method of userprofile-> sidebar")
         try{

@@ -41,9 +41,71 @@ export default{
             orders: []
         }
     },
-    // created(){
-    //       this.fetch()
-    // },
+    async created(){
+            this.orderedHistory = [];
+            var name;
+            await firebase.firestore().collection('Users').doc(this.id).get().then( snapshot => {
+                this.orders = snapshot.data().orders;
+                name = snapshot.data().name;    
+            });
+            console.log(this.orders);
+            
+            this.orders.forEach(async order => {
+                var orderID = order;
+                await firebase.firestore().collection('Orders').doc(order).get().then(r => {
+                    if(r.data().orderCompleted === true){
+                        var orderDate = this.calcTime(r.data().orderDate);
+                        
+                        var bookDelivered = this.calcTime(r.data().bookDelivered)
+                        r.data().books.forEach(async book => {
+                            var obj = new Object;
+                            await firebase.firestore().collection('books').doc(book).get().then(r => {
+                                console.log(r.data());
+                                obj.bookName = r.data().name;
+                                obj.bookPrice = r.data().price;
+                                obj.bookYear = r.data().publicationYear;
+                                obj.bookGenre = r.data().genre;
+                                obj.bookAuthor = r.data().author;
+                                obj.bookImageURL = r.data().url;
+                            }).finally(() => {
+                                obj.shipTo = name;
+                                obj.orderID = orderID;
+                                obj.orderDate = orderDate;
+                                obj.bookDelivered = bookDelivered;
+                                this.orderedHistory.push(obj);
+                                console.log(this.orderedHistory);
+                                obj = new Object;
+                            })
+                        })
+                    }
+                })
+            })
+            
+
+            
+
+
+
+            // const ordersRef = collection(db, 'Orders');
+            // const q = query(ordersRef, where("orderCompleted","==", true))
+            
+            // const querySnapshot = await getDocs(q);
+            // querySnapshot.forEach(doc => {
+                // this.orders = doc.data();
+            // })
+            // console.log(this.orders)
+    },
+    methods: {
+        calcTime(timestamp){
+            timestamp = timestamp ?? 0;
+            var seconds = timestamp.seconds;
+            var time = new Date(seconds * 1000);
+            var date = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+            var year = time.getFullYear();
+            var month = time.getMonth() < 10 ? "0" + time.getMonth() : time.getMonth();
+            return date + "-" + month + '-' + year;
+        }
+    },
     components:{
     Header,
     Filter,
@@ -53,17 +115,6 @@ export default{
     Sidebar, 
     OrderHistory
     },
-    fetch(){
-        const db = firebase.firestore();
-        try{
-            this.orders = [];
-            db.collection('Users').doc(this.id).get().then((r) =>{
-                // var orders =  
-            }) 
-        }catch(e){
-            console.log(e);
-        }
-    }
 }
 </script>
 

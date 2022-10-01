@@ -52,7 +52,7 @@ export default{
             this.user.push(r.data())
             this.load = true; 
           }); 
-        }catch(e){
+        }catch(e){  
             console.log(e)
         }
             // console.log(this.user)

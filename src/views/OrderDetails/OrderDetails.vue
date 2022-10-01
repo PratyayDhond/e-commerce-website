@@ -66,6 +66,7 @@ export default{
             obj['orderID'] = order;
             await firebase.firestore().collection("Orders").doc(order).get().then(snapshot => {
                  console.log(snapshot.data())  
+
                  obj['orderDate'] = snapshot.data().orderDate;
                  var timestamp = snapshot.data().expectedDate;
                  var time = new Date(timestamp.seconds * 1000);
@@ -73,7 +74,7 @@ export default{
                  var date = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
                  var year = time.getFullYear();
                  obj['bookDelivery'] = date + "-" + month + "-" + year;  
-                
+                 obj['orderCompleted'] = snapshot.data().orderCompleted;
                  snapshot.data().books.forEach(async book => {
                     console.log(book);
                     console.log(obj);
@@ -84,21 +85,7 @@ export default{
                         bookObj['bookYear']= snapshot.data().publicationYear;
                         bookObj['bookGenre'] = snapshot.data().genre || "";
                         bookObj['bookAuthor'] = snapshot.data().author || "";
-
-                        //:city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
                     }).finally(() => {
-                        /**
-                         obj['shipTo'] = snapshot.data().name;
-                        obj['addressline1'] = snapshot.data().addrLine1;
-                        obj['addressline2'] = snapshot.data().addrLine2;  
-                        obj['city'] = snapshot.data().city;
-                        obj['landmark'] = snapshot.data().landmark;
-                        obj['state'] = snapshot.data().state;
-                        obj['orderID'] = order;
-                        obj['pincode'] = snapshot.data().zipcode;
-                        obj['orderDate'] = snapshot.data().orderDate;
-                        obj['bookDelivery'] = snapshot.data().expectedDate;
-                         */
                         bookObj.shipTo = obj.shipTo;
                         bookObj.addressline1 = obj.addressline1 
                         bookObj.addressline2 = obj.addressline2 
@@ -110,7 +97,6 @@ export default{
                         bookObj.bookDelivery = obj.bookDelivery
                         this.orderedDetails.push(bookObj);
                         bookObj = new Object;
-                        // console.log(obj);
                     })
                  })             
             })               

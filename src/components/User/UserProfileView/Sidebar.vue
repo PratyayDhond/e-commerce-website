@@ -17,7 +17,7 @@ export default{
             //   this.user.push(doc.data())
         //   }).then
           await db.collection('Users').doc(this.id).get().then((r) => {
-            console.log(r.data());
+            // console.log(r.data());
             this.user.push(r.data())
             this.load = true; 
           }); 

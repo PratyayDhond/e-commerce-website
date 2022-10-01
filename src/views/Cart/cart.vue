@@ -101,7 +101,9 @@ methods: {
         // BOOKMARK: expected delivery to 14 days from order time.
         expectedDate: new Date(Date.now() + 12096e5),
         packageNo: "",
-        discount: 0,        
+        discount: 0,
+        orderCompleted: false, 
+        bookDelivered: 0,      
       }).then(snapshot => {
         orderID = snapshot.id;
       })
