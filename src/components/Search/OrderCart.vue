@@ -24,16 +24,13 @@ export default{
             this.quantity++;
             // console.log(this.quantity)
             this.totalPrice()
-            this.$emit("calculate",this.price,1);
+            this.$emit("calculate",this.price,1,this.bookID);
         },
         decrement(){
             if(this.quantity > 0){
             this.quantity--;
-            // console.log(this.quantity)
             this.totalPrice()
-            // console.log('before this.$emit')
-            this.$emit("calculate",-this.price,-1)
-            // console.log('after this.$emit')
+            this.$emit("calculate",-this.price,-1,this.bookID)
             }
         },
         removeFromCart(){

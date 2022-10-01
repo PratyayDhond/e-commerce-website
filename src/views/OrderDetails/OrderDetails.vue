@@ -7,106 +7,11 @@ import BookCoverCat from '../../components/HomePage/BookCoverCat.vue';
 import Sidebar from '../../components/User/OrderDetailsView/Sidebar.vue';
 import OrderHistory from '../../components/User/OrderHistoryView/OrderHistory.vue';
 import OrderDetails from '../../components/User/OrderDetailsView/OrderDetails.vue';
+import firebase from 'firebase/compat/app'; 
 export default{
     data(){
         return{
-            orderedDetails:[
-                {   
-                    orderID:'46FA4F65A4F6A',
-                    orderTrackingID : '6HDF45HD4655F2A',
-                    bookName:"Gitanjali",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    orderDate:"2 April 2022",
-                    shipTo: "Ajay sharma",
-                    bookYear: "1910",
-                    bookGenre: "Poem",
-                    bookAuthor:"Rabindranath Tagore",
-                    bookDelivery:"8 April 2022",
-                    addressline1:"56, Kshitija Apartments",
-                    addressline2:"B4 Wings, Civil Lines",
-                    city:"Nagpur",
-                    landmark:"Near Centeer Point",
-                    state:"Maharashtra",
-                    pincode:"424075"
-                },
-                {   
-                    orderID:'46FA4F65A4F6A',
-                    orderTrackingID : '6HDF45HD4655F2A',
-                    bookName:"A Thousand Splendid Suns",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    orderDate:"2 April 2022",
-                    shipTo: "Ajay sharma",
-                    bookYear: "1910",
-                    bookGenre: "Poem",
-                    bookAuthor:"Rabindranath Tagore",
-                    bookDelivery:"8 April 2022",
-                    addressline1:"56, Kshitija Apartments",
-                    addressline2:"B4 Wings, Civil Lines",
-                    city:"Nagpur",
-                    landmark:"Near Centeer Point",
-                    state:"Maharashtra",
-                    pincode:"424075"
-                },
-                {   
-                    orderID:'46FA4F65A4F6A',
-                    orderTrackingID : '6HDF45HD4655F2A',
-                    bookName:"A Thousand Splendid Suns",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    orderDate:"2 April 2022",
-                    shipTo: "Ajay sharma",
-                    bookYear: "1910",
-                    bookGenre: "Poem",
-                    bookAuthor:"Rabindranath Tagore",
-                    bookDelivery:"8 April 2022",
-                    addressline1:"56, Kshitija Apartments",
-                    addressline2:"B4 Wings, Civil Lines",
-                    city:"Nagpur",
-                    landmark:"Near Centeer Point",
-                    state:"Maharashtra",
-                    pincode:"424075"
-                },
-                {   
-                    orderID:'46FA4F65A4F6A',
-                    orderTrackingID : '6HDF45HD4655F2A',
-                    bookName:"A Thousand Splendid Suns",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    orderDate:"2 April 2022",
-                    shipTo: "Ajay sharma",
-                    bookYear: "1910",
-                    bookGenre: "Poem",
-                    bookAuthor:"Rabindranath Tagore",
-                    bookDelivery:"8 April 2022",
-                    addressline1:"56, Kshitija Apartments",
-                    addressline2:"B4 Wings, Civil Lines",
-                    city:"Nagpur",
-                    landmark:"Near Centeer Point",
-                    state:"Maharashtra",
-                    pincode:"424075"
-                },
-                {   
-                    orderID:'46FA4F65A4F6A',
-                    orderTrackingID : '6HDF45HD4655F2A',
-                    bookName:"A Thousand Splendid Suns",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300",
-                    orderDate:"2 April 2022",
-                    shipTo: "Ajay sharma",
-                    bookYear: "1910",
-                    bookGenre: "Poem",
-                    bookAuthor:"Rabindranath Tagore",
-                    bookDelivery:"8 April 2022",
-                    addressline1:"56, Kshitija Apartments",
-                    addressline2:"B4 Wings, Civil Lines",
-                    city:"Nagpur",
-                    landmark:"Near Centeer Point",
-                    state:"Maharashtra",
-                    pincode:"424075"
-                },
-            ],
+            orderedDetails: [],
             id: this.$route.query.id
         }
     },
@@ -119,7 +24,22 @@ export default{
     Sidebar,
     OrderHistory,
     OrderDetails
-}
+    },
+    async created(){
+        var orders = [];
+        await firebase.firestore().collection("Users").doc(this.id).get().then((snapshot) => {
+            orders = snapshot.data().orders;
+            console.log(orders)
+        })
+
+        orders.forEach(async order =>  {
+            
+            await firebase.firestore.collection("Orders").doc(order).get() .then(snapshot => {
+                
+            })               
+        });
+
+    }
 }
 </script>
 
