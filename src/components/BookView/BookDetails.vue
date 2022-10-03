@@ -84,7 +84,6 @@ import firebase from 'firebase/compat/app';
         },
         addToWishList(){
             const db = firebase.firestore(); 
-        console.log("Inside addToWishList() method")
         try{
         db.collection('Users').doc(this.userID).get().then((r) => {
             var addr1 = r.data().addrLine1
@@ -118,10 +117,7 @@ import firebase from 'firebase/compat/app';
 
            wishlist = null;
            wishlist= uniqueWish;
-        //    console.log(this.data())
            console.log(uniqueWish);
-        //    console.log(this.cart)
-        //    console.log(uniqueCart)
 
             db.collection('Users').doc(this.userID).set({
             addrLine1: addr1,
@@ -138,12 +134,10 @@ import firebase from 'firebase/compat/app';
             email: email,
             // pfp: pfp
         }).then((ref) => {
+            alert('Item added to wishlist successfully')
         });
-        console.log('Data written successfully')
-            // alert("Item added to cart successfully.") 
         });
 
-            alert('Item added to wishlist successfully')
         }catch(e){
             console.log(e)
         }
