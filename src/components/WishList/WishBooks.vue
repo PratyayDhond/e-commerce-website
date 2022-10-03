@@ -1,7 +1,8 @@
 <script>
 import firebase from 'firebase/compat/app';
 export default {
-    props:["bookName","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor","id", "bookID"],
+    emits: ["updateWishList"],
+    props:["bookName","updateWishList","bookPrice","bookImageURL","bookYear","bookGenre","bookAuthor","id", "bookID"],
     methods: { 
         addToCart(){
             const db = firebase.firestore(); 
@@ -71,12 +72,12 @@ export default {
         }
             
         },
-        removeFromWishList(){
+        async removeFromWishList(){
             console.log(this.id)
              const db = firebase.firestore(); 
         console.log("Inside removeFromWishList() method")
         try{
-        db.collection('Users').doc(this.id).get().then((r) => {
+        await db.collection('Users').doc(this.id).get().then((r) => {
             console.log(r.data())
             var addr1 = r.data().addrLine1
             var addr2 = r.data().addrLine2
@@ -91,16 +92,16 @@ export default {
             var orders = r.data().orders || []
             var email = r.data().email
             // var pfp = r.data().pfp
-
         // console.log(r.data());
             // console.log(r.data())
             // console.log(wishlist)
             // wishlist.pop(this.id)
             let remove = []
             remove = wishlist.filter((id) => id !== this.bookID)
-            console.log(this.BookID)
-            console.log(wishlist)
-            console.log("removed array " +remove)
+            this.$emit("updateWishList",remove);
+            // console.log(this.BookID)
+            // console.log(wishlist)
+            // console.log("removed array " +remove)
 
             db.collection('Users').doc(this.id).set({
             addrLine1: addr1,
@@ -117,7 +118,8 @@ export default {
             email: email,
             // pfp: pfp
         }).then((ref) => {
-            this.$router.go()
+            // this.$parent.updateWishList(remove);
+            // this.$router.go()
         });
             
         console.log('Data updated successfully')
@@ -127,7 +129,7 @@ export default {
 
             
         }catch(e){
-            console.log(e)
+            console.log(e)  
         }
         }
    }
