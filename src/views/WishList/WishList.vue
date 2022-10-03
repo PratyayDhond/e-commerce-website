@@ -74,9 +74,6 @@ methods: {
                 //adding the book id to books array of objects
                 this.books[i].id = arr[i];
                 
-                // console.log(this.books[i].id)
-                // this.books[i].set("id",arr[i])
-                // console.log(this.books[i])
               })
             }
             console.log('Wishlist books array')
@@ -85,6 +82,16 @@ methods: {
         }catch(e){
             console.log(e)
         }
+    },
+    updateWishList(updatedWishList){
+        var tempBooks = [];
+        console.log(updatedWishList);
+        this.books.forEach(book => {
+            console.log(book.id);
+            if(updatedWishList.includes(book.id))
+                tempBooks.push(book);
+        });
+        this.books = tempBooks;
     }
 }
 
@@ -105,7 +112,7 @@ methods: {
                      
                 <div>
                 <!-- <router-link to="/book" > -->
-                    <WishBooks :bookName="item.name" :bookPrice="item.price" :bookImageURL="item.url" :bookYear="item.publicationYear" :bookGenre="item.bookGenre" :bookAuthor="item.author" :bookID="item.id" :id="id"/>
+                    <WishBooks @updateWishList="updateWishList" :bookName="item.name" :bookPrice="item.price" :bookImageURL="item.url" :bookYear="item.publicationYear" :bookGenre="item.bookGenre" :bookAuthor="item.author" :bookID="item.id" :id="id"/>
                 <!-- </router-link> -->
                </div>
                                     
