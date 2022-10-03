@@ -24,7 +24,8 @@ export default{
         books: [],
         checkoutBooksUnique: new Set(),
         checkoutBooks: new Map(),        
-        checkoutBooksPrice: new Map(),  
+        checkoutBooksPrice: new Map(), 
+        isLoaded: false, 
      }
    },
    async created() {
@@ -49,7 +50,7 @@ export default{
             console.log('Searched Books array')
               console.log(this.books);  
 
-          });
+          }).finally(() => {this.isLoaded = true; console.log(this.isLoaded)});
         }
 
         catch(e){
@@ -197,38 +198,52 @@ methods: {
           </div>
                 <div class="w-full bg-gray-300 h-px mt-5"></div>
 <div>
-  <div class="flex">
-    <div class="w-3/6">
-                  <div class="flex justify-between">
-      <p class="mt-6 pl-2  text-gray-400">Product Details</p>
-      </div>
-
-    </div>
-  <div class="w-1/6">
-                  <div class="flex justify-between">
-      <p class="mt-6 ml-6 text-gray-400">Quantity</p>
-      </div>
-
-    </div>
- 
-   <div class="w-1/6">
-                  <div class="flex justify-between">
-      <p class="mt-6 pl-10  text-gray-400">Price</p>
-      </div>
-
-    </div>
-   <div class="w-1/6">
-                  <div class="flex justify-between">
-     <p class="mt-6 pl-12  text-gray-400">Total</p>
-      </div>
+  <div v-if="this.isLoaded">
+      <div v-if="this.books.length !== 0">
+          <div class="flex">
+          <div class="w-3/6">
+                        <div class="flex justify-between">
+            <p class="mt-6 pl-2  text-gray-400">Product Details</p>
+            </div>
+          
+          </div>
+        <div class="w-1/6">
+            <div class="flex justify-between">
+            <p class="mt-6 ml-6 text-gray-400">Quantity</p>
+            </div>
+          </div>
+        
+         <div class="w-1/6">
+            <div class="flex justify-between">
+            <p class="mt-6 pl-10  text-gray-400">Price</p>
+            </div>
+          </div>
+         <div class="w-1/6">
+            <div class="flex justify-between">
+            <p class="mt-6 pl-12  text-gray-400">Total</p>
+          </div>
+        </div>
        </div>
     </div>
+  </div>
+
 <div class="w-6/6 pt-4">
-  <div v-for="item in books" :key="item.id">
-  <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
-    <!-- <router-link to="/book">   -->
-    <OrderCart @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price" :id="this.userID" :bookID="item.id"/>
-  <!-- </router-link> -->
+  <div v-if="this.isLoaded">
+    <div v-if="this.books.length === 0">
+        <div style="text-align: center;">
+          <img src="../../assets/empty-box.png" alt="" style="height: 400px; margin: auto;" >
+          <div style="position: relative; bottom: 10vh; font-size: 32px; color:#476582;">Your Cart is empty :(</div>
+          <div style="position: relative; bottom: 10vh; font-size: 20px; color:#476582a4;">Looks like you have not added anything to your Cart.</div>
+        </div>
+    </div>
+    <div v-else>
+        <div v-for="item in books" :key="item.id">
+        <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
+          <!-- <router-link to="/book">   -->
+          <OrderCart @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price" :id="this.userID" :bookID="item.id"/>
+        <!-- </router-link> -->
+        </div>
+    </div>
   </div>
 </div>
 </div>
