@@ -7,17 +7,22 @@ import firebase from 'firebase/compat/app';
             return {
                 // userID: 'Tm1WrBkhejjCuNsejweU',
                 alreadyInCart: false,
+                alreadyInWishlist: false,
             }
         },
         async mounted(){
             //id, userID
             var cart = [];
+            var wishlist = [];
             await firebase.firestore().collection("Users").doc(this.userID).get().then((r) => {
                 cart = r.data().cart || [];
+                wishlist = r.data().wishList || [];
             })
             if(cart.includes(this.id))
                 this.alreadyInCart = true;
-                console.log(this.alreadyInCart);
+            if(wishlist.includes(this.id))
+                this.alreadyInWishlist = true;
+                console.log(this.alreadyInWishlist);
             
         },
     created(){
@@ -209,9 +214,11 @@ import firebase from 'firebase/compat/app';
 		c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3
 		C444.801,187.101,434.001,213.101,414.401,232.701z"/>
 </g>
-</svg></div>
-                            <div class = "ml-2" @click="addToWishList">Add to Wishlist</div>
-                        </div>
+</svg>
+</div>
+    <div v-if="alreadyInWishlist" class = "ml-2"> Already in Wishlist</div>
+    <div v-else class = "ml-2" @click="addToWishList">Add to Wishlist</div>
+</div>
                         <div class="ml-56 flex items-center">
                         <div class="flex py-2 w-40 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
                             <div>
