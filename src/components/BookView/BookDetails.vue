@@ -6,15 +6,27 @@ import firebase from 'firebase/compat/app';
         data() {
             return {
                 // userID: 'Tm1WrBkhejjCuNsejweU',
+                alreadyInCart: false,
             }
         },
+        async mounted(){
+            //id, userID
+            var cart = [];
+            await firebase.firestore().collection("Users").doc(this.userID).get().then((r) => {
+                cart = r.data().cart || [];
+            })
+            if(cart.includes(this.id))
+                this.alreadyInCart = true;
+                console.log(this.alreadyInCart);
+            
+        },
     created(){
-        console.log(this.id)
-        console.log(this.name)
-        console.log(this.price)
-        console.log(this.description)
-        console.log(this.author)
-        console.log(this.publicationYear)
+        // console.log(this.id)
+        // console.log(this.name)
+        // console.log(this.price)
+        // console.log(this.description)
+        // console.log(this.author)
+        // console.log(this.publicationYear)
     },
     methods: {
         addToCart(){
@@ -22,6 +34,7 @@ import firebase from 'firebase/compat/app';
         console.log("Inside addToCart() method")
         try{
             console.log("User ID: " + this.userID);
+            this.alreadyInCart = true;
         db.collection('Users').doc(this.userID).get().then((r) => {
             console.log(r.data())
             var addr1 = r.data().addrLine1
@@ -52,7 +65,6 @@ import firebase from 'firebase/compat/app';
                 return filtered.indexOf(element) === index;
             });
 
-           cart = null;
            cart = uniqueCart;
         //    console.log(this.cart)
         //    console.log(uniqueCart)
@@ -214,9 +226,11 @@ import firebase from 'firebase/compat/app';
 		c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3
 		C444.801,187.101,434.001,213.101,414.401,232.701z"/>
 </g>
-</svg></div>
-                            <div class = "ml-2" @click="addToCart">Add to Cart</div>
-                        </div>
+</svg>
+    </div>
+        <div v-if="alreadyInCart" class="ml-2"> Already in Cart</div>
+        <div v-else class = "ml-2" @click="addToCart">Add to Cart</div>
+    </div>
                         
                         <!-- <div>
                         <div class="flex ml-5 w-40 h-10 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">

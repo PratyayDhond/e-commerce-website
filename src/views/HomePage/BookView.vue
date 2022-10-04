@@ -50,7 +50,7 @@ async created() {
 
         try{
             db.collection('books').doc(this.id).get().then((querySnapshot) => {
-                // console.log(querySnapshot.data());  
+                console.log(querySnapshot.data());  
                 this.name = querySnapshot.data().name;
                 this.author = querySnapshot.data().author;
                 this.url = querySnapshot.data().url;
