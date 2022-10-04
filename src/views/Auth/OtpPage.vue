@@ -26,23 +26,29 @@ export default{
       // smsSent:false,
       // otpnum:null,
       isUser: this.$route.query.isUser || null,
-      id: null
+      id: null,
+      captchaShown : false,
+      otpSent: false,
     }
   },
     async mounted(){
       try{
-      const auth = getAuth();
-      auth.languageCode = 'en';
+      if(this.captchaShown === false){
+        const auth = getAuth();
+        this.captchaShown = true;
+        auth.languageCode = 'en';
      
-      // if(this.isUser){
-        // console.log('IsUser')
-      const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
-    
+     const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+   
       await recaptchaVerifier.render();
-       const phoneNumber = "+91" + this.phone;
-        await signInWithPhoneNumber(auth,phoneNumber,recaptchaVerifier).then(ConfirmationResult => {
-          this.confirmResult = ConfirmationResult;
-        })
+      const phoneNumber = "+91" + this.phone;
+       await signInWithPhoneNumber(auth,phoneNumber,recaptchaVerifier).then(ConfirmationResult => {
+        this.otpSent = true;
+        // console.log(this.confirmResult)
+         this.confirmResult = ConfirmationResult;
+       }).finally(() => {})
+      }
+      
       } catch(e){
         console.log(e.message)
       } 
@@ -221,7 +227,9 @@ export default{
                   <br>
                 </div>
                   <br>
-                  <div id='recaptcha-container'></div>
+                  
+                  
+                  <div v-if="!otpSent" id='recaptcha-container'></div>
 
                 </div>
                  <!-- <router-link to='/home'> -->
