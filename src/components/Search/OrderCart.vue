@@ -13,7 +13,8 @@ export default{
             total: parseInt(this.bookPrice)*parseInt(this.bookQuantity),
         }
     },
-    props:["bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookID", "bookQuantity"],
+    emits: ["updateCart"],
+    props:["updateCart","bookName","bookAuthor","bookSubject","bookGenre","bookDate","bookImageURL", "bookPrice", "bookID", "bookQuantity"],
     methods:
     {
         totalPrice()
@@ -63,6 +64,8 @@ export default{
             console.log(this.bookID)
             console.log(cart)
             console.log("removed array " +remove)
+            
+            this.$emit("updateCart",remove)
 
             db.collection('Users').doc(this.id).set({
             addrLine1: addr1,
@@ -79,7 +82,8 @@ export default{
             email: email,
             // pfp: pfp
         }).then((ref) => {
-            this.$router.go()
+            // this.$router.go()
+            console.log(remove);
         });
             
         console.log('Data updated successfully')

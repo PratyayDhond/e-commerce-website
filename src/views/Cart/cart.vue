@@ -177,6 +177,15 @@ methods: {
     console.log(this.checkoutBooksUnique)
     console.log(this.checkoutBooksPrice)
   },
+  //BOOKMARK : ADD DOCUMENTATION HERE
+  updateCart(updatedCart){
+    var tempBooks = [];
+    this.books.forEach(book => {
+      if(updatedCart.includes(book.id))
+        tempBooks.push(book);
+    });
+    this.books = tempBooks;
+  }
 }
 }
 </script>
@@ -240,7 +249,7 @@ methods: {
         <div v-for="item in books" :key="item.id">
         <!-- // Here what can be done is pass the value of data of book as parameter to the /book in order to show the details of the book cliked -->
           <!-- <router-link to="/book">   -->
-          <OrderCart @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price" :id="this.userID" :bookID="item.id"/>
+          <OrderCart @updateCart="updateCart" @calculate="calculate" :bookName="item.name" :bookAuthor="item.author" bookSubject="English" bookGenre="-" :bookDate="item.publicationYear" :bookImageURL="item.url" bookQuantity="0" :bookPrice="item.price" :id="this.userID" :bookID="item.id"/>
         <!-- </router-link> -->
         </div>
     </div>
