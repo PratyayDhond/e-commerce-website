@@ -9,7 +9,7 @@ export default{
         NavBarComponents
     },
     created(){
-        console.log("Inside Header")
+        // console.log("Inside Header")
         // console.log(this.userID)
     },
     methods: {

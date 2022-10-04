@@ -92,21 +92,23 @@ methods: {
     // BOOKMARK: PAYWALL GOES HERE
     var total = amount + this.deliv * quantity;
       let orderID = "";
-      await firebase.firestore().collection("Orders").add({
+      var date = Date.now();
+      await firebase.firestore().collection("Orders").doc(date+this.userID).set({
         books: books,
         quantity: quantityArr,
         amount: amount, 
         total:total,
         shippingCharges: this.deliv,
-        orderDate: new Date(),
+        orderDate: date,
         // BOOKMARK: expected delivery to 14 days from order time.
-        expectedDate: new Date(Date.now() + 12096e5),
+        expectedDate: (date + 12096e5),
         packageNo: "",
         discount: 0,
         orderCompleted: false, 
         bookDelivered: 0,      
       }).then(snapshot => {
-        orderID = snapshot.id;
+        orderID = date + this.userID;
+        console.log(orderID);
       })
 
       console.log(orderID);

@@ -2,7 +2,7 @@
 export default{
     props: ['userID'],
     created(){
-        console.log('Inside NavBarComponents')
+        // console.log('Inside NavBarComponents')
         // console.log(userID)
     }
    

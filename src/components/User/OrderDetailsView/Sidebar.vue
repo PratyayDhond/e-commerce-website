@@ -12,7 +12,7 @@ export default{
     },
     async created(){
       const db = firebase.firestore(); 
-        console.log("Inside created() method of userprofile-> sidebar")
+        // console.log("Inside created() method of userprofile-> sidebar")
         try{
         //   await db.collection('Users').doc(this.id).onSnapshot(doc => {
             //   this.user.push(doc.data())
@@ -25,7 +25,7 @@ export default{
         }catch(e){
             console.log(e)
         }
-            console.log(this.user)
+            // console.log(this.user)
     }
 }
 </script>
