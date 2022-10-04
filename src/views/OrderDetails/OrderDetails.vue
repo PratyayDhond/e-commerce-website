@@ -32,6 +32,8 @@ export default{
     data(){
         return{
             orderedDetails: [],
+            orderDetailsArray: [],
+            tempArr: [],
             id: this.$route.query.id
         }
     },
@@ -45,6 +47,37 @@ export default{
     OrderHistory,
     OrderDetails
     },
+    // async created(){
+    //     var orders;
+    //     var shipTo;
+    //     var shipTo;
+    //     var addressline1;
+    //     var addressline2;
+    //     var city;
+    //     var landmark;
+    //     var state;
+    //     var pincode;
+    //     await firebase.firestore().collection("Users").doc(this.id).get().then((snapshot) => {
+    //         orders = snapshot.data().orders;
+    //         shipTo = snapshot.data().name;
+    //         addressline1 = snapshot.data().addrLine1;
+    //         addressline2 = snapshot.data().addrLine2;  
+    //         city = snapshot.data().city;
+    //         landmark = snapshot.data().landmark;
+    //         state = snapshot.data().state;
+    //         pincode = snapshot.data().zipcode;
+    //     }) 
+
+    //     console.log(orders);
+
+    //     // orders.forEach(async order => {
+    //         await firebase.firestore().collection("Orders").where(orders, "contains", "id").orderBy("expectedDate", "desc").get().then(snapshots => {
+    //             console.log(snapshots);
+    //         })
+            
+    //     // });
+
+    // }
     async created(){
         let obj = new Object;
         let bookObj = new Object;
@@ -63,21 +96,19 @@ export default{
         })  
 
         orders.forEach(async order =>  {
-            obj['orderID'] = order;
+            var orderID = order;
             await firebase.firestore().collection("Orders").doc(order).get().then(snapshot => {
                 //  console.log(snapshot.data())  
 
-                 obj['orderDate'] = snapshot.data().orderDate;
-                 var timestamp = snapshot.data().expectedDate;
-                 var time = new Date(timestamp.seconds * 1000);
-                 var month = time.getMonth() < 10 ? "0" + time.getMonth() : time.getMonth();
+                 var orderDate = snapshot.data().orderDate;
+                 var time = new Date(snapshot.data().expectedDate);
+                //  var time = new Date(timestamp.seconds * 1000);
+                 var month = time.getMonth()+1 < 10 ? "0" + time.getMonth()+1 : time.getMonth()+1;
                  var date = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
                  var year = time.getFullYear();
                  obj['bookDelivery'] = date + "-" + month + "-" + year;  
                  obj['orderCompleted'] = snapshot.data().orderCompleted;
                  snapshot.data().books.forEach(async book => {
-                    // console.log(book);
-                    // console.log(obj);
                     await firebase.firestore().collection('books').doc(book).get().then(snapshot => {
                         bookObj['bookName'] = snapshot.data().name;
                         bookObj['bookPrice'] = snapshot.data().price;
@@ -91,20 +122,20 @@ export default{
                         bookObj.addressline2 = obj.addressline2 
                         bookObj.city = obj.city 
                         bookObj.state = obj.state 
-                        bookObj.orderID = obj.orderID 
+                        bookObj.orderID = orderID 
                         bookObj.pincode = obj.pincode
                         bookObj.orderDate = obj.orderDate
                         bookObj.bookDelivery = obj.bookDelivery
-                        this.orderedDetails.push(bookObj);
-                        bookObj = new Object;
+                        this.orderedDetails.unshift(bookObj);
                     })
+                    bookObj = new Object;
                  })             
-            }).finally(() => {
-
-            })               
+            })
         });
-
     },
+    methods: {
+    }
+
 }
 </script>
 
@@ -119,7 +150,7 @@ export default{
         <div class="absoulute">
             <div class="">              
                 <div class="fixed w-full">
-                    <Sidebar id="id"/>
+                    <Sidebar />
                 </div>
             </div>
         </div>

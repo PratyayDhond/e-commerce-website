@@ -46,7 +46,7 @@ export default{
     },
     async created(){
       const db = firebase.firestore(); 
-        console.log("Inside created() method of userprofile-> sidebar")
+        // console.log("Inside created() method of userprofile-> sidebar")
         try{
           await db.collection('Users').doc(this.id).get().then((r) => {
             this.user.push(r.data())
