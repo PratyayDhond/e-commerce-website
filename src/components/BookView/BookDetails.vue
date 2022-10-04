@@ -22,7 +22,7 @@ import firebase from 'firebase/compat/app';
                 this.alreadyInCart = true;
             if(wishlist.includes(this.id))
                 this.alreadyInWishlist = true;
-                console.log(this.alreadyInWishlist);
+                // console.log(this.alreadyInWishlist);
             
         },
     created(){
@@ -103,6 +103,7 @@ import firebase from 'firebase/compat/app';
             const db = firebase.firestore(); 
         try{
         db.collection('Users').doc(this.userID).get().then((r) => {
+            this.alreadyInWishlist = true;
             var addr1 = r.data().addrLine1
             var addr2 = r.data().addrLine2
             var mobile = r.data().mobile
@@ -117,8 +118,8 @@ import firebase from 'firebase/compat/app';
             var email = r.data().email
             // var pfp = r.data().pfp
 
-            console.log(r.data())
-            console.log(wishlist)
+            // console.log(r.data())
+            // console.log(wishlist)
             wishlist.push(this.id)
             
             //Removing null element if any from the array
@@ -134,7 +135,7 @@ import firebase from 'firebase/compat/app';
 
            wishlist = null;
            wishlist= uniqueWish;
-           console.log(uniqueWish);
+        //    console.log(uniqueWish);
 
             db.collection('Users').doc(this.userID).set({
             addrLine1: addr1,
@@ -151,15 +152,29 @@ import firebase from 'firebase/compat/app';
             email: email,
             // pfp: pfp
         }).then((ref) => {
-            alert('Item added to wishlist successfully')
+
         });
         });
 
         }catch(e){
+            this.alreadyInWishlist = false;
             console.log(e)
         }
             
         },
+        async removeFromWishlist(){
+            var wishlist = []
+            await firebase.firestore().collection("Users").doc(this.userID).get().then(r => {
+                this.alreadyInWishlist = false;
+                r.data().wishList.forEach(book => {
+                    // console.log(book);
+                    if(book !== this.id)
+                        wishlist.push(book)
+                });
+            })
+            await firebase.firestore().collection("Users").doc(this.userID).update({wishList:wishlist}).then(()=>{
+            });
+        }
 
     },
     }
@@ -200,7 +215,7 @@ import firebase from 'firebase/compat/app';
                     </div>
                     <div class= "w-230 bg-gray-300 h-px mt-5 mb-5"></div>
                     <div>
-<div class="ml-56 flex items-center">
+<div class="ml-56 flex items-center" >
                         <div class="flex py-2 w-52 text-sm text-white rounded-md bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
                             <div>
                                 <svg class = "py-1 fill-current h-6 ml-4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -216,7 +231,8 @@ import firebase from 'firebase/compat/app';
 </g>
 </svg>
 </div>
-    <div v-if="alreadyInWishlist" class = "ml-2"> Already in Wishlist</div>
+
+    <div v-if="alreadyInWishlist" class = "ml-2" @click="removeFromWishlist" > Remove from Wishlist</div>
     <div v-else class = "ml-2" @click="addToWishList">Add to Wishlist</div>
 </div>
                         <div class="ml-56 flex items-center">
