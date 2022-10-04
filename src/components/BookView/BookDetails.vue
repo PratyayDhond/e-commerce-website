@@ -89,7 +89,7 @@ import firebase from 'firebase/compat/app';
             zipcode: zipcode,
             email: email,
         }).then((ref) => {
-            alert('Item added to cart successfully')
+            
         });
         console.log('Data written successfully')
             // alert("Item added to cart successfully.") 
@@ -173,6 +173,17 @@ import firebase from 'firebase/compat/app';
             })
             await firebase.firestore().collection("Users").doc(this.userID).update({wishList:wishList}).then(()=>{
             });
+        },
+        async removeFromCart(){
+            var cart = [];
+            await firebase.firestore().collection("Users").doc(this.userID).get().then(r => {
+                this.alreadyInCart = false;
+                r.data().cart.forEach(book => {
+                    if(book !== this.id)
+                        cart.push(book);
+                });
+            })
+            await firebase.firestore().collection("Users").doc(this.userID).update({cart:cart});
         }
 
     },
@@ -255,7 +266,7 @@ import firebase from 'firebase/compat/app';
 
 
         <div class="ml-56 flex items-center">
-            <div  v-if="alreadyInCart" class="flex py-2 w-40 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
+            <div  v-if="alreadyInCart" @click="removeFromCart" class="flex py-2 w-40 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium">
                 <div>
                     <svg class = "py-1 fill-current h-6 ml-4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         	            viewBox="0 0 471.701 471.701" style="enable-background:new 0 0 471.701 471.701;" xml:space="preserve">
