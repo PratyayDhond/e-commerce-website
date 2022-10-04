@@ -160,13 +160,15 @@ import firebase from 'firebase/compat/app';
     <div class= "w-230 bg-gray-300 h-px mt-5"></div>
 <div class="flex flex-row items-start mt-5">
 <div class = "text-2xl font-semibold">₹{{price}}</div>
-<div class = "text-lg font-medium ml-130 mr-3 ">In-Stock</div>
+<!-- BOOKMARK: InStock was here -->
+<!-- Removed in stock as it was not required according to the organisation's needs -->
+<!-- <div class = "text-lg font-medium ml-130 mr-3 ">In-Stock</div> -->
                         <!-- <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium" @click="inc"> -->
                             <!-- - -->
                         <!-- </div> -->
-                        <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
+                        <!-- <div class="py-1 h-8 w-20 border-2 text-sm text-center  font-medium">
                             {{stock}}
-                        </div>
+                        </div> -->
                         <!-- <div class="py-1 h-8 w-8 text-sm text-white rounded-sm bg-secondary-1 text-center cursor-pointer hover:bg-primary-1 hover:text-gray-800 font-medium"> -->
                             <!-- + -->
                         <!-- </div> -->
