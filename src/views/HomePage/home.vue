@@ -20,7 +20,9 @@ export default{
             romance: [],
             thriller: [],
             userID: this.$route.query.id,
-            filters: [],   
+            filters: [],
+            minPrice: Number.MIN_VALUE,
+            maxPrice: Number.MAX_VALUE,
         }
     },
     async created() {
@@ -116,6 +118,12 @@ methods: {
             console.log(e)
         }
     },
+    addPricingFilter(min,max){
+        this.min = min;
+        this.max = max;
+        console.log(this.min);
+        console.log(this.max);
+    },
     addFilter(value){
 
         if(this.filters.includes(value))
@@ -163,7 +171,7 @@ methods: {
             <div class="">              
                 <div class="fixed h-96 w-full">
                     <p>Home / Books</p>
-                    <Filter @addFilterToHome="addFilter"/>
+                    <Filter @addFilterToHome="addFilter" @addPricingFilter="addPricingFilter"/>
                 </div>
             </div>
         </div>
