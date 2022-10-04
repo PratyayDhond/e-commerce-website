@@ -2,6 +2,7 @@
 import Checkbox from './Checkbox.vue';
 
 export default{
+    emits: ["addFilterToHome"],
     data(){
         return{
             filters:[
@@ -24,9 +25,30 @@ export default{
     },
     components:{
         Checkbox
+    },
+    methods: {
+        addFilter (value) {
+            this.$emit("addFilterToHome",value)
+        },
     }
 }
 </script>
+
+
+<style>
+    /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
 
 <template>
     <div class="w-1/5 h-130 bg-primary-2 rounded-lg">
@@ -48,7 +70,7 @@ export default{
         </div>
         <div class="flex flex-col ml-10">
             <div v-for="item in filters" :key="item.id">
-                <Checkbox :genre=item.part />
+                <Checkbox @addFilter="addFilter" :genre=item.part />
             </div>
         </div>
         <div class="pl-3 mt-6 text-secondary-1 font-bold text-lg">
@@ -56,7 +78,7 @@ export default{
         </div>
         <div class="flex flex-col ml-10">
             <div v-for="item in filters" :key="item.id">
-                <Checkbox :launguage=item.lang />
+                <Checkbox @addFilter="addFilter" :language=item.lang />
             </div>
         </div>
     </div>

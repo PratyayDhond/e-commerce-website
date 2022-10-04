@@ -8,43 +8,6 @@ import firebase from 'firebase/compat/app';
 export default{
     data(){
         return{
-            searchedBooks:[
-                {
-                    name:"A Thousand Splendid",
-                    price:"1300",
-                    url:"https://picsum.photos/200/300",
-                    wish :"true",
-                    theme : "Thriller"
-                },
-                {
-                    name:"Ikigai",
-                    price:"418",
-                    url:"https://picsum.photos/200/300",
-                    wish :"true",
-                    theme : "Thriller"
-                },
-                {
-                    name:"Atomic Habits",
-                    price:"600",
-                    url:"https://picsum.photos/200/300",
-                    wish :"true",
-                    theme : "Thriller"
-                },
-                {
-                    name:"Atomic Habits",
-                    price:"600",
-                    url:"https://picsum.photos/200/300",
-                    wish :"true",
-                    heme : "Thriller"
-                },
-                {
-                    name:"Atomic Habits",
-                    price:"600",
-                    url:"https://picsum.photos/200/300",
-                    wish :"true",
-                    bookTheme : "Thriller"
-                },
-            ],
             bookUrl: '',
             name: '',
             bookDescription: '',
@@ -56,10 +19,8 @@ export default{
             books: [],
             romance: [],
             thriller: [],
-            //BOOKMARK
-            //change the below value and set it to dynamic user value
-            userID: this.$route.query.id
-            
+            userID: this.$route.query.id,
+            filters: [],   
         }
     },
     async created() {
@@ -155,6 +116,23 @@ methods: {
             console.log(e)
         }
     },
+    addFilter(value){
+
+        if(this.filters.includes(value))
+            this.removeFilter(value);
+        else
+            this.filters.push(value);
+        console.log(this.filters)
+    },
+    removeFilter(value){
+        var temp = [];
+        this.filters.forEach(item => {
+            if(item !== value)
+                temp.push(item);
+        })
+        this.filters = temp;
+    }, 
+
   }
 }
 </script>
@@ -185,7 +163,7 @@ methods: {
             <div class="">              
                 <div class="fixed h-96 w-full">
                     <p>Home / Books</p>
-                    <Filter />
+                    <Filter @addFilterToHome="addFilter"/>
                 </div>
             </div>
         </div>
