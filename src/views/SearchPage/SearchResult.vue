@@ -23,6 +23,7 @@
                 minPrice: Number.MIN_SAFE_INTEGER,
                 maxPrice: Number.MAX_SAFE_INTEGER,
                 prevFilterLength: 0,
+                searchResultLoaded: false,
             }
         },
         created(){
@@ -59,6 +60,7 @@
     
         },
         filterData(){
+            this.searchResultLoaded = true;
             this.filteredBooks = []
             for(let i = 0; i < this.books.length; i++){
                 if(this.books[i].name.toLowerCase().includes(this.search.toLowerCase().trim())){
@@ -248,9 +250,25 @@
                 </div>
                 
                 <div class="w-240" >
-                    <div v-for="item in filteredBooks" :key="item.id">
-                        <ResultBook  :bookName="item.name" :bookDate="item.publicationYear" bookLanguage="English" bookCover="hardcover" :bookPrice="item.price" :bookImageURL="item.url" :id="item.id"  :userID="userID"/>
-                </div>
+                    <div v-if="!searchResultLoaded">
+                        <div>
+                            
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div v-if="filteredBooks.length === 0">
+                        <div>
+                            <img src="../../assets/emptySearchCartIllustration.png" style="height: 25vw; margin: auto;" alt="">
+                            <p style="text-align: center; font-size: 24px; font-weight: 300w;">
+                                Sorry! No Result found :(
+                            </p>
+                        </div>
+
+                        </div>
+                        <div v-else v-for="item in filteredBooks" :key="item.id">
+                            <ResultBook  :bookName="item.name" :bookDate="item.publicationYear" bookLanguage="English" bookCover="hardcover" :bookPrice="item.price" :bookImageURL="item.url" :id="item.id"  :userID="userID"/>
+                        </div>
+                    </div>
                 </div>
                 
             </div>
