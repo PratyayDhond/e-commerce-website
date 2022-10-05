@@ -250,9 +250,9 @@
                 </div>
                 
                 <div class="w-240" >
-                    <div v-if="!searchResultLoaded">
-                        <div>
-                            
+                    <div v-if="!searchResultLoaded" style="padding-top: 30vh;">
+                        <div style="text-align: center; font-size: 36px; font-weight: 400w;">
+                            Loading...
                         </div>
                     </div>
                     <div v-else>
