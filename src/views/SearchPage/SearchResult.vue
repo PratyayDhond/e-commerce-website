@@ -12,6 +12,7 @@ export default{
         return{
             books: [],
             filteredBooks:[],
+            serachedBooks:[],
             search: this.$route.query.search,
             userID: this.$route.query.userId,
             filters: [],
@@ -19,6 +20,8 @@ export default{
             bodyPartSpecified: false,
             pricingFilterSet: false,
             filterSet: false,
+            minPrice: Number.MIN_SAFE_INTEGER,
+            maxPrice: Number.MAX_SAFE_INTEGER,
             prevFilterLength: 0,
         }
     },
@@ -64,11 +67,73 @@ methods:{
         }
         // console.log(this.filteredBooks)
         // if(this.filterSet)
+            this.serachedBooks = this.filteredBooks;
             this.updateFilteredArray();
 
     },
     updateFilteredArray(){
-        
+        this.filteredBooks = this.serachedBooks;
+        if(this.filters.length !== 0){
+            this.filterArray();
+        }
+    
+    },
+    filterArray(){
+        console.log("In Filter Array")
+        this.languageSpecified = false;
+        this.bodyPartSpecified = false;
+
+        if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
+            this.languageSpecified = true;
+
+        if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
+            this.bodyPartSpecified = true;
+
+        if(this.languageSpecified){
+            this.filterByLanguage();
+        }
+
+        if(this.bodyPartSpecified){
+            var tempBooks = new Set();
+                this.filters.forEach(filter => {
+                    this.filteredBooks.forEach(book => {
+                        if(book.bodypartTags.includes(filter)){
+                            console.log(book.bodypartTags + " -> " + filter)
+                           tempBooks.add(book);
+                        }
+                    })
+                })
+
+            this.filteredBooks = [];
+            tempBooks.forEach(book => {
+                this.filteredBooks.push(book);
+                })
+            // console.log(this.filteredBooks)
+        }
+
+
+
+
+
+        console.log(this.filteredBooks)
+        console.log(this.serachedBooks)
+    },
+    filterByLanguage(){
+        var tempBooks = new Set();
+        this.filters.forEach(filter => {
+            this.filteredBooks.forEach(book => {
+                // console.log(book.languageTags + " " + filter);
+                if(book.languageTags.includes(filter)){
+                    // console.log("Inside if");
+                    tempBooks.add(book);
+                }
+            });
+        });
+
+        this.filteredBooks = [];
+            tempBooks.forEach(book => {
+            this.filteredBooks.push(book);
+        });
     },
     addFilter(value){
         if(this.filters.includes(value))
@@ -94,88 +159,88 @@ methods:{
         // console.log(this.max);
         this.updateArrayAccordingToPricing();
     },
-    updateArray(){
-        this.languageSpecified = false;
-        this.bodyPartSpecified = false;
-        var books = this.filteredBooks;
-        if(this.filteredBooks.length === 0){
-            this.filteredBooks = this.books;
-        }
-        if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
-            this.languageSpecified = true;
-        if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
-            this.bodyPartSpecified = true;
-            console.log(this.filteredBooks)
-        if(this.languageSpecified){
-            this.filterSet = false;
-            var tempBooks = new Set();
+    // updateArray(){
+    //     this.languageSpecified = false;
+    //     this.bodyPartSpecified = false;
+    //     var books = this.filteredBooks;
+    //     if(this.filteredBooks.length === 0){
+    //         this.filteredBooks = this.books;
+    //     }
+    //     if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
+    //         this.languageSpecified = true;
+    //     if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
+    //         this.bodyPartSpecified = true;
+    //         console.log(this.filteredBooks)
+    //     if(this.languageSpecified){
+    //         this.filterSet = false;
+    //         var tempBooks = new Set();
 
-            this.filters.forEach(filter => {
-                books.forEach(book => {
-                    // console.log(book.languageTags + " " + filter);
-                    if(book.languageTags.includes(filter)){
-                        // console.log("Inside if");
-                        tempBooks.add(book);
-                    }
-                })
-            })
-            this.filteredBooks = [];
-            // console.log("Consoling tempbooks and filteredBooks")
-            // console.log(this.books)
-            // console.log(tempBooks)
-            tempBooks.forEach(book => {
-                this.filteredBooks.push(book);
-            })
-            // console.log(this.filteredBooks);
+    //         this.filters.forEach(filter => {
+    //             books.forEach(book => {
+    //                 // console.log(book.languageTags + " " + filter);
+    //                 if(book.languageTags.includes(filter)){
+    //                     // console.log("Inside if");
+    //                     tempBooks.add(book);
+    //                 }
+    //             })
+    //         })
+    //         this.filteredBooks = [];
+    //         // console.log("Consoling tempbooks and filteredBooks")
+    //         // console.log(this.books)
+    //         // console.log(tempBooks)
+    //         tempBooks.forEach(book => {
+    //             this.filteredBooks.push(book);
+    //         })
+    //         // console.log(this.filteredBooks);
 
-        }
+    //     }
 
-        if(this.bodyPartSpecified){
-            this.filterSet = false;
+    //     if(this.bodyPartSpecified){
+    //         this.filterSet = false;
 
-                var tempBooks = new Set();
-                this.filters.forEach(filter => {
-                this.filteredBooks.forEach(book => {
-                    if(book.bodypartTags.includes(filter)){
-                        tempBooks.add(book);
-                    }
-                })
-            })
+    //             var tempBooks = new Set();
+    //             this.filters.forEach(filter => {
+    //             this.filteredBooks.forEach(book => {
+    //                 if(book.bodypartTags.includes(filter)){
+    //                     tempBooks.add(book);
+    //                 }
+    //             })
+    //         })
 
-            this.filteredBooks = [];
-            tempBooks.forEach(book => {
-                this.filteredBooks.push(book);
-                })
-            // console.log(this.filteredBooks)
-        }
-        console.log(this.filteredBooks)
+    //         this.filteredBooks = [];
+    //         tempBooks.forEach(book => {
+    //             this.filteredBooks.push(book);
+    //             })
+    //         // console.log(this.filteredBooks)
+    //     }
+    //     console.log(this.filteredBooks)
 
-            // console.log("this.languageSpecified")
-            // console.log(this.languageSpecified)
-            // console.log("this.bodyPartSpecified")
-            // console.log(this.bodyPartSpecified)
-        if(!this.languageSpecified && !this.bodyPartSpecified){
-                // var temp = new Set();
-                // if(this.filteredBooks.length === 0)
-                    // this.filteredBooks = this.books;
-            this.filterSet = false;
-                this.filterData();
+    //         // console.log("this.languageSpecified")
+    //         // console.log(this.languageSpecified)
+    //         // console.log("this.bodyPartSpecified")
+    //         // console.log(this.bodyPartSpecified)
+    //     if(!this.languageSpecified && !this.bodyPartSpecified){
+    //             // var temp = new Set();
+    //             // if(this.filteredBooks.length === 0)
+    //                 // this.filteredBooks = this.books;
+    //         this.filterSet = false;
+    //             this.filterData();
                 
-            // }
-        }
-        // console.log(this.prevFilterLength)
-        // if(this.prevFilterLength > this.filters.length){
-        //     this.filterSet = true;
-        //     this.prevFilterLength = this.filters.length;
-        //     this.filterData();
-        //     this.filterSet = false;
-        // }
-        if(this.pricingFilterSet)
-            this.updateArrayAccordingToPricing();
+    //         // }
+    //     }
+    //     // console.log(this.prevFilterLength)
+    //     // if(this.prevFilterLength > this.filters.length){
+    //     //     this.filterSet = true;
+    //     //     this.prevFilterLength = this.filters.length;
+    //     //     this.filterData();
+    //     //     this.filterSet = false;
+    //     // }
+    //     if(this.pricingFilterSet)
+    //         this.updateArrayAccordingToPricing();
         
-        this.prevFilterLength = this.filters.length;
-        // console.log(this.filteredBooks);
-    },
+    //     this.prevFilterLength = this.filters.length;
+    //     // console.log(this.filteredBooks);
+    // },
     updateArrayAccordingToPricing(){
         this.pricingFilterSet = false;
         this.updateArray();
@@ -207,7 +272,7 @@ methods:{
 },
 watch:{
     search(){
-        console.log(this.search)
+        // console.log(this.search)
         this.filterData();
     }
 } 
