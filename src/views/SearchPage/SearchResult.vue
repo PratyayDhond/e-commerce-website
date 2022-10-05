@@ -19,6 +19,7 @@ export default{
             bodyPartSpecified: false,
             pricingFilterSet: false,
             filterSet: false,
+            prevFilterLength: 0,
         }
     },
     created(){
@@ -61,17 +62,21 @@ methods:{
                 this.filteredBooks.push(this.books[i]);
             }
         }
-        console.log(this.filteredBooks)
-        if(this.filterSet)
-            this.updateArray();
+        // console.log(this.filteredBooks)
+        // if(this.filterSet)
+            this.updateFilteredArray();
 
+    },
+    updateFilteredArray(){
+        
     },
     addFilter(value){
         if(this.filters.includes(value))
             this.removeFilter(value);
         else
             this.filters.push(value);
-        this.updateArray();
+            // this.updateArray();
+            this.updateFilteredArray();
     },
     removeFilter(value){
         var temp = [];
@@ -158,10 +163,17 @@ methods:{
                 
             // }
         }
-
-
+        // console.log(this.prevFilterLength)
+        // if(this.prevFilterLength > this.filters.length){
+        //     this.filterSet = true;
+        //     this.prevFilterLength = this.filters.length;
+        //     this.filterData();
+        //     this.filterSet = false;
+        // }
         if(this.pricingFilterSet)
             this.updateArrayAccordingToPricing();
+        
+        this.prevFilterLength = this.filters.length;
         // console.log(this.filteredBooks);
     },
     updateArrayAccordingToPricing(){
