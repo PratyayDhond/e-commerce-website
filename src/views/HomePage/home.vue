@@ -21,8 +21,10 @@ export default{
             filteredBooks: [],
             userID: this.$route.query.id,
             filters: [],
-            minPrice: Number.MIN_VALUE,
-            maxPrice: Number.MAX_VALUE,
+            minPrice: Number.MIN_SAFE_INTEGER,
+            maxPrice: Number.MAX_SAFE_INTEGER,
+            languageSpecified: false,
+            bodyPartSpecified: false,
         }
     },
     async created() {
@@ -72,6 +74,7 @@ export default{
                     var obj = doc.data();
                     obj.id = doc.id;
                     this.books.push(obj);
+                    // console.log(doc.data().bodypartTags)
                 });
                 // console.log(this.books);
 
@@ -146,10 +149,10 @@ methods: {
         }
     },
     addPricingFilter(min,max){
-        this.min = min;
-        this.max = max;
-        console.log(this.min);
-        console.log(this.max);
+        this.minPrice = min;
+        this.maxPrice = max;
+        // console.log(this.min);
+        // console.log(this.max);
         this.updateArrayAccordingToPricing();
     },
     addFilter(value){
@@ -169,18 +172,19 @@ methods: {
         this.filters = temp;
     }, 
     updateArray(){
-        var languageSpecified = false;
-        var bodyPartSpecified = false;
+        this.languageSpecified = false;
+        this.bodyPartSpecified = false;
+        this.filteredBooks = this.books;
         if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
-            languageSpecified = true;
+            this.languageSpecified = true;
         if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
-            bodyPartSpecified = true;
+            this.bodyPartSpecified = true;
 
-        if(languageSpecified){
+        if(this.languageSpecified){
             var tempBooks = new Set();
             this.filters.forEach(filter => {
                 this.books.forEach(book => {
-                    console.log(book.languageTags + " " + filter);
+                    // console.log(book.languageTags + " " + filter);
                     if(book.languageTags.includes(filter)){
                         // console.log("Inside if");
                         tempBooks.add(book);
@@ -188,17 +192,17 @@ methods: {
                 })
             })
             this.filteredBooks = [];
-            console.log("Consoling tempbooks and filteredBooks")
-            console.log(this.books)
-            console.log(tempBooks)
+            // console.log("Consoling tempbooks and filteredBooks")
+            // console.log(this.books)
+            // console.log(tempBooks)
             tempBooks.forEach(book => {
                 this.filteredBooks.push(book);
             })
-            console.log(this.filteredBooks);
+            // console.log(this.filteredBooks);
 
         }
 
-        if(bodyPartSpecified){
+        if(this.bodyPartSpecified){
                 var tempBooks = new Set();
                 this.filters.forEach(filter => {
                 this.filteredBooks.forEach(book => {
@@ -212,13 +216,13 @@ methods: {
             tempBooks.forEach(book => {
                 this.filteredBooks.push(book);
                 })
-            console.log(this.filteredBooks)
+            // console.log(this.filteredBooks)
         }
-        // console.log("languageSpecified")
-        // console.log(languageSpecified)
-        // console.log("bodyPartSpecified")
-        // console.log(bodyPartSpecified)
-        if(!languageSpecified && !bodyPartSpecified){
+        // console.log("this.languageSpecified")
+        // console.log(this.languageSpecified)
+        // console.log("this.bodyPartSpecified")
+        // console.log(this.bodyPartSpecified)
+        if(!this.languageSpecified && !this.bodyPartSpecified){
 
                 var temp = new Set();
                 while(temp.size < 5){
@@ -232,9 +236,28 @@ methods: {
             // }
         }
         
-        console.log(this.filteredBooks);
+        // console.log(this.filteredBooks);
 },
     updateArrayAccordingToPricing(){
+        var temp = this.filteredBooks;
+        console.log(this.minPrice)
+        console.log(this.maxPrice)
+        
+        if(this.maxPrice === Number.MAX_SAFE_INTEGER){
+            this.updateArray();
+        }else{
+            if(!this.bodyPartSpecified && !this.languageSpecified)
+                temp = this.books;
+                console.log(temp)
+                var tempFilteredArray = [];
+                temp.forEach(book => {
+                    if(book.price >= this.minPrice && book.price <= this.maxPrice)
+                        tempFilteredArray.push(book)
+                });
+            this.filteredBooks = tempFilteredArray;
+        }
+
+        
         
     }
 
