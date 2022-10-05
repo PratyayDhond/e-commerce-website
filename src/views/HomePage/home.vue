@@ -25,6 +25,7 @@ export default{
             maxPrice: Number.MAX_SAFE_INTEGER,
             languageSpecified: false,
             bodyPartSpecified: false,
+            pricingFilterSet: false,
         }
     },
     async created() {
@@ -149,6 +150,7 @@ methods: {
         }
     },
     addPricingFilter(min,max){
+        this.pricingFilterSet = true;
         this.minPrice = min;
         this.maxPrice = max;
         // console.log(this.min);
@@ -235,10 +237,14 @@ methods: {
                 })
             // }
         }
-        
+        if(this.pricingFilterSet)
+            this.updateArrayAccordingToPricing();
         // console.log(this.filteredBooks);
 },
     updateArrayAccordingToPricing(){
+        this.pricingFilterSet = false;
+        this.updateArray();
+        this.pricingFilterSet = true;
         var temp = this.filteredBooks;
         console.log(this.minPrice)
         console.log(this.maxPrice)
