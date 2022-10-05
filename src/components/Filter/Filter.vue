@@ -33,11 +33,17 @@ export default{
             this.$emit("addFilterToHome",value)
         },
         setMinMax(){
+            if(this.min < 0)
+                this.min = 0;
+            if(this.max < 0)
+                this.max = null;
             if(this.min > this.max){
                 var temp = this.min;
                 this.min = this.max;
                 this.max = temp;
             }
+            if(this.min === null)
+                this.min = 0; 
             this.$emit("addPricingFilter",this.min, this.max);
         }
     }
