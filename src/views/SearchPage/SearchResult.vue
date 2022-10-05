@@ -10,92 +10,23 @@ export default{
     
     data(){
         return{
-            searchedBooks:[
-                {
-                    bookName:"A Thousand Splendid Suns - Khaled Hosseini",
-                    bookDate:"May 22, 2007",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"1300",
-                    bookImageURL:"https://picsum.photos/200/300"
-                },
-                {
-                    bookName:"Ikigai - Francesc Miralles",
-                    bookDate:"September 22, 2017",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"418",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"Atomic Habits - James Clear",
-                    bookDate:"May 30, 2018",
-                    bookLanguage:"English",
-                    bookCover:"Paperback",
-                    bookPrice:"600",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"A Thousand Splendid Suns - Khaled Hosseini",
-                    bookDate:"May 22, 2007",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"1300",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"Ikigai - Francesc Miralles",
-                    bookDate:"September 22, 2017",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"418",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"Atomic Habits - James Clear",
-                    bookDate:"May 30, 2018",
-                    bookLanguage:"English",
-                    bookCover:"Paperback",
-                    bookPrice:"600",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"A Thousand Splendid Suns - Khaled Hosseini",
-                    bookDate:"May 22, 2007",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"1300",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"Ikigai - Francesc Miralles",
-                    bookDate:"September 22, 2017",
-                    bookLanguage:"English",
-                    bookCover:"Hardcover",
-                    bookPrice:"418",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                },
-                {
-                    bookName:"Atomic Habits - James Clear",
-                    bookDate:"May 30, 2018",
-                    bookLanguage:"English",
-                    bookCover:"Paperback",
-                    bookPrice:"600",
-                    bookImageURL:"../../assets/images/athousandsplendidsunscover.jpg"
-                }
-            ],
             books: [],
             filteredBooks:[],
             search: this.$route.query.search,
-            userID: this.$route.query.userId
+            userID: this.$route.query.userId,
+            filters: [],
+            languageSpecified: false,
+            bodyPartSpecified: false,
+            pricingFilterSet: false,
+            filterSet: false,
         }
     },
     created(){
-        console.log('search = ' + this.search)
-        console.log(typeof(this.search))
+        // console.log('search = ' + this.search)
+        // console.log(typeof(this.search))
         let str = ''
         str = this.search
-        console.log("Inside created of searchResult.vue")
+        // console.log("Inside created of searchResult.vue")
         const db = firebase.firestore(); 
         try{
             db.collection('books').get().then((querySnapshot) => {
@@ -105,18 +36,11 @@ export default{
                     obj.id = doc.id;
                     this.books.push(obj);
                 });
-                console.log(this.books);
+                // console.log(this.books);
                 
-                // for(let i =0; i < this.books.length; i++){
-                    // if(this.books[i].name.includes(this.search))
-                        // console.log(this.book[i].name)
-                // }
-                this.filterData();
+                    this.filterData();
             })
         }
-
-        // for(let i = 0; i < this.books.length; i++)
-            // console.log(this.books[i].name);
         catch(e){
             // console.log(e)
         }
@@ -138,7 +62,136 @@ methods:{
             }
         }
         console.log(this.filteredBooks)
+        if(this.filterSet)
+            this.updateArray();
+
+    },
+    addFilter(value){
+        if(this.filters.includes(value))
+            this.removeFilter(value);
+        else
+            this.filters.push(value);
+        this.updateArray();
+    },
+    removeFilter(value){
+        var temp = [];
+        this.filters.forEach(item => {
+            if(item !== value)
+                temp.push(item);
+        })
+        this.filters = temp;
+    }, 
+    addPricingFilter(min,max){
+        this.pricingFilterSet = true;
+        this.minPrice = min;
+        this.maxPrice = max;
+        // console.log(this.min);
+        // console.log(this.max);
+        this.updateArrayAccordingToPricing();
+    },
+    updateArray(){
+        this.languageSpecified = false;
+        this.bodyPartSpecified = false;
+        var books = this.filteredBooks;
+        if(this.filteredBooks.length === 0){
+            this.filteredBooks = this.books;
+        }
+        if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
+            this.languageSpecified = true;
+        if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
+            this.bodyPartSpecified = true;
+            console.log(this.filteredBooks)
+        if(this.languageSpecified){
+            this.filterSet = false;
+            var tempBooks = new Set();
+
+            this.filters.forEach(filter => {
+                books.forEach(book => {
+                    // console.log(book.languageTags + " " + filter);
+                    if(book.languageTags.includes(filter)){
+                        // console.log("Inside if");
+                        tempBooks.add(book);
+                    }
+                })
+            })
+            this.filteredBooks = [];
+            // console.log("Consoling tempbooks and filteredBooks")
+            // console.log(this.books)
+            // console.log(tempBooks)
+            tempBooks.forEach(book => {
+                this.filteredBooks.push(book);
+            })
+            // console.log(this.filteredBooks);
+
+        }
+
+        if(this.bodyPartSpecified){
+            this.filterSet = false;
+
+                var tempBooks = new Set();
+                this.filters.forEach(filter => {
+                this.filteredBooks.forEach(book => {
+                    if(book.bodypartTags.includes(filter)){
+                        tempBooks.add(book);
+                    }
+                })
+            })
+
+            this.filteredBooks = [];
+            tempBooks.forEach(book => {
+                this.filteredBooks.push(book);
+                })
+            // console.log(this.filteredBooks)
+        }
+        console.log(this.filteredBooks)
+
+            // console.log("this.languageSpecified")
+            // console.log(this.languageSpecified)
+            // console.log("this.bodyPartSpecified")
+            // console.log(this.bodyPartSpecified)
+        if(!this.languageSpecified && !this.bodyPartSpecified){
+                // var temp = new Set();
+                // if(this.filteredBooks.length === 0)
+                    // this.filteredBooks = this.books;
+            this.filterSet = false;
+                this.filterData();
+                
+            // }
+        }
+
+
+        if(this.pricingFilterSet)
+            this.updateArrayAccordingToPricing();
+        // console.log(this.filteredBooks);
+    },
+    updateArrayAccordingToPricing(){
+        this.pricingFilterSet = false;
+        this.updateArray();
+        this.pricingFilterSet = true;
+        var temp = this.filteredBooks;
+        console.log(this.minPrice)
+        console.log(this.maxPrice)
+        
+        if(this.maxPrice === Number.MAX_SAFE_INTEGER){
+            this.updateArray();
+        }else{
+            if(!this.bodyPartSpecified && !this.languageSpecified)
+                temp = this.filteredBooks;
+                if(this.filteredBooks.length === 0)
+                    temp = this.books;
+                console.log(temp)
+                var tempFilteredArray = [];
+                temp.forEach(book => {
+                    if(book.price >= this.minPrice && book.price <= this.maxPrice)
+                        tempFilteredArray.push(book)
+                });
+            this.filteredBooks = tempFilteredArray;
+        }
+
+        
+        
     }
+
 },
 watch:{
     search(){
@@ -200,7 +253,7 @@ watch:{
                     
                     <div class="fixed h-96 w-full">
                         <p>Home / Books</p>
-                        <Filter />
+                        <Filter @addFilterToHome="addFilter" @addPricingFilter="addPricingFilter" />
                     </div>
                 </div>
             </div>
