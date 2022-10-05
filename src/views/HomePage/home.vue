@@ -26,10 +26,46 @@ export default{
         }
     },
     async created() {
-        console.log("Inside created of Home.vue")
+       
+       {
+ /*
+                {part:"Legs"},
+                {part:"Shoulders"},
+                {part:"Hands"},
+                {part:"Neck"},
+                {part:"Head"},
+                {part:"Joints"},
+                {part:"Back"},
+                {lang:"English"},
+                {lang:"Hindi"},
+                {lang:"Marathi"},
+                {lang:"Sanskrit"},
+                {genre:"Thriller"},
+                {genre:"Romance"},
+                {genre:"Fantasy"}
+        */
+    //     var bodypartTags = []
+    //    var languageTags = []
+    //    bodypartTags.push("Neck")
+    //    bodypartTags.push("Legs")
+    //    bodypartTags.push("Shoulders")
+    //    bodypartTags.push("Hands")
+    //    bodypartTags.push("Head")
+    //    bodypartTags.push("Joints")
+    //    bodypartTags.push("Back")
+
+    // languageTags.push("English")
+    // languageTags.push("Hindi")
+    // languageTags.push("Marathi")
+    // languageTags.push("Sanskrit")
+       
+        // firebase.firestore().collection("books").doc("zxfvPSaCBsxc4Rm5Uosd").update({bodypartTags:bodypartTags, languageTags:languageTags});
+
+        }
+            //    console.log("Inside created of Home.vue")
         const db = firebase.firestore(); 
         // console.log(this.searchedBooks)
-        console.log("Inside created() method")
+        // console.log("Inside created() method")
         // try{
         // await db.collection ('books').get().then(r => {
         //    r.docs.map(doc => {
@@ -47,7 +83,7 @@ export default{
                     obj.id = doc.id;
                     this.books.push(obj);
                 });
-                console.log(this.books);
+                // console.log(this.books);
 
                 var count = 0;
                 var i = 0
@@ -70,8 +106,8 @@ export default{
                 }
 
 
-                console.log(this.romance)
-                console.log(this.thriller)
+                // console.log(this.romance)
+                // console.log(this.thriller)
             })
         }
 
@@ -125,12 +161,12 @@ methods: {
         console.log(this.max);
     },
     addFilter(value){
-
         if(this.filters.includes(value))
             this.removeFilter(value);
         else
             this.filters.push(value);
-        console.log(this.filters)
+        // console.log(this.filters)
+        this.updateArray();
     },
     removeFilter(value){
         var temp = [];
@@ -140,6 +176,49 @@ methods: {
         })
         this.filters = temp;
     }, 
+    updateArray(){
+        var languageSpecified = false;
+        if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
+            languageSpecified = true;
+        if(languageSpecified){
+            var tempBooks = new Set();
+            this.filters.forEach(filter => {
+                this.books.forEach(book => {
+                    console.log(book.languageTags + " " + filter);
+                    if(book.languageTags.includes(filter)){
+                        // console.log("Inside if");
+                        tempBooks.add(book);
+                    }
+                })
+            })
+            this.thriller = [];
+            tempBooks.forEach(book => {
+                this.thriller.push(book);
+            })
+            console.log(this.thriller);
+
+        }
+
+        var tempBooks = new Set();
+        this.filters.forEach(filter => {
+            this.thriller.forEach(book => {
+                if(book.bodypartTags.includes(filter)){
+                    tempBooks.add(book);
+                }
+            })
+        })
+        this.thriller = [];
+        tempBooks.forEach(book => {
+            this.thriller.push(book);
+            })
+        console.log(this.thriller);
+        // console.log("Language specified : " + languageSpecified)
+        console.log(this.filters)
+        // this.books.forEach(book => {
+        //     console.log(book.bodypartTags);
+        //     console.log(book.languageTags);
+        // })
+    }
 
   }
 }
@@ -186,7 +265,7 @@ methods: {
                 <div class="mr-5 mt-5 font-medium text-lg text-gray-700">Explore</div>
                 <div class="text-gray-500 text-sm">Thriller</div>
                 <router-link to="/book">
-                <div class="flex gap-16">
+                <div class="flex gap-16 ">
                     
                     <div v-for="item in thriller" :key="item.id">
                         <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
