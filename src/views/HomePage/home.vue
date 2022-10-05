@@ -18,7 +18,7 @@ export default{
             authorName: '',
             books: [],
             romance: [],
-            thriller: [],
+            filteredBooks: [],
             userID: this.$route.query.id,
             filters: [],
             minPrice: Number.MIN_VALUE,
@@ -64,16 +64,6 @@ export default{
         }
             //    console.log("Inside created of Home.vue")
         const db = firebase.firestore(); 
-        // console.log(this.searchedBooks)
-        // console.log("Inside created() method")
-        // try{
-        // await db.collection ('books').get().then(r => {
-        //    r.docs.map(doc => {
-        //        console.log(doc.data())
-        // //    this.books += doc.data();
-        // // this.searchedBooks = doc.data()
-        //    }); 
-        // });
 
         try{
             db.collection('books').get().then((querySnapshot) => {
@@ -95,19 +85,20 @@ export default{
                     i++
                 }
 
-                count = 0;
-                i = 0;
-                while(count < 5 && i < this.books.length){
-                    if(this.books[i].genre === "thriller"){
-                        this.thriller.push(this.books[i])
-                        count++
-                    }
-                    i++
-                }
+                this.updateArray();
+                // count = 0;
+                // i = 0;
+                // while(count < 5 && i < this.books.length){
+                //     if(this.books[i].genre === "filteredBooks"){
+                //         this.filteredBooks.push(this.books[i])
+                //         count++
+                //     }
+                //     i++
+                // }
 
 
                 // console.log(this.romance)
-                // console.log(this.thriller)
+                // console.log(this.filteredBooks)
             })
         }
 
@@ -159,6 +150,7 @@ methods: {
         this.max = max;
         console.log(this.min);
         console.log(this.max);
+        this.updateArrayAccordingToPricing();
     },
     addFilter(value){
         if(this.filters.includes(value))
@@ -178,8 +170,12 @@ methods: {
     }, 
     updateArray(){
         var languageSpecified = false;
+        var bodyPartSpecified = false;
         if(this.filters.includes("English") || this.filters.includes("Hindi") || this.filters.includes("Marathi") || this.filters.includes("Sanskrit"))
             languageSpecified = true;
+        if(this.filters.includes("Legs") || this.filters.includes("Shoulders") || this.filters.includes("Hands") || this.filters.includes("Neck") || this.filters.includes("Head") || this.filters.includes("Joints") || this.filters.includes("Back"))
+            bodyPartSpecified = true;
+
         if(languageSpecified){
             var tempBooks = new Set();
             this.filters.forEach(filter => {
@@ -191,33 +187,55 @@ methods: {
                     }
                 })
             })
-            this.thriller = [];
+            this.filteredBooks = [];
+            console.log("Consoling tempbooks and filteredBooks")
+            console.log(this.books)
+            console.log(tempBooks)
             tempBooks.forEach(book => {
-                this.thriller.push(book);
+                this.filteredBooks.push(book);
             })
-            console.log(this.thriller);
+            console.log(this.filteredBooks);
 
         }
 
-        var tempBooks = new Set();
-        this.filters.forEach(filter => {
-            this.thriller.forEach(book => {
-                if(book.bodypartTags.includes(filter)){
-                    tempBooks.add(book);
+        if(bodyPartSpecified){
+                var tempBooks = new Set();
+                this.filters.forEach(filter => {
+                this.filteredBooks.forEach(book => {
+                    if(book.bodypartTags.includes(filter)){
+                        tempBooks.add(book);
+                    }
+                })
+            })
+
+            this.filteredBooks = [];
+            tempBooks.forEach(book => {
+                this.filteredBooks.push(book);
+                })
+            console.log(this.filteredBooks)
+        }
+        // console.log("languageSpecified")
+        // console.log(languageSpecified)
+        // console.log("bodyPartSpecified")
+        // console.log(bodyPartSpecified)
+        if(!languageSpecified && !bodyPartSpecified){
+
+                var temp = new Set();
+                while(temp.size < 5){
+                    var index = parseInt(Math.random()*1000) % this.books.length;
+                    temp.add(this.books[index]);
                 }
-            })
-        })
-        this.thriller = [];
-        tempBooks.forEach(book => {
-            this.thriller.push(book);
-            })
-        console.log(this.thriller);
-        // console.log("Language specified : " + languageSpecified)
-        console.log(this.filters)
-        // this.books.forEach(book => {
-        //     console.log(book.bodypartTags);
-        //     console.log(book.languageTags);
-        // })
+                this.filteredBooks = [];
+                temp.forEach(book => {
+                    this.filteredBooks.push(book);
+                })
+            // }
+        }
+        
+        console.log(this.filteredBooks);
+},
+    updateArrayAccordingToPricing(){
+        
     }
 
   }
@@ -263,11 +281,11 @@ methods: {
                 </div>
                 <div class="bg-secondary-1 w-full h-px-2 mt-5"></div>
                 <div class="mr-5 mt-5 font-medium text-lg text-gray-700">Explore</div>
-                <div class="text-gray-500 text-sm">Thriller</div>
+                <div class="text-gray-500 text-sm">Filtered Books</div>
                 <router-link to="/book">
                 <div class="flex gap-16 ">
                     
-                    <div v-for="item in thriller" :key="item.id">
+                    <div v-for="item in filteredBooks" :key="item.id">
                         <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
                     </div>
                 </div>
