@@ -76,6 +76,10 @@
             if(this.filters.length !== 0){
                 this.filterArray();
             }
+
+            if(this.pricingFilterSet){
+                this.filterArray();
+            }
         
         },
         filterArray(){
@@ -167,10 +171,9 @@
             this.pricingFilterSet = true;
             this.minPrice = min;
             this.maxPrice = max;
-            // console.log(this.min);
-            // console.log(this.max);
+            console.log(this.minPrice)
+            console.log(this.maxPrice)
             this.updateFilteredArray();
-            // this.updateArrayAccordingToPricing();
         },
 
     },

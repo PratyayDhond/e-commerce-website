@@ -23,6 +23,7 @@ export default{
             ],
             min: null,
             max: null,
+
         }
     },
     components:{
@@ -33,18 +34,88 @@ export default{
             this.$emit("addFilterToHome",value)
         },
         setMinMax(){
-            if(this.min < 0)
-                this.min = 0;
-            if(this.max < 0)
-                this.max = null;
-            if(this.min > this.max){
-                var temp = this.min;
-                this.min = this.max;
-                this.max = temp;
+            var a = parseInt(this.min);
+            var b = parseInt(this.max);
+            var minIsNumber = false;
+            var maxIsNumber = false;
+            this.min = a;
+            this.max = b;
+            var minPrice = null;
+            var maxPrice = null;
+
+            // If both the provided values are not a number, then it will call the function with parameters -> 0, INTEGER_MAX
+            if(isNaN(parseInt(this.min)) && isNaN(parseInt(this.max))){
+                this.$emit("addPricingFilter",0, Number.MAX_SAFE_INTEGER);
+                return;
+            }else{
+
+                //if the Integer of this.min is a number then execute the if block 
+                if(!isNaN(parseInt(this.min))){  
+                    minIsNumber = true;
+                    // if Integer of this.max is not a number then execute the following block                  
+                    if(isNaN(parseInt(this.max))){
+                        this.max = null;
+                        this.$emit("addPricingFilter",this.min, Number.MAX_SAFE_INTEGER);
+                        return;
+                        
+                    // if Integer of this.max is a number then execute the following block
+                    }
+                }
+
+                //if the Integer of this.max is a number then execute the if block 
+                if(!isNaN(parseInt(this.max))){
+                    maxIsNumber = true;
+                    if(isNaN(parseInt(this.min))){
+                        this.min = 0;
+                        this.$emit("addPricingFilter",0, this.max);
+                        return;
+                    }
+                }
+
+
+                if(minIsNumber && maxIsNumber){
+                    if(this.min > this.max){
+                            var temp = this.min;
+                            this.min = this.max;
+                            this.max = temp;
+                        }
+                }
+               
+                // if(!isNaN(this.min)){
+                //     this.min = 0;
+                //     minPrice = 0;
+                // }
+                // if(!isNaN(this.max)){
+                //     this.max = null;
+                //     maxPrice = Number.MAX_SAFE_INTEGER;
+                // }
+                // console.log(isNaN(this.max))
+                // console.log(this.min);
+                // console.log(this.max);
+                minPrice = this.min;
+                maxPrice = this.max;
+                // console.log(minPrice);
+                // console.log(maxPrice);
+                if(this.min < 0){
+                    this.min = 0;
+                    minPrice = 0;
+                }
+                if(this.max < 0){
+                    this.max = null;
+                    maxPrice = Number.MAX_SAFE_INTEGER;
+                }
+
+
+                if(this.min === null){
+                    this.min = 0; 
+                    minPrice = 0;
+                }
+                // console.log(minPrice);
+                // console.log(maxPrice);
+                this.$emit("addPricingFilter",minPrice, maxPrice);
             }
-            if(this.min === null)
-                this.min = 0; 
-            this.$emit("addPricingFilter",this.min, this.max);
+
+
         }
     }
 }
