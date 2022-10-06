@@ -55,12 +55,9 @@ export default{
         var otpFlag = false;
         await this.confirmResult.confirm(this.otp).then(async (result) => {
           otpFlag = true;
-          console.log("New User")
-          // console.log(result._tokenResponse.isNewUser)
           this.id = result._tokenResponse.localId 
-          // console.log(result._tokenResponse.localId)
           if(result._tokenResponse.isNewUser){
-            console.log("In New User")
+            console.log("New User")
             const db = firebase.firestore();
             db.collection('Users').doc(result._tokenResponse.localId).set({
             addrLine1: this.addr1,
@@ -107,7 +104,6 @@ export default{
         }
       },
         verifyOtp(){
-          // this.recaptcha();
           if(this.otp === ''){
             alert('OTP cannot be empty')
             return;
@@ -120,8 +116,6 @@ export default{
              try{
                 let isnum = /^\d+$/.test(this.otp);
                 if(isnum){
-                  //#BOOKMARK
-                  // After here send to otp verification
                   this.verifyOTP()
                 }else{
                   alert('Enter a valid OTP')
