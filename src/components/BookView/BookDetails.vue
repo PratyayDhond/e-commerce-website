@@ -28,13 +28,13 @@ import firebase from 'firebase/compat/app';
 
     },
     methods: {
-        addToCart(){
+        async addToCart(){
             const db = firebase.firestore(); 
         console.log("Inside addToCart() method")
         try{
             console.log("User ID: " + this.userID);
             this.alreadyInCart = true;
-        db.collection('Users').doc(this.userID).get().then((r) => {
+        await db.collection('Users').doc(this.userID).get().then(async (r) => {
             console.log(r.data())
             var cart = r.data().cart || []
             cart.push(this.id)
@@ -48,9 +48,9 @@ import firebase from 'firebase/compat/app';
             let uniqueCart = filtered.filter((element, index) => {
                 return filtered.indexOf(element) === index;
             });
-
+            
            cart = uniqueCart;
-           db.collection("Users").doc(this.userID).update({cart:uniqueCart});
+           await db.collection("Users").doc(this.userID).update({cart:uniqueCart});
         console.log('Data written successfully')
         });
 
@@ -59,29 +59,14 @@ import firebase from 'firebase/compat/app';
         }
             
         },
-        addToWishList(){
+        async addToWishList(){
             const db = firebase.firestore(); 
         try{
-        db.collection('Users').doc(this.userID).get().then((r) => {
+        await db.collection('Users').doc(this.userID).get().then((r) => {
             this.alreadyInWishlist = true;
-            var addr1 = r.data().addrLine1
-            var addr2 = r.data().addrLine2
-            var mobile = r.data().mobile
-            var city = r.data().city
-            var landmark = r.data().landmark
-            var name = r.data().name
-            var state = r.data().state
-            var zipcode = r.data().zipcode
-            var cart = r.data().cart || []
             var wishList = r.data().wishList || []
-            var orders = r.data().orders || []
-            var email = r.data().email
-            // var pfp = r.data().pfp
-
-            // console.log(r.data())
             wishList.push(this.id)
-            
-            //Removing null element if any from the array
+
             var filtered = wishList.filter(function (el) {
             return el != '';
             });
@@ -92,26 +77,8 @@ import firebase from 'firebase/compat/app';
                 return filtered.indexOf(element) === index;
             });
 
-           wishList= uniqueWish;
-        //    console.log(uniqueWish);
-
-            db.collection('Users').doc(this.userID).set({
-            addrLine1: addr1,
-            addrLine2: addr2,
-            cart: cart,
-            city: city,
-            landmark:landmark,
-            mobile: mobile,
-            name: name,
-            orders: orders,
-            state: state,
-            wishList: uniqueWish,
-            zipcode: zipcode,
-            email: email,
-            // pfp: pfp
-        }).then((ref) => {
-
-        });
+           wishList = uniqueWish;
+           db.collection("Users").doc(this.userID).update({wishList:uniqueWish});
         });
 
         }catch(e){
