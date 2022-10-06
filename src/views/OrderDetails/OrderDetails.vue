@@ -34,7 +34,8 @@ export default{
             orderedDetails: [],
             orderDetailsArray: [],
             tempArr: [],
-            id: this.$route.query.id
+            id: this.$route.query.id,
+            detailsFetched: false,
         }
     },
     components:{
@@ -82,6 +83,7 @@ export default{
         let obj = new Object;
         let bookObj = new Object;
         var orders = [];
+        this.detailsFetched = false;
         await firebase.firestore().collection("Users").doc(this.id).get().then((snapshot) => {
             orders = snapshot.data().orders;
             obj['shipTo'] = snapshot.data().name;
@@ -92,17 +94,13 @@ export default{
             obj['state'] = snapshot.data().state;
             obj['pincode'] = snapshot.data().zipcode;
 
-            // console.log(orders)
         })  
-
         orders.forEach(async order =>  {
             var orderID = order;
             await firebase.firestore().collection("Orders").doc(order).get().then(snapshot => {
-                //  console.log(snapshot.data())  
 
                  var orderDate = snapshot.data().orderDate;
                  var time = new Date(snapshot.data().expectedDate);
-                //  var time = new Date(timestamp.seconds * 1000);
                  var month = time.getMonth()+1 < 10 ? "0" + time.getMonth()+1 : time.getMonth()+1;
                  var date = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
                  var year = time.getFullYear();
@@ -132,10 +130,8 @@ export default{
                  })             
             })
         });
+        this.detailsFetched = true        
     },
-    methods: {
-    }
-
 }
 </script>
 
@@ -178,9 +174,20 @@ export default{
                     
                     
                 </div>
-                <div v-for="item in orderedDetails" :key="item.id">
-                    <OrderDetails :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivery="item.bookDelivery" :addressline1="item.addressline1" :addressline2="item.addressline2" :city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
+                <div v-if="!detailsFetched">
+
+                </div>
+                <div v-else>
+                    <div v-if="orderedDetails.length === 0" style="width=100%;">
+                        <img class="h-100" style="margin: auto; padding-top: 5%;"  src="../../assets/emptySearchCartIllustration.png" alt="">
+                        <div style="text-align: center; font-size: 20px; font-weight: 300w;">You haven't ordered anything yet :(</div>
                     </div>
+                    <div v-else>
+                        <div v-for="item in orderedDetails" :key="item.id">
+                            <OrderDetails :orderID="item.orderID" :bookName="item.bookName" :bookPrice="item.bookPrice" :bookImageURL="item.bookImageURL" :orderDate="item.orderDate" :shipTo="item.shipTo" :bookYear="item.bookYear" :bookGenre="item.bookGenre" :bookAuthor="item.bookAuthor" :bookDelivery="item.bookDelivery" :addressline1="item.addressline1" :addressline2="item.addressline2" :city="item.city" :landmark="item.landmark" :state="item.state" :pincode="item.pincode" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

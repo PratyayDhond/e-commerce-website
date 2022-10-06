@@ -26,58 +26,20 @@ export default{
             languageSpecified: false,
             bodyPartSpecified: false,
             pricingFilterSet: false,
+            booksLoaded: false,
         }
     },
     async created() {
-       
-       {
- /*
-                {part:"Legs"},
-                {part:"Shoulders"},
-                {part:"Hands"},
-                {part:"Neck"},
-                {part:"Head"},
-                {part:"Joints"},
-                {part:"Back"},
-                {lang:"English"},
-                {lang:"Hindi"},
-                {lang:"Marathi"},
-                {lang:"Sanskrit"},
-                {genre:"Thriller"},
-                {genre:"Romance"},
-                {genre:"Fantasy"}
-        */
-    //     var bodypartTags = []
-    //    var languageTags = []
-    //    bodypartTags.push("Neck")
-    //    bodypartTags.push("Legs")
-    //    bodypartTags.push("Shoulders")
-    //    bodypartTags.push("Hands")
-    //    bodypartTags.push("Head")
-    //    bodypartTags.push("Joints")
-    //    bodypartTags.push("Back")
+        this.booksLoaded = false;
 
-    // languageTags.push("English")
-    // languageTags.push("Hindi")
-    // languageTags.push("Marathi")
-    // languageTags.push("Sanskrit")
-       
-        // firebase.firestore().collection("books").doc("zxfvPSaCBsxc4Rm5Uosd").update({bodypartTags:bodypartTags, languageTags:languageTags});
-
-        }
-            //    console.log("Inside created of Home.vue")
         const db = firebase.firestore(); 
 
-        try{
             db.collection('books').get().then((querySnapshot) => {
                 querySnapshot.forEach(doc =>{
-                    // console.log(doc.id)
                     var obj = doc.data();
                     obj.id = doc.id;
                     this.books.push(obj);
-                    // console.log(doc.data().bodypartTags)
                 });
-                // console.log(this.books);
 
                 var count = 0;
                 var i = 0
@@ -88,29 +50,10 @@ export default{
                     }
                     i++
                 }
-
+                this.booksLoaded = true;
                 this.updateArray();
-                // count = 0;
-                // i = 0;
-                // while(count < 5 && i < this.books.length){
-                //     if(this.books[i].genre === "filteredBooks"){
-                //         this.filteredBooks.push(this.books[i])
-                //         count++
-                //     }
-                //     i++
-                // }
-
-
-                // console.log(this.romance)
-                // console.log(this.filteredBooks)
-            })
-        }
-
-        // for(let i = 0; i < this.books.length; i++)
-            // console.log(this.books[i].name);
-        catch(e){
-            // console.log(e)
-        }
+            });
+        
     },
     components:{
     Header,
@@ -312,11 +255,22 @@ methods: {
                 <div class="mr-5 mt-5 font-medium text-lg text-gray-700">Explore</div>
                 <div class="text-gray-500 text-sm">Filtered Books</div>
                 <router-link to="/book">
-                <div class="flex gap-16 ">
+
+                <div v-if="!booksLoaded" class="flex gap-16 ">
                     
-                    <div v-for="item in filteredBooks" :key="item.id">
-                        <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
-                    </div>
+                </div>
+                <div v-else class="flex gap-16 ">
+                        <div class="h-60"  style="width: 100%;" v-if="filteredBooks.length === 0">
+                            <div style="width: 100%;"> 
+                                <div class="h-60">
+                                    <img class="h-60" style="margin-left: 15%; float: left;"  src="../../assets/emptySearchCartIllustration.png" alt="">
+                                    <div style="padding-top: 7.5%; font-size: 20px; font-weight: 400w;">Sorry, Your search filters didn't match any books! </div>
+                                </div>
+                            </div>  
+                        </div>
+                        <div v-else v-for="item in filteredBooks" :key="item.id">
+                            <BookCoverCat :userID="userID" :name="item.name" :price="item.price" :url="item.url" :bookTheme="item.bookTheme" :wish="item.wish" :id="item.id" />
+                        </div>
                 </div>
                 </router-link>
                 <div class="text-gray-500 text-sm mt-10">Romance</div>

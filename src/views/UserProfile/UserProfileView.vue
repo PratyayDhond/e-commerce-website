@@ -14,7 +14,6 @@ export default{
     Sidebar,
     Profile
 },
-props: ['id'],
 data() {
     return {
         id: this.$route.query.id,
