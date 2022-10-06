@@ -37,17 +37,7 @@ data() {
 },
 async created() {
         const db = firebase.firestore(); 
-        // console.log(this.searchedBooks)
         console.log("BookView: Inside created() method")
-        // try{
-        // await db.collection ('books').get().then(r => {
-        //    r.docs.map(doc => {
-        //        console.log(doc.data())
-        // //    this.books += doc.data();
-        // // this.searchedBooks = doc.data()
-        //    });
-        // });
-
         try{
             db.collection('books').doc(this.id).get().then((querySnapshot) => {
                 console.log(querySnapshot.data());  
@@ -59,11 +49,7 @@ async created() {
                 this.price = querySnapshot.data().price;
                 this.stock = querySnapshot.data().stock;
             })
-        }
-
-        // for(let i = 0; i < this.books.length; i++)
-            // console.log(this.books[i].name);
-        catch(e){
+        }catch(e){
             console.log(e)
         }
     },

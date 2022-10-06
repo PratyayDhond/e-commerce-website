@@ -22,17 +22,10 @@ import firebase from 'firebase/compat/app';
                 this.alreadyInCart = true;
             console.log(this.alreadyInCart)
             if(wishList.includes(this.id))
-                this.alreadyInWishlist = true;
-                // console.log(this.alreadyInWishlist);
-            
+                this.alreadyInWishlist = true;            
         },
     created(){
-        // console.log(this.id)
-        // console.log(this.name)
-        // console.log(this.price)
-        // console.log(this.description)
-        // console.log(this.author)
-        // console.log(this.publicationYear)
+
     },
     methods: {
         addToCart(){
@@ -43,24 +36,9 @@ import firebase from 'firebase/compat/app';
             this.alreadyInCart = true;
         db.collection('Users').doc(this.userID).get().then((r) => {
             console.log(r.data())
-            var addr1 = r.data().addrLine1
-            var addr2 = r.data().addrLine2
-            var mobile = r.data().mobile
-            var city = r.data().city
-            var landmark = r.data().landmark
-            var name = r.data().name
-            var state = r.data().state
-            var zipcode = r.data().zipcode
             var cart = r.data().cart || []
-            var wishList = r.data().wishList || []
-            var orders = r.data().orders || []
-            var email = r.data().email
-
-            // console.log(r.data())
-
             cart.push(this.id)
             console.log("Cart : " + cart)
-            //Removing null element if any from the array
             var filtered = cart.filter(function (el) {
             return el != '';
             });
@@ -72,27 +50,8 @@ import firebase from 'firebase/compat/app';
             });
 
            cart = uniqueCart;
-        //    console.log(this.cart)
-        //    console.log(uniqueCart)
-
-            db.collection('Users').doc(this.userID).set({
-            addrLine1: addr1,
-            addrLine2: addr2,
-            cart: uniqueCart,
-            city: city,
-            landmark:landmark,
-            mobile: mobile,
-            name: name,
-            orders: orders,
-            state: state,
-            wishList: wishList,
-            zipcode: zipcode,
-            email: email,
-        }).then((ref) => {
-            
-        });
+           db.collection("Users").doc(this.userID).update({cart:uniqueCart});
         console.log('Data written successfully')
-            // alert("Item added to cart successfully.") 
         });
 
         }catch(e){
