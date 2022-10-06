@@ -20,11 +20,6 @@ export default{
       otp: '',
       auth: getAuth(),
       confirmResult: null,
-      // recaptchaVerifier:null,
-      // recaptchaWidgetId:null,
-      // confirmResult:null,
-      // smsSent:false,
-      // otpnum:null,
       isUser: this.$route.query.isUser || null,
       id: null,
       captchaShown : false,
@@ -44,7 +39,6 @@ export default{
       const phoneNumber = "+91" + this.phone;
        await signInWithPhoneNumber(auth,phoneNumber,recaptchaVerifier).then(ConfirmationResult => {
         this.otpSent = true;
-        // console.log(this.confirmResult)
          this.confirmResult = ConfirmationResult;
        }).finally(() => {})
       }
@@ -61,11 +55,10 @@ export default{
         var otpFlag = false;
         await this.confirmResult.confirm(this.otp).then(async (result) => {
           otpFlag = true;
-          // console.log(result._tokenResponse.localId)
           console.log("New User")
-          console.log(result._tokenResponse.isNewUser)
+          // console.log(result._tokenResponse.isNewUser)
           this.id = result._tokenResponse.localId 
-          console.log(result._tokenResponse.localId)
+          // console.log(result._tokenResponse.localId)
           if(result._tokenResponse.isNewUser){
             console.log("In New User")
             const db = firebase.firestore();
@@ -84,12 +77,6 @@ export default{
             email: this.email,
         }).then((e) => {
           console.log(e)
-          // this.$router.push({
-          //     name: 'LatestBooks',
-          //     query: {
-          //     id: this.id,
-          // }
-          // })
         })
         var arr = []
          await db.collection('registeredUsers').doc('ee7boWOIG7bwHK7VzF0n').get().then((r) => {
@@ -105,18 +92,12 @@ export default{
 
           }else{
             console.log("Old User")   
-            // this.$router.push({
-            //   name: 'LatestBooks',
-            //   query: {
-            //   id: this.id,
-          // }
-          // })         
           }
+        }).catch((e) => {
+          alert("Incorrect OTP ")
         })
 
-        if(!otpFlag){
-           alert("Incorrect OTP ")
-        }else{
+        if(otpFlag){
           this.$router.push({
             name:'LatestBooks',
             query: {
@@ -124,44 +105,7 @@ export default{
             }
           })
         }
-
-        //BOOKMARK
-        // Without entering OTP still throwing to the home page, error to be solved 
-         
-
-
       },
-
-        // submit()
-        // {
-          
-        //   try{
-        //     this.recaptchaVerifier =  new firebase.auth.RecaptchaVerifier('recaptcha-container')
-        //   //   // new RecaptchaVerifier("sign-in-button", {
-        //   //   // 'recaptcha-container': (response) => {
-        //   //   // console.log("prepared phone auth process");
-        //   //   //  }
-        //   // }, auth);
-        //   //   // new firebase.auth.RecaptchaVerifier('recaptcha-container')
-        //     this.recaptchaVerifier.render().then((widgetId)=>{
-        //     this.recaptchaWidgetId = widgetId    
-        //     })
-            
-        //     var number = parseInt(this.phone)           
-        //     firebase.auth().signInWithPhoneNumber(number,this.recaptchaVerifier)
-        //     .then((confirmationResult)=>{                
-        //         this.confirmResult = confirmationResult
-        //         console.log(this.confirmResult)
-        //         alert("Sms Sent!")
-        //         this.smsSent=true
-        //     })
-        //     .catch((error)=>{
-        //         console.log("Sms not sent",error.message)
-        //     })
-        //   }catch(e){
-        //     console.log(e)
-        //   }
-        // },
         verifyOtp(){
           // this.recaptcha();
           if(this.otp === ''){
