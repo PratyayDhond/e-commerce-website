@@ -20,11 +20,11 @@ export default{
         <AdHeader :userID="userID" class="fixed z-10 w-full top-0" />
     </div>
     
-    <div>
+    <!-- <div>
         <br> <br> <br> <br> <br> <br>
         {{this.userID}}
     </div>
-    
+     -->
 </template>
 
 <style>
