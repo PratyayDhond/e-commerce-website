@@ -14,7 +14,7 @@ export default{
     methods: {
         routeToResult(){
             console.log('Routing to result')
-        }
+        }   
     }
 }
 </script>
@@ -22,7 +22,7 @@ export default{
 <template>
     <div class="pt-3 px-5 pb-8 flex items-center justify-between bg-white">
        
-       <router-link to="/home">
+        <router-link :to="{path:'/home', query: {id: this.userID}}">
         <div class="">
             <img class="h-14" src="../../assets/images/logo.png" alt="" >
         </div>

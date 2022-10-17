@@ -287,7 +287,7 @@ methods: {
           <button class="bg-secondary-1 hover:bg-primary-1 hover:text-black text-white font-semibold text-xl h-10 pl-40 pr-40 tracking-widest " @click="checkout">CHECKOUT</button>
           <!-- </router-link> -->
         </div>    
-        <router-link to="/home">
+        <router-link :to="{path:'/home', query: {id: this.userID}}">
         <div class="ml-18 mt-8 flex " @click="true">
           <div class="flex py-2 items-center  text-sm text-black rounded-md text-center cursor-pointer fill-current hover:text-secondary-1 font-sm">
             <svg class="w-6 " version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 400.004 400.004" style="enable-background:new 0 0 400.004 400.004;" xml:space="preserve">
@@ -299,7 +299,7 @@ methods: {
               </g>
             </svg>      
             
-            <div class = "pl-2 text-xl"  @click="true">Continue Shopping</div>
+            <div class = "pl-2 text-xl">Continue Shopping</div>
           </div>
         </div> 
         </router-link>
